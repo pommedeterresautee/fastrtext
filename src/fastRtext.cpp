@@ -1,8 +1,7 @@
 // [[Rcpp::plugins(cpp11)]]
 
 #include <Rcpp.h>
-#include "./include/fasttext.h"
-#include "./include/utils.h"
+#include "fasttext.h"
 using namespace Rcpp;
 using namespace fasttext;
 
