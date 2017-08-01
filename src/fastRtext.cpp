@@ -1,6 +1,7 @@
 // [[Rcpp::plugins(cpp11)]]
 
 #include <Rcpp.h>
+// to compile with sourceCpp, need to change the path of the headers
 #include "fasttext.h"
 using namespace Rcpp;
 using namespace fasttext;
@@ -66,7 +67,7 @@ RCPP_MODULE(fastRtext) {
 
 /*** R
 model <- new(FastRtext)
-model$load("/home/geantvert/model.bin")
-model$predict(c("votez pour moi messieurs dames méchants interdit", "terrorisme attentat"), 3)
+model$load("/home/geantvert/model.bin") # requires to have a model there
+model$predict(c("this is a test", "another test"), 3)
 rm(model)
 */
