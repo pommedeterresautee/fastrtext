@@ -1,0 +1,15 @@
+Package: FastRText
+Type: Package
+Title: FastRText
+Version: 0.1
+Date: 2017-07-01
+Author: Michaël Benesty
+Maintainer: Michaël Benesty <michael@benesty.fr>
+Description: Wrapper of the excellent Fasttext by Facebook.
+License: BSD
+Imports: methods, Rcpp (>= 0.12.12)
+LinkingTo: Rcpp
+LazyData: true
+RoxygenNote: 6.0.1
+Encoding: UTF-8
+NeedsCompilation: yes

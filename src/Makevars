@@ -1,0 +1,4 @@
+
+CXX_STD = CXX11
+ROOT_INCLUDE = ../inst/include/
+PKG_CPPFLAGS=-I$(ROOT_INCLUDE)
