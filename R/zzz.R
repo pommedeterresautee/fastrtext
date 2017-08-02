@@ -1,8 +1,6 @@
 loadModule("FastRtext", TRUE)
 
-
-
 #' @useDynLib FastRText, .registration = TRUE
-#' @import Rcpp
+#' @importFrom Rcpp evalCpp loadModule cpp_object_initializer
 #' @exportPattern "^[[:alpha:]]+"
 NULL

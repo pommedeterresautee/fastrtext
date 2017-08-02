@@ -58,7 +58,7 @@ private:
   }
 };
 
-RCPP_MODULE(fastRtext) {
+RCPP_MODULE(FastRtext) {
   class_<FastRtext>("FastRtext")
   .constructor()
   .method("load", &FastRtext::load)
