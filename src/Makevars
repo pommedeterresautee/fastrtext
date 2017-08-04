@@ -1,2 +1,6 @@
 # C++ 11
 CXX_STD = CXX11
+
+# from fasttext makefile
+PKG_CPPFLAGS = -pthread
+PKG_LIBS = -pthread

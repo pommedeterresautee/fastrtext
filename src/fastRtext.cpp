@@ -8,6 +8,9 @@ using namespace fasttext;
 
 class FastRtext{
 public:
+  ~FastRtext(){
+    this->model.reset();
+  }
 
   void load(CharacterVector path) {
     if(path.size() != 1){
@@ -16,7 +19,7 @@ public:
     if(!std::ifstream(path[0])){
       stop("Path doesn't point to a file: " + path[0]);
     }
-    model.reset(new FastText);
+    this->model.reset(new FastText);
     std::string stringPath(path(0));
     this->model->loadModel(stringPath);
     this->model_loaded = true;
@@ -61,8 +64,8 @@ private:
 RCPP_MODULE(FastRtext) {
   class_<FastRtext>("FastRtext")
   .constructor()
-  .method("load", &FastRtext::load)
-  .method("predict", &FastRtext::predict);
+  .method("load", &FastRtext::load, "Load a model")
+  .method("predict", &FastRtext::predict, "Make a prediction");
 }
 
 /*** R
