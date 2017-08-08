@@ -1,3 +1,5 @@
+// Content of this file is added to each source of Fasttext to change some behaviours
+
 #ifndef R_COMPLIANCY
 #define R_COMPLIANCY
 

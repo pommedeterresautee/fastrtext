@@ -26,6 +26,7 @@ public:
     this->model_loaded = true;
   }
 
+  //' @param commands commands to execute
   void execute(CharacterVector commands) {
     int num_argc = commands.size();
 
