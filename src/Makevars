@@ -2,5 +2,5 @@
 CXX_STD = CXX11
 
 # from fasttext makefile
-PKG_CPPFLAGS = -pthread
+PKG_CPPFLAGS = -pthread -include r_compliancy.h
 PKG_LIBS = -pthread
