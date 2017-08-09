@@ -227,9 +227,9 @@ private:
     } else if (modelName == model_name::sg) {
       return "sg";
     } else if (modelName == model_name::sup) {
-      return "sup";
+      return "supervised";
     } else {
-      stop("Unrecognized model (cbow / SG / sup) name!");
+      stop("Unrecognized model (cbow / SG / supervised) name!");
     }
   }
 };
