@@ -1,5 +1,5 @@
-#ifndef FASTTEXT_WRAPPER_MISC_H
-#define FASTTEXT_WRAPPER_MISC_H
+#ifndef FASTTEXT_WRAPPER_H
+#define FASTTEXT_WRAPPER_H
 
 #include "args.h"
 #include "dictionary.h"
@@ -20,4 +20,4 @@ struct FastTextPrivateMembers {
 };
 }
 
-#endif
+#endif // FASTTEXT_WRAPPER_H
