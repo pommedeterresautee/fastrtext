@@ -11,6 +11,8 @@ using namespace Rcpp;
 using namespace fasttext;
 using namespace FastTextWrapper;
 
+// TODO write documentation prompt(FastRtext, "test.rd") (http://dirk.eddelbuettel.com/code/rcpp/Rcpp-modules.pdf)
+
 class FastRtext{
 public:
 
@@ -167,8 +169,7 @@ public:
   void test(const std::string& filename, int32_t k) {
     std::ifstream ifs(filename);
     if(!ifs.is_open()) {
-      std::cerr << "fasttest_wrapper.cc: Test file cannot be opened!" << std::endl;
-      exit(EXIT_FAILURE);
+      stop("Test file cannot be opened!");
     }
     model->test(ifs, k);
   }
