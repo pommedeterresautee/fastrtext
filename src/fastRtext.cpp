@@ -1,20 +1,32 @@
 // [[Rcpp::plugins(cpp11)]]
 
 #include <Rcpp.h>
-#include "fasttext_wrapper.h"
-#include <stdexcept>
+#include <iostream>
+#include <sstream>
+#include "fasttext.h"
+#include "fasttext_wrapper_misc.h"
+#include "main.h"
 
 using namespace Rcpp;
+using namespace fasttext;
 using namespace FastTextWrapper;
 
 class FastRtext{
 public:
+
+  FastRtext() {
+    model =  std::unique_ptr<FastText>(new FastText());
+    // HACK: A trick to get access to FastText's private members.
+    // Reference: http://stackoverflow.com/a/8282638
+    privateMembers = (FastTextPrivateMembers*) model.get();
+  }
+
   ~FastRtext(){
-    model->privateMembers->args_.reset();
-    model->privateMembers->dict_.reset();
-    model->privateMembers->input_.reset();
-    model->privateMembers->output_.reset();
-    model->privateMembers->model_.reset();
+    privateMembers->args_.reset();
+    privateMembers->dict_.reset();
+    privateMembers->input_.reset();
+    privateMembers->output_.reset();
+    privateMembers->model_.reset();
     model.reset();
   }
 
@@ -25,7 +37,8 @@ public:
     if(!std::ifstream(path[0])){
       stop("Path doesn't point to a file: " + path[0]);
     }
-    model.reset(new FastTextApi);
+    model.reset(new FastText);
+    privateMembers = (FastTextPrivateMembers*) model.get();
     std::string stringPath(path(0));
     model->loadModel(stringPath);
     model_loaded = true;
@@ -47,7 +60,7 @@ public:
       std::strcpy(cstrings[i], command.c_str());
     }
 
-    model->runCmd(num_argc, cstrings);
+    runCmd(num_argc, cstrings);
 
     for(size_t i = 0; i < num_argc; ++i) {
       delete[] cstrings[i];
@@ -61,7 +74,7 @@ public:
 
     for(int i = 0; i < documents.size(); ++i){
       std::string s(documents(i));
-      std::vector<std::pair<real, std::string> > predictions = model->predictProba(s, k);
+      std::vector<std::pair<real, std::string> > predictions = predictProba(s, k);
       NumericVector logProbabilities(predictions.size());
       CharacterVector labels(predictions.size());
       for (int j = 0; j < predictions.size() ; ++j){
@@ -77,28 +90,28 @@ public:
 
   NumericVector get_vector(std::string word){
     check_model_loaded();
-    return wrap(model->getVector(word));
+    return wrap(getVector(word));
   }
 
   List get_parameters(){
     check_model_loaded();
-    double learning_rate(model->privateMembers->args_->lr);
-    int learning_rate_update(model->privateMembers->args_->lrUpdateRate);
-    int dim(model->privateMembers->args_->dim);
-    int context_window_size(model->privateMembers->args_->ws);
-    int epoch(model->privateMembers->args_->epoch);
-    int min_count(model->privateMembers->args_->minCount);
-    int min_count_label(model->privateMembers->args_->minCountLabel);
-    int n_sampled_negatives(model->privateMembers->args_->neg);
-    int word_ngram(model->privateMembers->args_->wordNgrams);
-    int bucket(model->privateMembers->args_->bucket);
-    int min_ngram(model->privateMembers->args_->minn);
-    int max_ngram(model->privateMembers->args_->maxn);
-    double sampling_threshold(model->privateMembers->args_->t);
-    std::string label_prefix(model->privateMembers->args_->label);
-    std::string pretrained_vectors_filename(model->privateMembers->args_->pretrainedVectors);
-    int32_t nlabels(model->privateMembers->dict_->nlabels());
-    int32_t n_words(model->privateMembers->dict_->nwords());
+    double learning_rate(privateMembers->args_->lr);
+    int learning_rate_update(privateMembers->args_->lrUpdateRate);
+    int dim(privateMembers->args_->dim);
+    int context_window_size(privateMembers->args_->ws);
+    int epoch(privateMembers->args_->epoch);
+    int min_count(privateMembers->args_->minCount);
+    int min_count_label(privateMembers->args_->minCountLabel);
+    int n_sampled_negatives(privateMembers->args_->neg);
+    int word_ngram(privateMembers->args_->wordNgrams);
+    int bucket(privateMembers->args_->bucket);
+    int min_ngram(privateMembers->args_->minn);
+    int max_ngram(privateMembers->args_->maxn);
+    double sampling_threshold(privateMembers->args_->t);
+    std::string label_prefix(privateMembers->args_->label);
+    std::string pretrained_vectors_filename(privateMembers->args_->pretrainedVectors);
+    int32_t nlabels(privateMembers->dict_->nlabels());
+    int32_t n_words(privateMembers->dict_->nwords());
 
 
     return Rcpp::List::create(Rcpp::Named("learning_rate") = wrap(learning_rate),
@@ -125,7 +138,7 @@ public:
   std::vector<std::string> get_words() {
     check_model_loaded();
     std::vector<std::string> words;
-    int32_t nwords = model->privateMembers->dict_->nwords();
+    int32_t nwords = privateMembers->dict_->nwords();
     for (int32_t i = 0; i < nwords; i++) {
       words.push_back(getWord(i));
     }
@@ -135,15 +148,48 @@ public:
   std::vector<std::string> get_labels() {
     check_model_loaded();
     std::vector<std::string> labels;
-    int32_t nlabels = model->privateMembers->dict_->nlabels();
+    int32_t nlabels = privateMembers->dict_->nlabels();
     for (int32_t i = 0; i < nlabels; i++) {
       labels.push_back(getLabel(i));
     }
     return labels;
   }
 
+  void runCmd(int argc, char **argv) {
+    main(argc, argv);  // call fastText's main()
+  }
+
+  void loadModel(const std::string& filename) {
+    model->loadModel(filename);
+  }
+
+
+  void test(const std::string& filename, int32_t k) {
+    std::ifstream ifs(filename);
+    if(!ifs.is_open()) {
+      std::cerr << "fasttest_wrapper.cc: Test file cannot be opened!" << std::endl;
+      exit(EXIT_FAILURE);
+    }
+    model->test(ifs, k);
+  }
+
+  std::vector<std::pair<real,std::string>> predictProba(
+      const std::string& text, int32_t k) {
+    std::vector<std::pair<real,std::string>> predictions;
+    std::istringstream in(text);
+    model->predict(in, k, predictions);
+    return predictions;
+  }
+
+  std::vector<real> getVector(const std::string& word) {
+    fasttext::Vector vec(privateMembers->args_->dim);
+    model->getVector(vec, word);
+    return std::vector<real>(vec.data_, vec.data_ + vec.m_);
+  }
+
 private:
-  std::shared_ptr<FastTextApi> model;
+  FastTextPrivateMembers* privateMembers;
+  std::unique_ptr<FastText> model;
   bool model_loaded = false;
 
   void check_model_loaded(){
@@ -153,15 +199,15 @@ private:
   }
 
   std::string getWord(int32_t i) {
-    return model->privateMembers->dict_->getWord(i);
+    return privateMembers->dict_->getWord(i);
   }
 
   std::string getLabel(int32_t i) {
-    return model->privateMembers->dict_->getLabel(i);
+    return privateMembers->dict_->getLabel(i);
   }
 
   std::string getLossName() {
-    loss_name lossName = model->privateMembers->args_->loss;
+    loss_name lossName = privateMembers->args_->loss;
     if (lossName == loss_name::ns) {
       return "ns";
     } else if (lossName == loss_name::hs) {
@@ -169,12 +215,12 @@ private:
     } else if (lossName == loss_name::softmax) {
       return "softmax";
     } else {
-      throw std::invalid_argument("Unrecognized loss name!");
+      stop("Unrecognized loss (ns / hs / softmax) name!");
     }
   }
 
   std::string getModelName() {
-    model_name modelName = model->privateMembers->args_->model;
+    model_name modelName = privateMembers->args_->model;
     if (modelName == model_name::cbow) {
       return "cbow";
     } else if (modelName == model_name::sg) {
@@ -182,22 +228,21 @@ private:
     } else if (modelName == model_name::sup) {
       return "sup";
     } else {
-      std::cerr << "fasttest_wrapper.cc: Unrecognized model name!" << std::endl;
-      exit(EXIT_FAILURE);
+      stop("Unrecognized model (cbow / SG / sup) name!");
     }
   }
 };
 
 RCPP_MODULE(FastRtext) {
   class_<FastRtext>("FastRtext")
-  .constructor()
+  .constructor("Managed fasttext model")
   .method("load", &FastRtext::load, "Load a model")
   .method("predict", &FastRtext::predict, "Make a prediction")
   .method("execute", &FastRtext::execute, "Execute commands")
-  .method("get_vector", &FastRtext::get_vector, "Get word vector")
-  .method("get_parameters", &FastRtext::get_parameters, "Get parameters")
-  .method("get_words", &FastRtext::get_words, "Get all words from the dictionary")
-  .method("get_labels", &FastRtext::get_labels, "Get all labels");
+  .method("get_vector", &FastRtext::get_vector, "Get the vector related to a word")
+  .method("get_parameters", &FastRtext::get_parameters, "Get parameters used to train the model")
+  .method("get_words", &FastRtext::get_words, "List all words learned")
+  .method("get_labels", &FastRtext::get_labels, "List all labels");
 }
 
 /*** R
@@ -208,6 +253,6 @@ model$get_labels()
 model$get_words()
 model$execute(c("f", "supervised"))
 model$predict(c("this is a test", "another test"), 3)
-model$printVector("département")
+model$get_vector("département")
 rm(model)
 */
