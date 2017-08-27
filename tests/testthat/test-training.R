@@ -76,4 +76,10 @@ test_that("Supervised training", {
   # test label extraction
   labels_from_model <- get_labels(model)
   expect_length(labels_from_model, 15)
+
+  # free memory
+  unlink(train_tmp_file_txt)
+  unlink(tmp_file_model)
+  rm(model)
+  gc()
 })
