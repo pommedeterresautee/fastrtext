@@ -30,6 +30,17 @@ get_dictionary <- function(model) {
   model$get_words()
 }
 
+#' Get list of labels (supervised model)
+#'
+#' Get a [character] containing each label seen during training.
+#' @param model trained Fasttext model
+#' @export
+get_label <- function(model) {
+  param <- model$get_parameters()
+  expect_equal(param$model_name, "supervised", info = "This is not a supervised model.")
+  model$get_labels()
+}
+
 #' Get predictions (for supervised model)
 #'
 #' Return probabilities for the sentences to be associated with K labels.
