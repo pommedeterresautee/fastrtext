@@ -7,7 +7,10 @@ Authors@R: person("Michaël", "Benesty", role = c("aut", "cre"), email = "michae
 Maintainer: Michaël Benesty <michael@benesty.fr>
 Description: Wrapper of the excellent Fasttext by Facebook.
 License: MIT + file LICENSE
-Imports: methods, Rcpp (>= 0.12.12)
+Imports: methods, 
+  Rcpp (>= 0.12.12),
+  testthat,
+  assertthat
 LinkingTo: Rcpp
 LazyData: true
 RoxygenNote: 6.0.1

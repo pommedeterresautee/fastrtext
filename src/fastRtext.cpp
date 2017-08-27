@@ -46,6 +46,10 @@ public:
     model_loaded = true;
   }
 
+  void load_model(const std::string& filename) {
+    model->loadModel(filename);
+  }
+
   //' @param commands commands to execute
   void execute(CharacterVector commands) {
     int num_argc = commands.size();
@@ -62,7 +66,7 @@ public:
       std::strcpy(cstrings[i], command.c_str());
     }
 
-    runCmd(num_argc, cstrings);
+    run_cmd(num_argc, cstrings);
 
     for(size_t i = 0; i < num_argc; ++i) {
       delete[] cstrings[i];
@@ -76,7 +80,7 @@ public:
 
     for(int i = 0; i < documents.size(); ++i){
       std::string s(documents(i));
-      std::vector<std::pair<real, std::string> > predictions = predictProba(s, k);
+      std::vector<std::pair<real, std::string> > predictions = predict_proba(s, k);
       NumericVector logProbabilities(predictions.size());
       CharacterVector labels(predictions.size());
       for (int j = 0; j < predictions.size() ; ++j){
@@ -88,11 +92,6 @@ public:
       list[i] = probabilities;
     }
     return list;
-  }
-
-  NumericVector get_vector(std::string word){
-    check_model_loaded();
-    return wrap(getVector(word));
   }
 
   List get_parameters(){
@@ -147,6 +146,20 @@ public:
     return words;
   }
 
+  List get_vectors(CharacterVector words){
+    check_model_loaded();
+    List l(words.size());
+    CharacterVector names(words.size());
+    for(int i = 0 ; i < words.size(); ++i) {
+      std::string word(words(i));
+      NumericVector vector = get_vector(word);
+      l[i] = vector;
+      names[i] = word;
+    }
+    l.attr("names") = names;
+    return l;
+  }
+
   std::vector<std::string> get_labels() {
     check_model_loaded();
     std::vector<std::string> labels;
@@ -157,15 +170,6 @@ public:
     return labels;
   }
 
-  void runCmd(int argc, char **argv) {
-    main(argc, argv);  // call fastText's main()
-  }
-
-  void loadModel(const std::string& filename) {
-    model->loadModel(filename);
-  }
-
-
   void test(const std::string& filename, int32_t k) {
     std::ifstream ifs(filename);
     if(!ifs.is_open()) {
@@ -174,18 +178,12 @@ public:
     model->test(ifs, k);
   }
 
-  std::vector<std::pair<real,std::string>> predictProba(
+  std::vector<std::pair<real,std::string>> predict_proba(
       const std::string& text, int32_t k) {
     std::vector<std::pair<real,std::string>> predictions;
     std::istringstream in(text);
     model->predict(in, k, predictions);
     return predictions;
-  }
-
-  std::vector<real> getVector(const std::string& word) {
-    fasttext::Vector vec(privateMembers->args_->dim);
-    model->getVector(vec, word);
-    return std::vector<real>(vec.data_, vec.data_ + vec.m_);
   }
 
 private:
@@ -199,8 +197,18 @@ private:
     }
   }
 
+  void run_cmd(int argc, char **argv) {
+    main(argc, argv);  // call fastText's main()
+  }
+
   std::string getWord(int32_t i) {
     return privateMembers->dict_->getWord(i);
+  }
+
+  NumericVector get_vector(const std::string& word) {
+    fasttext::Vector vec(privateMembers->args_->dim);
+    model->getVector(vec, word);
+    return wrap(std::vector<real>(vec.data_, vec.data_ + vec.m_));
   }
 
   std::string getLabel(int32_t i) {
@@ -240,7 +248,7 @@ RCPP_MODULE(FastRtext) {
   .method("load", &FastRtext::load, "Load a model")
   .method("predict", &FastRtext::predict, "Make a prediction")
   .method("execute", &FastRtext::execute, "Execute commands")
-  .method("get_vector", &FastRtext::get_vector, "Get the vector related to a word")
+  .method("get_vectors", &FastRtext::get_vectors, "Get the vector related to a word")
   .method("get_parameters", &FastRtext::get_parameters, "Get parameters used to train the model")
   .method("get_words", &FastRtext::get_words, "List all words learned")
   .method("get_labels", &FastRtext::get_labels, "List all labels");
@@ -252,8 +260,8 @@ model$load("/home/geantvert/model.bin") # requires to have a model there
 model$get_parameters()
 model$get_labels()
 model$get_words()
-model$execute(c("f", "supervised"))
+#model$execute(c("f", "supervised"))
 model$predict(c("this is a test", "another test"), 3)
-model$get_vector("département")
+model$get_vectors(c("département", "juge", "jouer"))
 rm(model)
 */
