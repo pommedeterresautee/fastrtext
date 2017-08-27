@@ -63,7 +63,7 @@ public:
       std::strcpy(cstrings[i], command.c_str());
     }
 
-    run_cmd(num_argc, cstrings);
+    main(num_argc, cstrings);
 
     for(size_t i = 0; i < num_argc; ++i) {
       delete[] cstrings[i];
@@ -194,10 +194,6 @@ private:
     }
   }
 
-  void run_cmd(int argc, char **argv) {
-    main(argc, argv);  // call fastText's main()
-  }
-
   std::string getWord(int32_t i) {
     return privateMembers->dict_->getWord(i);
   }
@@ -238,6 +234,7 @@ private:
     }
   }
 };
+
 
 RCPP_MODULE(FastRtext) {
   class_<FastRtext>("FastRtext")

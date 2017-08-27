@@ -4,6 +4,9 @@
 #' @param path path to the existing model
 #' @export
 load_model <- function(path) {
+  if (!grepl("\\.bin$", path)) {
+    path <- paste0(path, ".bin")
+  }
   model <- new(FastRtext)
   model$load(path)
   model
@@ -37,14 +40,14 @@ predict <- function(model, sentences, k = 1) {
   model$predict(sentences, k)
 }
 
-#' Get word embedding
+#' Get word embeddings
 #'
-#' Return the vector representation of a word (unsupervised training)
-#' or a label (supervised training).
+#' Return the vector representation of provided words (unsupervised training)
+#' or provided labels (supervised training).
 #' @param model trained Fasttext model
 #' @param words [character] of words
 #' @export
-get_word_vector <- function(model, words) {
+get_word_vectors <- function(model, words) {
   model$get_vectors(words)
 }
 
@@ -54,18 +57,14 @@ get_word_vector <- function(model, words) {
 #' @param model trained Fasttext model. Null if train a new model.
 #' @param path path to an existing model. Null id command to be applied to an existing model.
 #' @param commands [character] of commands
+#' @importFrom assertthat assert_that
 #' @export
-execute <- function(model = NULL, path = NULL, commands) {
-  assert_that(is.null(model) + is.null(path) == 1,
-              msg = "Use model OR path but not both or none.")
-  model <- new(FastRtext)
-  if (!is.null(path)) {
-    model$load(path)
+execute <- function(model = NULL, commands) {
+  if (is.null(model)) {
+    model <- new(FastRtext)
   }
-  model$execute(commands)
+  model$execute(c("fasttext", commands))
   model
 }
 
-
-
-
+globalVariables(c("new"))
