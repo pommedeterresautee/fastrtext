@@ -3,7 +3,7 @@
 export(FastRtext)
 export(execute)
 export(get_dictionary)
-export(get_label)
+export(get_labels)
 export(get_parameters)
 export(get_word_distance)
 export(get_word_vectors)
