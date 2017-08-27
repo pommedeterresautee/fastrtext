@@ -34,10 +34,11 @@ get_dictionary <- function(model) {
 #'
 #' Get a [character] containing each label seen during training.
 #' @param model trained Fasttext model
+#' @importFrom assertthat assert_that
 #' @export
 get_labels <- function(model) {
   param <- model$get_parameters()
-  expect_equal(param$model_name, "supervised", info = "This is not a supervised model.")
+  assert_that(param$model_name == "supervised", msg = "This is not a supervised model.")
   model$get_labels()
 }
 
@@ -67,7 +68,6 @@ get_word_vectors <- function(model, words) {
 #' Use the same commands than the one to use for the command line.
 #' @param model trained Fasttext model. Null if train a new model.
 #' @param commands [character] of commands
-#' @importFrom assertthat assert_that
 #' @export
 execute <- function(model = NULL, commands) {
   if (is.null(model)) {
