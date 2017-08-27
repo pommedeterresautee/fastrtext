@@ -11,8 +11,6 @@ using namespace Rcpp;
 using namespace fasttext;
 using namespace FastTextWrapper;
 
-// TODO write documentation prompt(FastRtext, "test.rd") (http://dirk.eddelbuettel.com/code/rcpp/Rcpp-modules.pdf)
-
 class FastRtext{
 public:
 
@@ -50,7 +48,6 @@ public:
     model->loadModel(filename);
   }
 
-  //' @param commands commands to execute
   void execute(CharacterVector commands) {
     int num_argc = commands.size();
 
@@ -248,7 +245,7 @@ RCPP_MODULE(FastRtext) {
   .method("load", &FastRtext::load, "Load a model")
   .method("predict", &FastRtext::predict, "Make a prediction")
   .method("execute", &FastRtext::execute, "Execute commands")
-  .method("get_vectors", &FastRtext::get_vectors, "Get the vector related to a word")
+  .method("get_vectors", &FastRtext::get_vectors, "Get vectors related to provided words")
   .method("get_parameters", &FastRtext::get_parameters, "Get parameters used to train the model")
   .method("get_words", &FastRtext::get_words, "List all words learned")
   .method("get_labels", &FastRtext::get_labels, "List all labels");
