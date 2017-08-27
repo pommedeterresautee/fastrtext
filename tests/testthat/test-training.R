@@ -9,11 +9,31 @@ test_that("Unsupervised training", {
   writeLines(text = texts, con = tmp_file_txt)
   execute(commands = c("skipgram", "-input", tmp_file_txt, "-output", tmp_file_model))
   model <- load_model(tmp_file_model)
+
+  # test parameter extraction
   parameters <- get_parameters(model)
   expect_equal(parameters$model_name, "sg")
-  get_word_vectors(model, "the")
+  expect_equal(parameters$dim, 100)
+  # test word extraction
+  dict <- get_dictionary(model)
+  expect_length(dict, 2061)
+  expect_true("time" %in% dict)
+  expect_true("timing" %in% dict)
+  expect_true("experience" %in% dict)
+  expect_true("section" %in% dict)
+
+  # test vector lentgh
+  expect_length(get_word_vectors(model, "time")[[1]], parameters$dim)
+
+  # test word distance
+  expect_lt(get_word_distance(model, "time", "timing"), 0.05)
+  expect_gt(get_word_distance(model, "experience", "section"), 0.2)
+
+  # free memory
   unlink(tmp_file_txt)
   unlink(tmp_file_model)
+  rm(model)
+  gc()
 })
 
 test_that("Supervised training", {

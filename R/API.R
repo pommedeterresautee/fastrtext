@@ -55,7 +55,6 @@ get_word_vectors <- function(model, words) {
 #'
 #' Use the same commands than the one to use for the command line.
 #' @param model trained Fasttext model. Null if train a new model.
-#' @param path path to an existing model. Null id command to be applied to an existing model.
 #' @param commands [character] of commands
 #' @importFrom assertthat assert_that
 #' @export
@@ -64,7 +63,22 @@ execute <- function(model = NULL, commands) {
     model <- new(FastRtext)
   }
   model$execute(c("fasttext", commands))
-  model
+  invisible(model)
+}
+
+#' Distance between two words
+#'
+#' Distance is equal to `1 - cosine`
+#' @param model trained Fasttext model. Null if train a new model.
+#' @param w1 first word to compare
+#' @param w2 second word to compare
+#' @importFrom assertthat assert_that is.string
+#' @export
+get_word_distance <- function(model, w1, w2) {
+  assert_that(is.string(w1))
+  assert_that(is.string(w2))
+  embeddings <- get_word_vectors(model, c(w1, w2))
+  1 - crossprod(embeddings[[1]], embeddings[[2]])/sqrt(crossprod(embeddings[[1]]) * crossprod(embeddings[[2]]))
 }
 
 globalVariables(c("new"))

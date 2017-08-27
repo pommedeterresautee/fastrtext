@@ -4,12 +4,10 @@
 \alias{execute}
 \title{Execute command on Fasttext model (including training)}
 \usage{
-execute(model = NULL, path = NULL, commands)
+execute(model = NULL, commands)
 }
 \arguments{
 \item{model}{trained Fasttext model. Null if train a new model.}
-
-\item{path}{path to an existing model. Null id command to be applied to an existing model.}
 
 \item{commands}{[character] of commands}
 }
