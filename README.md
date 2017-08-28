@@ -3,6 +3,8 @@ FastRText
 
 [![Travis-CI Build Status](https://travis-ci.org/pommedeterresautee/FastRText.svg?branch=master)](https://travis-ci.org/pommedeterresautee/FastRText)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/pommedeterresautee/FastRText?branch=master&svg=true)](https://ci.appveyor.com/project/pommedeterresautee/FastRText)
+[![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
+
 
 R wrapper for [fastText](https://github.com/facebookresearch/fastText) C++ code from Facebook.
 
@@ -32,6 +34,9 @@ The API has been made very light:
 - `get_parameters`: return the parameters used for training ;
 - `get_word_distance`: cosine distance between 2 vectors ;
 - `get_word_vectors`: return vectors in a `list` related to a `character` vector of words/labels.
+
+Detailed explanations are available on:  
+https://pommedeterresautee.github.io/FastRText/
 
 ### Supervised learning (text classification)
 
