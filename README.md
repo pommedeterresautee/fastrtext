@@ -5,6 +5,8 @@ R wrapper for [fastText](https://github.com/facebookresearch/fastText) C++ code 
 
 fastText is a library for efficient learning of word representations and sentence classification.
 
+![fastText logo](./vignettes/fasttext-logo-color-web.png)
+
 Installation
 ------------
 
