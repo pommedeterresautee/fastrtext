@@ -56,7 +56,7 @@ Below we will learn a model and then measure the accuracy.
     execute(commands = c("supervised", "-input", train_tmp_file_txt, "-output", tmp_file_model, "-dim", 20, "-lr", 1, "-epoch", 20, "-wordNgrams", 2, "-verbose", 1))
 ```
 
-```R
+```
     Read 0M words
     Number of words:  5060
     Number of labels: 15
@@ -72,7 +72,7 @@ Below we will learn a model and then measure the accuracy.
     print(head(predictions, 5))
 ```
 
-```R    
+```
     [[1]]
     __label__OWNX 
         0.9980469 
@@ -109,7 +109,7 @@ Below we will learn a model and then measure the accuracy.
     print(head(predictions, 5))
 ```
 
-```R
+```
     [[1]]
     __label__OWNX 
         0.9980469 
@@ -151,7 +151,9 @@ Below we will learn a model and then measure the accuracy.
     tmp_file_model <- tempfile()
     writeLines(text = texts, con = tmp_file_txt)
     execute(commands = c("skipgram", "-input", tmp_file_txt, "-output", tmp_file_model, "-verbose", 1))
-```R
+```
+
+```
     Read 0M words
     Number of words:  2061
     Number of labels: 0
