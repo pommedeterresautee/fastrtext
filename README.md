@@ -28,7 +28,7 @@ The API has been made very light:
 - `get_word_distance`: cosine distance between 2 vectors ;
 - `get_word_vectors`: return vector related to `character` vector of words/labels.
 
-### Supervised learning
+### Supervised learning (text classification)
 
 Data for a multi-class task are embedded in this package.  
 Below we will learn a model and then measure the accuracy.  
@@ -139,7 +139,7 @@ Below we will learn a model and then measure the accuracy.
     gc()
 ```
 
-### Unsupervised learning  
+### Unsupervised learning (word representation)
 
 ```R
     library(FastRText)
