@@ -1,14 +1,14 @@
 context("Training and prediction")
 
-# test_that("Unsupervised training", {
-#   data("train_sentences")
-#   data("test_sentences")
-#   texts <- tolower(train_sentences[,"text"])
-#   tmp_file_txt <- tempfile()
-#   tmp_file_model <- tempfile()
-#   writeLines(text = texts, con = tmp_file_txt)
-#   execute(commands = c("skipgram", "-input", tmp_file_txt, "-output", tmp_file_model, "-verbose", 1))
-#   model <- load_model(tmp_file_model)
+test_that("Unsupervised training", {
+  data("train_sentences")
+  data("test_sentences")
+  texts <- tolower(train_sentences[,"text"])
+  tmp_file_txt <- tempfile()
+  tmp_file_model <- tempfile()
+  writeLines(text = texts, con = tmp_file_txt)
+  execute(commands = c("skipgram", "-input", tmp_file_txt, "-output", tmp_file_model, "-verbose", 1))
+  model <- load_model(tmp_file_model)
 #
 #   # test parameter extraction
 #   parameters <- get_parameters(model)
@@ -35,7 +35,7 @@ context("Training and prediction")
 #   unlink(tmp_file_model)
 #   rm(model)
 #   gc()
-# })
+})
 #
 # test_that("Supervised training", {
 #   data("train_sentences")
