@@ -6,10 +6,10 @@
 using namespace Rcpp;
 
 
-RcppExport SEXP _rcpp_module_boot_FastRtext();
+RcppExport SEXP _rcpp_module_boot_FastRText();
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_rcpp_module_boot_FastRtext", (DL_FUNC) &_rcpp_module_boot_FastRtext, 0},
+    {"_rcpp_module_boot_FastRText", (DL_FUNC) &_rcpp_module_boot_FastRText, 0},
     {NULL, NULL, 0}
 };
 

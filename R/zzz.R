@@ -1,8 +1,8 @@
-#' Rcpp module: FastRtext
-#' @name FastRtext
+#' Rcpp module: FastRText
+#' @name FastRText
 #' @export
 NULL
-loadModule("FastRtext", TRUE)
+loadModule("FastRText", TRUE)
 
 
 #' @useDynLib FastRText, .registration = TRUE

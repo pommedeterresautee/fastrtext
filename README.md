@@ -1,11 +1,14 @@
 FastRText
 =========
 
+[![Travis-CI Build Status](https://travis-ci.org/pommedeterresautee/FastRText.svg?branch=master)](https://travis-ci.org/pommedeterresautee/FastRText)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/pommedeterresautee/FastRText?branch=master&svg=true)](https://ci.appveyor.com/project/pommedeterresautee/FastRText)
+
 R wrapper for [fastText](https://github.com/facebookresearch/fastText) C++ code from Facebook.
 
 fastText is a library for efficient learning of word representations and sentence classification.
 
-![fastText logo](./vignettes/fasttext-logo-color-web.png) 
+![fastText logo](./tools/fasttext-logo-color-web.png) 
 
 Installation
 ------------
@@ -28,7 +31,7 @@ The API has been made very light:
 - `get_labels`: return list of labels learned (supervised) ;
 - `get_parameters`: return the parameters used for training ;
 - `get_word_distance`: cosine distance between 2 vectors ;
-- `get_word_vectors`: return vector related to `character` vector of words/labels.
+- `get_word_vectors`: return vectors in a `list` related to a `character` vector of words/labels.
 
 ### Supervised learning (text classification)
 

@@ -11,17 +11,17 @@ using namespace Rcpp;
 using namespace fasttext;
 using namespace FastTextWrapper;
 
-class FastRtext{
+class FastRText{
 public:
 
-  FastRtext() {
+  FastRText() {
     model =  std::unique_ptr<FastText>(new FastText());
     // HACK: A trick to get access to FastText's private members.
     // Reference: http://stackoverflow.com/a/8282638
     privateMembers = (FastTextPrivateMembers*) model.get();
   }
 
-  ~FastRtext(){
+  ~FastRText(){
     privateMembers->args_.reset();
     privateMembers->dict_.reset();
     privateMembers->input_.reset();
@@ -236,20 +236,20 @@ private:
 };
 
 
-RCPP_MODULE(FastRtext) {
-  class_<FastRtext>("FastRtext")
+RCPP_MODULE(FastRText) {
+  class_<FastRText>("FastRText")
   .constructor("Managed fasttext model")
-  .method("load", &FastRtext::load, "Load a model")
-  .method("predict", &FastRtext::predict, "Make a prediction")
-  .method("execute", &FastRtext::execute, "Execute commands")
-  .method("get_vectors", &FastRtext::get_vectors, "Get vectors related to provided words")
-  .method("get_parameters", &FastRtext::get_parameters, "Get parameters used to train the model")
-  .method("get_words", &FastRtext::get_words, "List all words learned")
-  .method("get_labels", &FastRtext::get_labels, "List all labels");
+  .method("load", &FastRText::load, "Load a model")
+  .method("predict", &FastRText::predict, "Make a prediction")
+  .method("execute", &FastRText::execute, "Execute commands")
+  .method("get_vectors", &FastRText::get_vectors, "Get vectors related to provided words")
+  .method("get_parameters", &FastRText::get_parameters, "Get parameters used to train the model")
+  .method("get_words", &FastRText::get_words, "List all words learned")
+  .method("get_labels", &FastRText::get_labels, "List all labels");
 }
 
 /*** R
-model <- new(FastRtext)
+model <- new(FastRText)
 model$load("/home/geantvert/model.bin") # requires to have a model there
 model$get_parameters()
 model$get_labels()

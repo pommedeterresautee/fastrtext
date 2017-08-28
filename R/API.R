@@ -7,7 +7,7 @@ load_model <- function(path) {
   if (!grepl("\\.bin$", path)) {
     path <- paste0(path, ".bin")
   }
-  model <- new(FastRtext)
+  model <- new(FastRText)
   model$load(path)
   model
 }
@@ -71,7 +71,7 @@ get_word_vectors <- function(model, words) {
 #' @export
 execute <- function(model = NULL, commands) {
   if (is.null(model)) {
-    model <- new(FastRtext)
+    model <- new(FastRText)
   }
   model$execute(c("fasttext", commands))
   invisible(model)
