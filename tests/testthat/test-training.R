@@ -7,7 +7,7 @@ test_that("Unsupervised training", {
   tmp_file_txt <- tempfile()
   tmp_file_model <- tempfile()
   writeLines(text = texts, con = tmp_file_txt)
-  execute(commands = c("skipgram", "-input", tmp_file_txt, "-output", tmp_file_model, "-verbose", 0))
+  execute(commands = c("skipgram", "-input", tmp_file_txt, "-output", tmp_file_model, "-verbose", 0, "-thread", 1))
   model <- load_model(tmp_file_model)
 
   # test parameter extraction
@@ -55,7 +55,7 @@ test_that("Supervised training", {
   test_to_write <- paste(test_labels, test_texts)
 
   # learn model
-  execute(commands = c("supervised", "-input", train_tmp_file_txt, "-output", tmp_file_model, "-dim", 20, "-lr", 1, "-epoch", 20, "-wordNgrams", 2, "-verbose", 0))
+  execute(commands = c("supervised", "-input", train_tmp_file_txt, "-output", tmp_file_model, "-dim", 20, "-lr", 1, "-epoch", 20, "-wordNgrams", 2, "-verbose", 0, "-thread", 1))
 
   # load model
   model <- load_model(tmp_file_model)
