@@ -1,7 +1,6 @@
 FastRText
 =========
 
-[![Travis-CI Build Status](https://travis-ci.org/pommedeterresautee/FastRText.svg?branch=master)](https://travis-ci.org/pommedeterresautee/FastRText)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/pommedeterresautee/FastRText?branch=master&svg=true)](https://ci.appveyor.com/project/pommedeterresautee/FastRText)
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 
