@@ -106,6 +106,9 @@ Below we will learn a model and then measure the accuracy.
 ```R
     # Compute accuracy
     mean(sapply(predictions, names) == test_labels)
+    
+    # because there is only one category by observation, hamming loss will be the same
+    get_hamming_loss(as.list(test_labels), predictions)
 ```
 
 ```R

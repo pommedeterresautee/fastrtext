@@ -92,4 +92,21 @@ get_word_distance <- function(model, w1, w2) {
   1 - crossprod(embeddings[[1]], embeddings[[2]])/sqrt(crossprod(embeddings[[1]]) * crossprod(embeddings[[2]]))
 }
 
+
+#' Hamming loss
+#' 
+#' Compute the hamming loss. When there is only one category, this measure the accuracy.
+#' @param labels list of labels
+#' @param predictions list returned by the predict command (including both the probability and the categories)
+#' @importFrom assertthat assert_that 
+#' @export
+get_hamming_loss <- function(labels, predictions) {
+  diff <- function(a, b) 1 - length(setdiff(union(a, b), intersect(a, b))) / length(union(a, b))
+  assert_that(is.list(labels))
+  assert_that(is.list(predictions))
+  assert_that(length(labels) == length(predictions))
+  prediction_categories <- lapply(predictions, names)
+  mean(mapply(diff, prediction_categories, labels, USE.NAMES = FALSE))
+}
+
 globalVariables(c("new"))
