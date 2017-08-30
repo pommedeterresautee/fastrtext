@@ -18,7 +18,7 @@ test_that("Training of a classification model", {
   test_to_write <- paste(test_labels, test_texts)
 
   # learn model
-  execute(commands = c("supervised", "-input", train_tmp_file_txt, "-output", tmp_file_model, "-dim", 20, "-lr", 1, "-epoch", 20, "-wordNgrams", 2, "-verbose", 0, "-thread", 1))
+  try(execute(commands = c("supervised", "-input", train_tmp_file_txt, "-output", tmp_file_model, "-dim", 20, "-lr", 1, "-epoch", 20, "-wordNgrams", 2, "-verbose", 0, "-thread", 1)))
 
   # load model
   model <- load_model(tmp_file_model)
