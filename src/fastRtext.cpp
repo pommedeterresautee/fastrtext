@@ -3,9 +3,9 @@
 #include <Rcpp.h>
 #include <iostream>
 #include <sstream>
-#include "fasttext.h"
-#include "fasttext_wrapper.h"
+#include "../inst/include/fasttext.h"
 #include "main.h"
+#include "fasttext_wrapper.h"
 
 using namespace Rcpp;
 using namespace fasttext;
