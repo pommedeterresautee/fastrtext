@@ -7,6 +7,6 @@
 #include <stdexcept>
 
 #define exit(param) throw std::runtime_error("Exit code: " + std::to_string(param));
-#define cerr cout
+//#define cerr cout
 
 #endif //R_COMPLIANCY
