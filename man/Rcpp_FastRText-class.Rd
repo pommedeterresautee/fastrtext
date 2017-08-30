@@ -4,7 +4,7 @@
 \alias{Rcpp_FastRText-class}
 \title{Rcpp_FastRText class.}
 \description{
-Some details about this class and my plans for it in the body.
+Models are objects with several methods which can be called that way: model$method()
 }
 \section{Slots}{
 

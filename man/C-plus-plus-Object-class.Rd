@@ -6,3 +6,4 @@
 \description{
 C++ object
 }
+\keyword{internal}

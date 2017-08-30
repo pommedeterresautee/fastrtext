@@ -1,6 +1,6 @@
 #' Rcpp module: FastRText
 #' @name FastRText
-#' @export
+#' @keywords internal
 NULL
 loadModule("FastRText", TRUE)
 
@@ -12,7 +12,7 @@ NULL
 
 #' Rcpp_FastRText class.
 #'
-#' Some details about this class and my plans for it in the body.
+#' Models are objects with several methods which can be called that way: model$method()
 #'
 #' @slot load Load a model
 #' @slot predict Make a prediction
@@ -22,9 +22,9 @@ NULL
 #' @slot get_words List all words learned
 #' @slot get_labels List all labels learned
 #' @name Rcpp_FastRText-class
-
 NULL
 
 #' C++ object
+#' @keywords internal
 #' @name C++Object-class
 NULL

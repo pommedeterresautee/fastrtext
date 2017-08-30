@@ -6,3 +6,4 @@
 \description{
 Rcpp module: FastRText
 }
+\keyword{internal}
