@@ -6,7 +6,7 @@
 #include <Rcpp.h>
 #include <stdexcept>
 
-#define exit(param) Rcpp::stop("Exit code: " + std::to_string(param));
+#define exit(param) throw std::runtime_error("Exit code: " + std::to_string(param));
 #define cerr cout
 
 #endif //R_COMPLIANCY
