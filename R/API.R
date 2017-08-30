@@ -45,11 +45,13 @@ get_labels <- function(model) {
 #' Get predictions (for supervised model)
 #'
 #' Return probabilities for the sentences to be associated with K labels.
-#' @param model trained Fasttext model
+#' @param object trained Fasttext model
 #' @param sentences [character] containing the sentences
 #' @param k will return the k most probable labels (default = 1)
-predict <- function(model, sentences, k = 1) {
-  model$predict(sentences, k)
+#' @param ... not used
+#' @export
+predict.Rcpp_FastRText <- function(object, sentences, k = 1, ...) {
+  object$predict(sentences, k)
 }
 
 #' Get word embeddings
@@ -91,7 +93,6 @@ get_word_distance <- function(model, w1, w2) {
   embeddings <- get_word_vectors(model, c(w1, w2))
   1 - crossprod(embeddings[[1]], embeddings[[2]])/sqrt(crossprod(embeddings[[1]]) * crossprod(embeddings[[2]]))
 }
-
 
 #' Hamming loss
 #' 
