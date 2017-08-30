@@ -1,9 +1,9 @@
 # C++ 11
 CXX_STD = CXX11
 # include adds the header to each file, ugly hack to block call to exit() and replace cerr by cout
-PKG_CPPFLAGS = -pthread -include r_compliancy.h -I$(PKGROOT)/*.h
+PKG_CPPFLAGS = $(SHLIB_PTHREAD_FLAGS) -include r_compliancy.h -I$(PKGROOT)/*.h
 # pthread is used for multithreading
-PKG_LIBS = -pthread
+PKG_LIBS = $(SHLIB_PTHREAD_FLAGS)
 
 PKGROOT = ../inst/include
 
