@@ -12,3 +12,11 @@ get_parameters(model)
 \description{
 Get hyper paramters used to train the model
 }
+\examples{
+
+library(FastRText)
+model_test_path <- system.file("extdata", "model_classification_test.bin", package = "FastRText")
+model <- load_model(model_test_path)
+print(head(get_parameters(model), 5))
+
+}

@@ -2,6 +2,12 @@
 #'
 #' Load and return a pointer to an existing model which will be used in other functions of this package.
 #' @param path path to the existing model
+#' @examples
+#'
+#' library(FastRText)
+#' model_test_path <- system.file("extdata", "model_classification_test.bin", package = "FastRText")
+#' model <- load_model(model_test_path)
+#'
 #' @export
 load_model <- function(path) {
   if (!grepl("\\.bin$", path)) {
@@ -16,6 +22,13 @@ load_model <- function(path) {
 #'
 #' Get hyper paramters used to train the model
 #' @param model trained fasttext model
+#' @examples
+#'
+#' library(FastRText)
+#' model_test_path <- system.file("extdata", "model_classification_test.bin", package = "FastRText")
+#' model <- load_model(model_test_path)
+#' print(head(get_parameters(model), 5))
+#'
 #' @export
 get_parameters <- function(model) {
   model$get_parameters()
@@ -25,6 +38,13 @@ get_parameters <- function(model) {
 #'
 #' Get a [character] containing each word seen during training.
 #' @param model trained Fasttext model
+#' @examples
+#'
+#' library(FastRText)
+#' model_test_path <- system.file("extdata", "model_classification_test.bin", package = "FastRText")
+#' model <- load_model(model_test_path)
+#' print(head(get_dictionary(model), 5))
+#'
 #' @export
 get_dictionary <- function(model) {
   model$get_words()
@@ -35,6 +55,13 @@ get_dictionary <- function(model) {
 #' Get a [character] containing each label seen during training.
 #' @param model trained Fasttext model
 #' @importFrom assertthat assert_that
+#' @examples
+#'
+#' library(FastRText)
+#' model_test_path <- system.file("extdata", "model_classification_test.bin", package = "FastRText")
+#' model <- load_model(model_test_path)
+#' print(head(get_labels(model), 5))
+#'
 #' @export
 get_labels <- function(model) {
   param <- model$get_parameters()
@@ -50,6 +77,15 @@ get_labels <- function(model) {
 #' @param sentences [character] containing the sentences
 #' @param k will return the k most probable labels (default = 1)
 #' @param ... not used
+#' @examples
+#'
+#' library(FastRText)
+#' data("test_sentences")
+#' model_test_path <- system.file("extdata", "model_classification_test.bin", package = "FastRText")
+#' model <- load_model(model_test_path)
+#' sentence <- test_sentences[1, "text"]
+#' print(predict(model, sentence))
+#'
 #' @export
 predict.Rcpp_FastRText <- function(object, sentences, k = 1, ...) {
   object$predict(sentences, k)
@@ -97,11 +133,22 @@ get_word_distance <- function(model, w1, w2) {
 }
 
 #' Hamming loss
-#' 
+#'
 #' Compute the hamming loss. When there is only one category, this measure the accuracy.
 #' @param labels list of labels
 #' @param predictions list returned by the predict command (including both the probability and the categories)
-#' @importFrom assertthat assert_that 
+#' @importFrom assertthat assert_that
+#' @examples
+#'
+#' library(FastRText)
+#' data("test_sentences")
+#' model_test_path <- system.file("extdata", "model_classification_test.bin", package = "FastRText")
+#' model <- load_model(model_test_path)
+#' sentences <- test_sentences[, "text"]
+#' test_labels <- test_sentences[, "class.text"]
+#' predictions <- predict(model, sentences)
+#' get_hamming_loss(as.list(test_labels), predictions)
+#'
 #' @export
 get_hamming_loss <- function(labels, predictions) {
   diff <- function(a, b) {

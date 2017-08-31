@@ -12,3 +12,10 @@ load_model(path)
 \description{
 Load and return a pointer to an existing model which will be used in other functions of this package.
 }
+\examples{
+
+library(FastRText)
+model_test_path <- system.file("extdata", "model_classification_test.bin", package = "FastRText")
+model <- load_model(model_test_path)
+
+}

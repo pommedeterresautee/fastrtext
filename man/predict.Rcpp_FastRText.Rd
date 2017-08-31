@@ -18,3 +18,13 @@
 \description{
 Return probabilities for the sentences to be associated with K labels.
 }
+\examples{
+
+library(FastRText)
+data("test_sentences")
+model_test_path <- system.file("extdata", "model_classification_test.bin", package = "FastRText")
+model <- load_model(model_test_path)
+sentence <- test_sentences[1, "text"]
+print(predict(model, sentence))
+
+}

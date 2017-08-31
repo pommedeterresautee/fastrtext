@@ -12,3 +12,11 @@ get_labels(model)
 \description{
 Get a [character] containing each label seen during training.
 }
+\examples{
+
+library(FastRText)
+model_test_path <- system.file("extdata", "model_classification_test.bin", package = "FastRText")
+model <- load_model(model_test_path)
+print(head(get_labels(model), 5))
+
+}
