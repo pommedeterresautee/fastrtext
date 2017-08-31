@@ -38,7 +38,8 @@ get_dictionary <- function(model) {
 #' @export
 get_labels <- function(model) {
   param <- model$get_parameters()
-  assert_that(param$model_name == "supervised", msg = "This is not a supervised model.")
+  assert_that(param$model_name == "supervised",
+              msg = "This is not a supervised model.")
   model$get_labels()
 }
 
@@ -90,8 +91,9 @@ execute <- function(model = NULL, commands) {
 get_word_distance <- function(model, w1, w2) {
   assert_that(is.string(w1))
   assert_that(is.string(w2))
-  embeddings <- get_word_vectors(model, c(w1, w2))
-  1 - crossprod(embeddings[[1]], embeddings[[2]])/sqrt(crossprod(embeddings[[1]]) * crossprod(embeddings[[2]]))
+  embeddings <- get_word_vectors(model, c(w1, w2) )
+  1 - crossprod(embeddings[[1]], embeddings[[2]]) /
+    sqrt(crossprod(embeddings[[1]]) * crossprod(embeddings[[2]]))
 }
 
 #' Hamming loss
@@ -102,7 +104,12 @@ get_word_distance <- function(model, w1, w2) {
 #' @importFrom assertthat assert_that 
 #' @export
 get_hamming_loss <- function(labels, predictions) {
-  diff <- function(a, b) 1 - length(setdiff(union(a, b), intersect(a, b))) / length(union(a, b))
+  diff <- function(a, b) {
+    common <- union(a, b)
+    difference <- setdiff(union(a, b), intersect(a, b))
+    distance <- length(difference) / length(common)
+    1 - distance
+  }
   assert_that(is.list(labels))
   assert_that(is.list(predictions))
   assert_that(length(labels) == length(predictions))
