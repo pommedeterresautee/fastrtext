@@ -63,7 +63,12 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/pommedeterresautee/FastRText">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -94,12 +99,21 @@
     </table>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='fu'>library</span>(<span class='no'>FastRText</span>)
+<span class='no'>model_test_path</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata"</span>, <span class='st'>"model_classification_test.bin"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"FastRText"</span>)
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='load_model.html'>load_model</a></span>(<span class='no'>model_test_path</span>)
+<span class='fu'>print</span>(<span class='fu'>head</span>(<span class='fu'>get_dictionary</span>(<span class='no'>model</span>), <span class='fl'>5</span>))</div><div class='output co'>#&gt; [1] "the"  "&lt;/s&gt;" "of"   "to"   "and" </div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+            
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

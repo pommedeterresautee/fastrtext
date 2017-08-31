@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Sentence corpus - test part — test_sentences • FastRText</title>
+<title>Get predictions (for supervised model) — predict.Rcpp_FastRText • FastRText</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -80,62 +80,58 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Sentence corpus - test part</h1>
+    <h1>Get predictions (for supervised model)</h1>
     </div>
 
     
-    <p>This corpus contains sentences from
-the abstract and introduction of 30 scientific articles that have been
-annotated (i.e. labeled or tagged) according to a modified version of the
-Argumentative Zones annotation scheme.</p>
+    <p>Return probabilities for the sentences to be associated with K labels.</p>
     
 
-    <pre class="usage"><span class='no'>test_sentences</span></pre>
-        
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p>2 data frame with 3117 rows and 2 variables:</p><dl class='dl-horizontal'>
-  <dt>text</dt><dd><p>the sentences as a character vector</p></dd>
-  <dt>class.text</dt><dd><p>the category of the sentence</p></dd>
-</dl>
+    <pre class="usage"><span class='co'># S3 method for Rcpp_FastRText</span>
+<span class='fu'>predict</span>(<span class='no'>object</span>, <span class='no'>sentences</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
-
-    <p><a href='https://archive.ics.uci.edu/ml/datasets.html?format=&amp;task=&amp;att=&amp;area=&amp;numAtt=&amp;numIns=&amp;type=text&amp;sort=nameUp&amp;view=table'>https://archive.ics.uci.edu/ml/datasets.html?format=&amp;task=&amp;att=&amp;area=&amp;numAtt=&amp;numIns=&amp;type=text&amp;sort=nameUp&amp;view=table</a></p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>These 30 scientific articles come
-from three different domains:
-1. PLoS Computational Biology (PLOS)
-2. The machine learning repository on arXiv (ARXIV)
-3. The psychology journal Judgment and Decision Making (JDM)</p>
-<p>There are 10 articles from each domain. In addition to the labeled data, this
-corpus also contains a corresponding set of unlabeled articles. These unlabeled
-articles also come from PLOS, ARXIV, and JDM. There are 300 unlabeled articles
-from each domain (again, only the sentences from the abstract and
-introduction). These unlabeled articles can be used for unsupervised or
-semi-supervised approaches to sentence classification which rely on a small set
-of labeled data and a larger set of unlabeled data.</p>
-<p>===== References =====</p>
-<p>S. Teufel and M. Moens. Summarizing scientific articles: experiments with
-relevance and rhetorical status. Computational Linguistics, 28(4):409-445,
-2002.</p>
-<p>S. Teufel. Argumentative zoning: information extraction from scientific
-text. PhD thesis, School of Informatics, University of Edinburgh, 1999.</p>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>object</th>
+      <td><p>trained Fasttext model</p></td>
+    </tr>
+    <tr>
+      <th>sentences</th>
+      <td><p>[character] containing the sentences</p></td>
+    </tr>
+    <tr>
+      <th>k</th>
+      <td><p>will return the k most probable labels (default = 1)</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>not used</p></td>
+    </tr>
+    </table>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='fu'>library</span>(<span class='no'>FastRText</span>)
+<span class='fu'>data</span>(<span class='st'>"test_sentences"</span>)
+<span class='no'>model_test_path</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata"</span>, <span class='st'>"model_classification_test.bin"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"FastRText"</span>)
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='load_model.html'>load_model</a></span>(<span class='no'>model_test_path</span>)
+<span class='no'>sentence</span> <span class='kw'>&lt;-</span> <span class='no'>test_sentences</span>[<span class='fl'>1</span>, <span class='st'>"text"</span>]
+<span class='fu'>print</span>(<span class='fu'>predict</span>(<span class='no'>model</span>, <span class='no'>sentence</span>))</div><div class='output co'>#&gt; [[1]]
+#&gt; __label__OWNX 
+#&gt;     0.9941406 
+#&gt; </div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      
-      <li><a href="#format">Format</a></li>
-
-      <li><a href="#source">Source</a></li>
-
-      <li><a href="#details">Details</a></li>
-          </ul>
+      <li><a href="#arguments">Arguments</a></li>
+            
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

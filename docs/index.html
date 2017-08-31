@@ -38,7 +38,14 @@
   <a href="reference/index.html">Reference</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/pommedeterresautee/FastRText">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -85,6 +92,7 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
 <li>
 <code>get_word_vectors</code>: return vectors in a <code>list</code> related to a <code>character</code> vector of words/labels.</li>
 </ul>
+<p>Detailed explanations are available on:<br><a href="https://pommedeterresautee.github.io/FastRText/" class="uri">https://pommedeterresautee.github.io/FastRText/</a></p>
 <div id="supervised-learning-text-classification" class="section level3">
 <h3 class="hasAnchor">
 <a href="#supervised-learning-text-classification" class="anchor"></a>Supervised learning (text classification)</h3>
@@ -118,7 +126,7 @@ Below we will learn a model and then measure the accuracy.</p>
     model &lt;-<span class="st"> </span><span class="kw"><a href="reference/load_model.html">load_model</a></span>(tmp_file_model)
     
     <span class="co"># prediction are returned as a list with words and probabilities</span>
-    predictions &lt;-<span class="st"> </span><span class="kw"><a href="reference/predict.html">predict</a></span>(model, <span class="dt">sentences =</span> test_to_write)
+    predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(model, <span class="dt">sentences =</span> test_to_write)
     <span class="kw">print</span>(<span class="kw">head</span>(predictions, <span class="dv">5</span>))</code></pre></div>
 <pre><code>    [[1]]
     __label__OWNX 
@@ -140,10 +148,13 @@ Below we will learn a model and then measure the accuracy.</p>
     __label__AIMX 
          0.984375 </code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">    <span class="co"># Compute accuracy</span>
-    <span class="kw">mean</span>(<span class="kw">sapply</span>(predictions, names) <span class="op">==</span><span class="st"> </span>test_labels)</code></pre></div>
+    <span class="kw">mean</span>(<span class="kw">sapply</span>(predictions, names) <span class="op">==</span><span class="st"> </span>test_labels)
+    
+    <span class="co"># because there is only one category by observation, hamming loss will be the same</span>
+    <span class="kw"><a href="reference/get_hamming_loss.html">get_hamming_loss</a></span>(<span class="kw">as.list</span>(test_labels), predictions)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">    [<span class="dv">1</span>] <span class="fl">0.82</span></code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">    <span class="co"># test predictions</span>
-    predictions &lt;-<span class="st"> </span><span class="kw"><a href="reference/predict.html">predict</a></span>(model, <span class="dt">sentences =</span> test_to_write)
+    predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(model, <span class="dt">sentences =</span> test_to_write)
     <span class="kw">print</span>(<span class="kw">head</span>(predictions, <span class="dv">5</span>))</code></pre></div>
 <pre><code>    [[1]]
     __label__OWNX 
@@ -330,7 +341,14 @@ Below we will learn a model and then measure the accuracy.</p>
   </div>
 
   <div class="col-md-3" id="sidebar">
-    <h2>License</h2>
+    <h2>Links</h2>
+<ul class="list-unstyled">
+<li>Browse source code at <br><a href="https://github.com/pommedeterresautee/FastRText">https://​github.com/​pommedeterresautee/​FastRText</a>
+</li>
+<li>Report a bug at <br><a href="https://github.com/pommedeterresautee/FastRText/issues">https://​github.com/​pommedeterresautee/​FastRText/​issues</a>
+</li>
+</ul>
+<h2>License</h2>
 <p><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE.html">LICENSE</a></p>
 <h2>Developers</h2>
 <ul class="list-unstyled">
@@ -338,8 +356,8 @@ Below we will learn a model and then measure the accuracy.</p>
 </ul>
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://travis-ci.org/pommedeterresautee/FastRText"><img src="https://travis-ci.org/pommedeterresautee/FastRText.svg?branch=master" alt="Travis-CI Build Status"></a></li>
 <li><a href="https://ci.appveyor.com/project/pommedeterresautee/FastRText"><img src="https://ci.appveyor.com/api/projects/status/github/pommedeterresautee/FastRText?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a></li>
+<li><a href="https://opensource.org/licenses/mit-license.php"><img src="https://badges.frapsoft.com/os/mit/mit.svg?v=103" alt="MIT Licence"></a></li>
 </ul>
 </div>
 </div>

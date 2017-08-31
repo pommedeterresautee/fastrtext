@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Sentence corpus - test part — test_sentences • FastRText</title>
+<title>Rcpp_FastRText class. — Rcpp_FastRText-class • FastRText</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -80,49 +80,26 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Sentence corpus - test part</h1>
+    <h1>Rcpp_FastRText class.</h1>
     </div>
 
     
-    <p>This corpus contains sentences from
-the abstract and introduction of 30 scientific articles that have been
-annotated (i.e. labeled or tagged) according to a modified version of the
-Argumentative Zones annotation scheme.</p>
+    <p>Models are objects with several methods which can be called that way: model$method()</p>
     
 
-    <pre class="usage"><span class='no'>test_sentences</span></pre>
         
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
 
-    <p>2 data frame with 3117 rows and 2 variables:</p><dl class='dl-horizontal'>
-  <dt>text</dt><dd><p>the sentences as a character vector</p></dd>
-  <dt>class.text</dt><dd><p>the category of the sentence</p></dd>
+    
+    <dl class='dl-horizontal'>
+<dt><code>load</code></dt><dd><p>Load a model</p></dd>
+    <dt><code>predict</code></dt><dd><p>Make a prediction</p></dd>
+    <dt><code>execute</code></dt><dd><p>Execute commands</p></dd>
+    <dt><code>get_vectors</code></dt><dd><p>Get vectors related to provided words</p></dd>
+    <dt><code>get_parameters</code></dt><dd><p>Get parameters used to train the model</p></dd>
+    <dt><code>get_words</code></dt><dd><p>List all words learned</p></dd>
+    <dt><code>get_labels</code></dt><dd><p>List all labels learned</p></dd>
 </dl>
-    
-    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
-
-    <p><a href='https://archive.ics.uci.edu/ml/datasets.html?format=&amp;task=&amp;att=&amp;area=&amp;numAtt=&amp;numIns=&amp;type=text&amp;sort=nameUp&amp;view=table'>https://archive.ics.uci.edu/ml/datasets.html?format=&amp;task=&amp;att=&amp;area=&amp;numAtt=&amp;numIns=&amp;type=text&amp;sort=nameUp&amp;view=table</a></p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>These 30 scientific articles come
-from three different domains:
-1. PLoS Computational Biology (PLOS)
-2. The machine learning repository on arXiv (ARXIV)
-3. The psychology journal Judgment and Decision Making (JDM)</p>
-<p>There are 10 articles from each domain. In addition to the labeled data, this
-corpus also contains a corresponding set of unlabeled articles. These unlabeled
-articles also come from PLOS, ARXIV, and JDM. There are 300 unlabeled articles
-from each domain (again, only the sentences from the abstract and
-introduction). These unlabeled articles can be used for unsupervised or
-semi-supervised approaches to sentence classification which rely on a small set
-of labeled data and a larger set of unlabeled data.</p>
-<p>===== References =====</p>
-<p>S. Teufel and M. Moens. Summarizing scientific articles: experiments with
-relevance and rhetorical status. Computational Linguistics, 28(4):409-445,
-2002.</p>
-<p>S. Teufel. Argumentative zoning: information extraction from scientific
-text. PhD thesis, School of Informatics, University of Edinburgh, 1999.</p>
     
 
   </div>
@@ -130,11 +107,7 @@ text. PhD thesis, School of Informatics, University of Edinburgh, 1999.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
-      <li><a href="#format">Format</a></li>
-
-      <li><a href="#source">Source</a></li>
-
-      <li><a href="#details">Details</a></li>
+      <li><a href="#slots">Slots</a></li>
           </ul>
 
   </div>
