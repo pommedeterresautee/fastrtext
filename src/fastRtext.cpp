@@ -56,20 +56,21 @@ public:
       stop("Not enough parameters");
       return;
     }
-
+    Rcout << "Load commands" << std::endl;
     char** cstrings = new char*[commands.size()];
     for(size_t i = 0; i < commands.size(); ++i) {
       std::string command(commands[i]);
       cstrings[i] = new char[command.size() + 1];
       std::strcpy(cstrings[i], command.c_str());
     }
-
+    Rcout << "Just before main" << std::endl;
     main(num_argc, cstrings);
-
+    Rcout << "Just after main" << std::endl;
     for(size_t i = 0; i < num_argc; ++i) {
       delete[] cstrings[i];
     }
     delete[] cstrings;
+    Rcout << "Finished execution" << std::endl;
   }
 
   List predict(CharacterVector documents, int k = 1) {

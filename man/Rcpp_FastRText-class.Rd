@@ -2,7 +2,7 @@
 % Please edit documentation in R/zzz.R
 \name{Rcpp_FastRText-class}
 \alias{Rcpp_FastRText-class}
-\title{Rcpp_FastRText class.}
+\title{Rcpp_FastRText class}
 \description{
 Models are objects with several methods which can be called that way: model$method()
 }

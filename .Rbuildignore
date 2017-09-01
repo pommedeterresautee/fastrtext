@@ -4,6 +4,6 @@
 ^appveyor\.yml$
 ^\tools\\*\.png$
 ^docs$
-\.o$
-\.so$
-\.dll$
+^.*.\.o$
+^.*.\.so$
+^.*.\.dll$

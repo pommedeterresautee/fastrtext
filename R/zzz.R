@@ -10,7 +10,7 @@ loadModule("FASTRTEXT_MODULE", TRUE)
 #' @exportPattern "^[[:alpha:]]+"
 NULL
 
-#' Rcpp_FastRText class.
+#' Rcpp_FastRText class
 #'
 #' Models are objects with several methods which can be called that way: model$method()
 #'
@@ -25,6 +25,7 @@ NULL
 NULL
 
 #' C++ object
+#'
 #' @keywords internal
 #' @name C++Object-class
 NULL

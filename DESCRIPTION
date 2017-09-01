@@ -1,7 +1,7 @@
 Package: FastRText
 Type: Package
 Title: FastRText
-Version: 0.1
+Version: 0.2
 Date: 2017-07-01
 Authors@R: person("Michaël", "Benesty", role = c("aut", "cre"), email = "michael@benesty.fr")
 Maintainer: Michaël Benesty <michael@benesty.fr>
