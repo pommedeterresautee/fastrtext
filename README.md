@@ -18,7 +18,7 @@ You can install the package from Github.
 
 ```R
 # install.packages("devtools")
-devtools::install_github("pommedeterresautee/FastRText/")
+devtools::install_github("pommedeterresautee/FastRText")
 ```
 
 API
