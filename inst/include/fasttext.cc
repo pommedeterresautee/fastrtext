@@ -589,6 +589,7 @@ void FastText::loadVectors(std::string filename) {
 }
 
 void FastText::train(std::shared_ptr<Args> args) {
+  std::cout << "in train" << std::endl;
   args_ = args;
   dict_ = std::make_shared<Dictionary>(args_);
   if (args_->input == "-") {
@@ -603,21 +604,21 @@ void FastText::train(std::shared_ptr<Args> args) {
   }
   dict_->readFromFile(ifs);
   ifs.close();
-
+  std::cout << "before load vector" << std::endl;
   if (args_->pretrainedVectors.size() != 0) {
     loadVectors(args_->pretrainedVectors);
   } else {
     input_ = std::make_shared<Matrix>(dict_->nwords()+args_->bucket, args_->dim);
     input_->uniform(1.0 / args_->dim);
   }
-
+  std::cout << "before load model" << std::endl;
   if (args_->model == model_name::sup) {
     output_ = std::make_shared<Matrix>(dict_->nlabels(), args_->dim);
   } else {
     output_ = std::make_shared<Matrix>(dict_->nwords(), args_->dim);
   }
   output_->zero();
-
+  std::cout << "start training" << std::endl;
   start = clock();
   tokenCount = 0;
   if (args_->thread > 1) {
@@ -632,7 +633,7 @@ void FastText::train(std::shared_ptr<Args> args) {
     trainThread(0);
   }
   model_ = std::make_shared<Model>(input_, output_, args_, 0);
-
+  std::cout << "before save model" << std::endl;
   saveModel();
   if (args_->model != model_name::sup) {
     saveVectors();
@@ -640,6 +641,7 @@ void FastText::train(std::shared_ptr<Args> args) {
       saveOutput();
     }
   }
+  std::cout << "exit train function" << std::endl;
 }
 
 int FastText::getDimension() const {

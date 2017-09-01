@@ -231,9 +231,11 @@ void analogies(int argc, char** argv) {
 }
 
 void train(int argc, char** argv) {
+  std::cout << "before parsing" << std::endl;
   std::shared_ptr<Args> a = std::make_shared<Args>();
   a->parseArgs(argc, argv);
   FastText fasttext;
+  std::cout << "after parsing" << std::endl;
   fasttext.train(a);
 }
 

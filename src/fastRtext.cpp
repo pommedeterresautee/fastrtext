@@ -56,7 +56,6 @@ public:
       stop("Not enough parameters");
       return;
     }
-    Rcout << "Load commands" << std::endl;
     char** cstrings = new char*[commands.size()];
     for(size_t i = 0; i < commands.size(); ++i) {
       std::string command(commands[i]);
@@ -70,7 +69,6 @@ public:
       delete[] cstrings[i];
     }
     delete[] cstrings;
-    Rcout << "Finished execution" << std::endl;
   }
 
   List predict(CharacterVector documents, int k = 1) {
