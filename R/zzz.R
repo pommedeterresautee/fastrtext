@@ -2,7 +2,7 @@
 #' @name FastRText
 #' @keywords internal
 NULL
-loadModule("FastRText", TRUE)
+loadModule("FASTRTEXT_MODULE", TRUE)
 
 
 #' @useDynLib FastRText, .registration = TRUE

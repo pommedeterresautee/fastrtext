@@ -9,4 +9,4 @@ PKGROOT = ../inst/include
 
 OBJECTS = $(PKGROOT)/args.o $(PKGROOT)/dictionary.o $(PKGROOT)/productquantizer.o $(PKGROOT)/matrix.o $(PKGROOT)/qmatrix.o $(PKGROOT)/vector.o $(PKGROOT)/model.o $(PKGROOT)/utils.o $(PKGROOT)/fasttext.o $(PKGROOT)/main.o fastRtext.o
 
-all: $(SHLIB)
+#all: $(SHLIB)

@@ -242,7 +242,7 @@ private:
 };
 
 
-RCPP_MODULE(FastRText) {
+RCPP_MODULE(FASTRTEXT_MODULE) {
   class_<FastRText>("FastRText")
   .constructor("Managed fasttext model")
   .method("load", &FastRText::load, "Load a model")
@@ -254,15 +254,3 @@ RCPP_MODULE(FastRText) {
   .method("get_labels", &FastRText::get_labels, "List all labels")
   .method("print_help", &FastRText::print_help, "Print command helps");
 }
-
-/*** R
-model <- new(FastRText)
-model$load("/home/geantvert/model.bin") # requires to have a model there
-model$get_parameters()
-model$get_labels()
-model$get_words()
-#model$execute(c("f", "supervised"))
-model$predict(c("this is a test", "another test"), 3)
-model$get_vectors(c("département", "juge", "jouer"))
-rm(model)
-*/
