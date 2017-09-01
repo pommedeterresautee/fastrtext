@@ -5,7 +5,7 @@
 #include <sstream>
 #include "../inst/include/fasttext.h"
 #include "../inst/include/args.h"
-#include "main.h"
+#include "../inst/include/main.h"
 #include "fasttext_wrapper.h"
 
 using namespace Rcpp;
@@ -56,6 +56,7 @@ public:
       stop("Not enough parameters");
       return;
     }
+
     char** cstrings = new char*[commands.size()];
     for(size_t i = 0; i < commands.size(); ++i) {
       std::string command(commands[i]);
@@ -64,7 +65,6 @@ public:
     }
     Rcout << "Just before main" << std::endl;
     main(num_argc, cstrings);
-    Rcout << "Just after main" << std::endl;
     for(size_t i = 0; i < num_argc; ++i) {
       delete[] cstrings[i];
     }
