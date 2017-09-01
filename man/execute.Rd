@@ -19,6 +19,7 @@ Use the same commands than the one to use for the command line.
 }
 \examples{
 
+# Supervised learning example
 library(FastRText)
 
 data("train_sentences")
@@ -41,5 +42,23 @@ test_to_write <- paste(test_labels, test_texts)
 execute(commands = c("supervised", "-input", train_tmp_file_txt,
                      "-output", tmp_file_model, "-dim", 20, "-lr", 1,
                      "-epoch", 20, "-wordNgrams", 2, "-verbose", 1))
+
+model <- load_model(tmp_file_model)
+predict(model, sentences = test_sentences[1, "text"])
+
+# Unsupervised learning example
+library(FastRText)
+
+data("train_sentences")
+data("test_sentences")
+texts <- tolower(train_sentences[,"text"])
+tmp_file_txt <- tempfile()
+tmp_file_model <- tempfile()
+writeLines(text = texts, con = tmp_file_txt)
+execute(commands = c("skipgram", "-input", tmp_file_txt, "-output", tmp_file_model, "-verbose", 1))
+
+model <- load_model(tmp_file_model)
+dict <- get_dictionary(model)
+get_word_vectors(model, head(dict, 5))
 
 }

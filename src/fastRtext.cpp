@@ -63,7 +63,6 @@ public:
       cstrings[i] = new char[command.size() + 1];
       std::strcpy(cstrings[i], command.c_str());
     }
-    Rcout << "Just before main" << std::endl;
     main(num_argc, cstrings);
     for(size_t i = 0; i < num_argc; ++i) {
       delete[] cstrings[i];
