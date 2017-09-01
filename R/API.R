@@ -20,8 +20,9 @@ load_model <- function(path) {
 
 #' Export hyper parameters
 #'
-#' Get hyper paramters used to train the model
+#' Retrieve hyper paramters used to train the model
 #' @param model trained fasttext model
+#' @return [list] contaning each parameter
 #' @examples
 #'
 #' library(FastRText)
@@ -38,6 +39,7 @@ get_parameters <- function(model) {
 #'
 #' Get a [character] containing each word seen during training.
 #' @param model trained Fasttext model
+#' @return [character] contaning each word
 #' @examples
 #'
 #' library(FastRText)
@@ -54,6 +56,7 @@ get_dictionary <- function(model) {
 #'
 #' Get a [character] containing each label seen during training.
 #' @param model trained Fasttext model
+#' @return [character] contaning each label
 #' @importFrom assertthat assert_that
 #' @examples
 #'
@@ -72,11 +75,13 @@ get_labels <- function(model) {
 
 #' Get predictions (for supervised model)
 #'
-#' Return probabilities for the sentences to be associated with K labels.
+#' Apply the trained  model to new sentences.
+#' Average word embeddings and search most similar `label` vector.
 #' @param object trained Fasttext model
 #' @param sentences [character] containing the sentences
-#' @param k will return the k most probable labels (default = 1)
+#' @param k will return the `k` most probable labels (default = 1)
 #' @param ... not used
+#' @return [list] containing for each sentence the probability to be associated with `k` labels.
 #' @examples
 #'
 #' library(FastRText)
@@ -97,6 +102,7 @@ predict.Rcpp_FastRText <- function(object, sentences, k = 1, ...) {
 #' or provided labels (supervised training).
 #' @param model trained Fasttext model
 #' @param words [character] of words
+#' @return [list] containing each word and its `numeric` vector.
 #' @export
 get_word_vectors <- function(model, words) {
   model$get_vectors(words)
@@ -107,13 +113,21 @@ get_word_vectors <- function(model, words) {
 #' Use the same commands than the one to use for the command line.
 #' @param model trained Fasttext model. Null if train a new model.
 #' @param commands [character] of commands
+#' @return `model` provided as a parameter, if any.
 #' @export
 execute <- function(model = NULL, commands) {
   if (is.null(model)) {
     model <- new(FastRText)
+    model_provided <- FALSE
+  } else {
+    model_provided <- TRUE
   }
   model$execute(c("fasttext", commands))
-  invisible(model)
+  if (model_provided) {
+    return(invisible(model))
+  } else {
+    return()
+  }
 }
 
 #' Distance between two words
@@ -122,6 +136,7 @@ execute <- function(model = NULL, commands) {
 #' @param model trained Fasttext model. Null if train a new model.
 #' @param w1 first word to compare
 #' @param w2 second word to compare
+#' @return a `scalar` with the distance
 #' @importFrom assertthat assert_that is.string
 #' @export
 get_word_distance <- function(model, w1, w2) {
@@ -137,6 +152,7 @@ get_word_distance <- function(model, w1, w2) {
 #' Compute the hamming loss. When there is only one category, this measure the accuracy.
 #' @param labels list of labels
 #' @param predictions list returned by the predict command (including both the probability and the categories)
+#' @return a `scalar` with the loss
 #' @importFrom assertthat assert_that
 #' @examples
 #'
@@ -162,6 +178,21 @@ get_hamming_loss <- function(labels, predictions) {
   assert_that(length(labels) == length(predictions))
   prediction_categories <- lapply(predictions, names)
   mean(mapply(diff, prediction_categories, labels, USE.NAMES = FALSE))
+}
+
+#' Print help
+#'
+#' Print command information, mainly to use with [execute()] `function`.
+#'
+#' @examples
+#'
+#' print_help()
+#'
+#' @export
+print_help <- function() {
+  model <- new(FastRText)
+  model$print_help()
+  rm(model)
 }
 
 globalVariables(c("new"))

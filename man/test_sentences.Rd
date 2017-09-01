@@ -6,8 +6,8 @@
 \title{Sentence corpus - test part}
 \format{2 data frame with 3117 rows and 2 variables:
 \describe{
-  \item{text}{the sentences as a character vector}
-  \item{class.text}{the category of the sentence}
+\item{text}{the sentences as a character vector}
+\item{class.text}{the category of the sentence}
 }}
 \source{
 \url{https://archive.ics.uci.edu/ml/datasets.html?format=&task=&att=&area=&numAtt=&numIns=&type=text&sort=nameUp&view=table}
@@ -24,9 +24,11 @@ Argumentative Zones annotation scheme.
 \details{
 These 30 scientific articles come
 from three different domains:
-1. PLoS Computational Biology (PLOS)
-2. The machine learning repository on arXiv (ARXIV)
-3. The psychology journal Judgment and Decision Making (JDM)
+\enumerate{
+\item PLoS Computational Biology (PLOS)
+\item The machine learning repository on arXiv (ARXIV)
+\item The psychology journal Judgment and Decision Making (JDM)
+}
 
 There are 10 articles from each domain. In addition to the labeled data, this
 corpus also contains a corresponding set of unlabeled articles. These unlabeled

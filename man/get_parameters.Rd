@@ -9,8 +9,11 @@ get_parameters(model)
 \arguments{
 \item{model}{trained fasttext model}
 }
+\value{
+\link{list} contaning each parameter
+}
 \description{
-Get hyper paramters used to train the model
+Retrieve hyper paramters used to train the model
 }
 \examples{
 

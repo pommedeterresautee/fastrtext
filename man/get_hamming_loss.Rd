@@ -11,6 +11,9 @@ get_hamming_loss(labels, predictions)
 
 \item{predictions}{list returned by the predict command (including both the probability and the categories)}
 }
+\value{
+a \code{scalar} with the loss
+}
 \description{
 Compute the hamming loss. When there is only one category, this measure the accuracy.
 }

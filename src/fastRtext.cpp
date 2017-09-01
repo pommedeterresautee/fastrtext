@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include "../inst/include/fasttext.h"
+#include "../inst/include/args.h"
 #include "main.h"
 #include "fasttext_wrapper.h"
 
@@ -14,7 +15,7 @@ using namespace FastTextWrapper;
 class FastRText{
 public:
 
-  FastRText() {
+  FastRText(): model_loaded(false){
     model =  std::unique_ptr<FastText>(new FastText());
     // HACK: A trick to get access to FastText's private members.
     // Reference: http://stackoverflow.com/a/8282638
@@ -175,18 +176,23 @@ public:
     model->test(ifs, k);
   }
 
-  std::vector<std::pair<real,std::string>> predict_proba(
+  std::vector<std::pair<real,std::string> > predict_proba(
       const std::string& text, int32_t k) {
-    std::vector<std::pair<real,std::string>> predictions;
+    std::vector<std::pair<real,std::string> > predictions;
     std::istringstream in(text);
     model->predict(in, k, predictions);
     return predictions;
   }
 
+  void print_help(){
+    std::shared_ptr<Args> a = std::make_shared<Args>();
+    a->printHelp();
+  }
+
 private:
   FastTextPrivateMembers* privateMembers;
   std::unique_ptr<FastText> model;
-  bool model_loaded = false;
+  bool model_loaded;
 
   void check_model_loaded(){
     if(!model_loaded){
@@ -245,7 +251,8 @@ RCPP_MODULE(FastRText) {
   .method("get_vectors", &FastRText::get_vectors, "Get vectors related to provided words")
   .method("get_parameters", &FastRText::get_parameters, "Get parameters used to train the model")
   .method("get_words", &FastRText::get_words, "List all words learned")
-  .method("get_labels", &FastRText::get_labels, "List all labels");
+  .method("get_labels", &FastRText::get_labels, "List all labels")
+  .method("print_help", &FastRText::print_help, "Print command helps");
 }
 
 /*** R

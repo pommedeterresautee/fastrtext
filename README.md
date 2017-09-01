@@ -236,6 +236,10 @@ Below we will learn a model and then measure the accuracy.
 Command list to use with execute() function
 -------------------------------------------
 
+```R
+print_help()
+```
+
 ```
 The following arguments are mandatory:
   -input              training file path

@@ -9,7 +9,10 @@ get_word_vectors(model, words)
 \arguments{
 \item{model}{trained Fasttext model}
 
-\item{words}{[character] of words}
+\item{words}{\link{character} of words}
+}
+\value{
+\link{list} containing each word and its \code{numeric} vector.
 }
 \description{
 Return the vector representation of provided words (unsupervised training)

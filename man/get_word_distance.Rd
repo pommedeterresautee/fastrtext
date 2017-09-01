@@ -13,6 +13,9 @@ get_word_distance(model, w1, w2)
 
 \item{w2}{second word to compare}
 }
+\value{
+a \code{scalar} with the distance
+}
 \description{
-Distance is equal to `1 - cosine`
+Distance is equal to \code{1 - cosine}
 }

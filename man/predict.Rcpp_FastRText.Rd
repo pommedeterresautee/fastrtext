@@ -9,14 +9,18 @@
 \arguments{
 \item{object}{trained Fasttext model}
 
-\item{sentences}{[character] containing the sentences}
+\item{sentences}{\link{character} containing the sentences}
 
-\item{k}{will return the k most probable labels (default = 1)}
+\item{k}{will return the \code{k} most probable labels (default = 1)}
 
 \item{...}{not used}
 }
+\value{
+\link{list} containing for each sentence the probability to be associated with \code{k} labels.
+}
 \description{
-Return probabilities for the sentences to be associated with K labels.
+Apply the trained  model to new sentences.
+Average word embeddings and search most similar \code{label} vector.
 }
 \examples{
 
