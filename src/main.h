@@ -3,8 +3,8 @@
 
 #include <iostream>
 
-#include "fasttext.h"
-#include "args.h"
+#include "../inst/include/fasttext.h"
+#include "../inst/include/args.h"
 
 int main(int argc, char** argv);
 

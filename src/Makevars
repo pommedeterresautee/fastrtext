@@ -1,7 +1,7 @@
 PKGROOT = ../inst/include
 CXX_STD = CXX11
 # include adds a header to each file, ugly hack to block call to exit() and replace cerr by cout
-PKG_CPPFLAGS = $(SHLIB_PTHREAD_FLAGS) -include r_compliancy.h -I$(PKGROOT)
+PKG_CPPFLAGS = $(SHLIB_PTHREAD_FLAGS) -include r_compliancy.h -I$(PKGROOT)  -pedantic
 # pthread is used for multithreading by fastText
 PKG_LIBS = $(SHLIB_PTHREAD_FLAGS)
 

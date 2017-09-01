@@ -5,7 +5,7 @@
 #include <sstream>
 #include "../inst/include/fasttext.h"
 #include "../inst/include/args.h"
-#include "../inst/include/main.h"
+#include "main.h"
 #include "fasttext_wrapper.h"
 
 using namespace Rcpp;

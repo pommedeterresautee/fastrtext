@@ -8,5 +8,6 @@
 
 #define exit(error_code) Rcpp::stop("Exit code: " + std::to_string(error_code));
 #define cerr cout
+#define main main_fastrtext
 
 #endif //R_COMPLIANCY
