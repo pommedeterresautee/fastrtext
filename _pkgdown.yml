@@ -1,0 +1,30 @@
+reference:
+  - title: "General"
+    desc: "Functions useful in both supervised and unsupervised contexts."
+    contents:
+     - load_model
+     - execute
+     - get_parameters
+     - print_help
+  - title: "Supervised learning"
+    desc: "Function useful when fasttex is used to perform text classification."
+    contents:
+      - predict.Rcpp_FastRText
+      - get_hamming_loss
+      - get_labels
+  - title: "Unsupervised learning"
+    desc: "Functions useful to play with word representations."
+    contents:
+      - get_word_vectors
+      - get_word_distance
+      - get_nn
+      - get_analogies
+      - get_dictionary
+  - title: data
+    desc: "Data embedded in the package for help and tests."
+    contents:
+      - train_sentences
+      - test_sentences
+      - stop_words_sentences
+
+

@@ -14,7 +14,7 @@ fastText is a library for efficient learning of word representations and sentenc
 Installation
 ------------
 
-You can install the package from Github.
+You can install the FastRText package from Github as follows:
 
 ```R
 # install.packages("devtools")
@@ -24,18 +24,11 @@ devtools::install_github("pommedeterresautee/FastRText")
 API
 ---
 
-The API has been made very light:  
-- `load_model`: load an existing model ;
-- `execute`: execute any command supported by the client ;
-- `predict`: return predictions and their probability (supervised)
-- `get_dictionary`: return list of words learned (unsupervised) ;
-- `get_labels`: return list of labels learned (supervised) ;
-- `get_parameters`: return the parameters used for training ;
-- `get_word_distance`: cosine distance between 2 vectors ;
-- `get_word_vectors`: return vectors in a `list` related to a `character` vector of words/labels.
+API documentation can be reached at this address:
 
-Detailed explanations are available on:  
 https://pommedeterresautee.github.io/FastRText/
+
+You will find below two tutorials.
 
 ### Supervised learning (text classification)
 

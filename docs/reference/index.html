@@ -97,11 +97,17 @@
       <tbody>
         <tr>
           <th colspan="2">
-            <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
+            <h2 id="section-general" class="hasAnchor"><a href="#section-general" class="anchor"></a>General</h2>
             <p class="section-desc"></p>
           </th>
         </tr>
         <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="load_model.html">load_model</a></code> </p>
+          </td>
+          <td><p>Load an existing Fasttext trained model</p></td>
+        </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="execute.html">execute</a></code> </p>
@@ -110,15 +116,29 @@
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="get_analogies.html">get_analogies</a></code> </p>
+            <p><code><a href="get_parameters.html">get_parameters</a></code> </p>
           </td>
-          <td><p>Get analogy</p></td>
+          <td><p>Export hyper parameters</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="get_dictionary.html">get_dictionary</a></code> </p>
+            <p><code><a href="print_help.html">print_help</a></code> </p>
           </td>
-          <td><p>Get list of known words</p></td>
+          <td><p>Print help</p></td>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-supervised-learning" class="hasAnchor"><a href="#section-supervised-learning" class="anchor"></a>Supervised learning</h2>
+            <p class="section-desc"><p>Function useful when fasttex is used to perform text classification</p></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="predict.Rcpp_FastRText.html">predict</a></code> </p>
+          </td>
+          <td><p>Get predictions (for supervised model)</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -131,18 +151,20 @@
             <p><code><a href="get_labels.html">get_labels</a></code> </p>
           </td>
           <td><p>Get list of labels (supervised model)</p></td>
-        </tr><tr>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-unsupervised-learning" class="hasAnchor"><a href="#section-unsupervised-learning" class="anchor"></a>Unsupervised learning</h2>
+            <p class="section-desc"><p>Functions usefull to play with word representations</p></p>
+          </th>
+        </tr>
+        <tr>
           <!--  -->
           <td>
-            <p><code><a href="get_nn.html">get_nn</a></code> </p>
+            <p><code><a href="get_word_vectors.html">get_word_vectors</a></code> </p>
           </td>
-          <td><p>Get nearest neighbour vectors</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="get_parameters.html">get_parameters</a></code> </p>
-          </td>
-          <td><p>Export hyper parameters</p></td>
+          <td><p>Get word embeddings</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -152,39 +174,35 @@
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="get_word_vectors.html">get_word_vectors</a></code> </p>
+            <p><code><a href="get_nn.html">get_nn</a></code> </p>
           </td>
-          <td><p>Get word embeddings</p></td>
+          <td><p>Get nearest neighbour vectors</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="load_model.html">load_model</a></code> </p>
+            <p><code><a href="get_analogies.html">get_analogies</a></code> </p>
           </td>
-          <td><p>Load an existing Fasttext trained model</p></td>
+          <td><p>Get analogy</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="predict.Rcpp_FastRText.html">predict</a></code> </p>
+            <p><code><a href="get_dictionary.html">get_dictionary</a></code> </p>
           </td>
-          <td><p>Get predictions (for supervised model)</p></td>
-        </tr><tr>
+          <td><p>Get list of known words</p></td>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-data" class="hasAnchor"><a href="#section-data" class="anchor"></a>data</h2>
+            <p class="section-desc"></p>
+          </th>
+        </tr>
+        <tr>
           <!--  -->
           <td>
-            <p><code><a href="print_help.html">print_help</a></code> </p>
+            <p><code><a href="train_sentences.html">train_sentences</a></code> </p>
           </td>
-          <td><p>Print help</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="Rcpp_FastRText-class.html">Rcpp_FastRText-class</a></code> </p>
-          </td>
-          <td><p>Rcpp_FastRText class</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="stop_words_sentences.html">stop_words_sentences</a></code> </p>
-          </td>
-          <td><p>Stop words list</p></td>
+          <td><p>Sentence corpus - train part</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -194,9 +212,9 @@
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="train_sentences.html">train_sentences</a></code> </p>
+            <p><code><a href="stop_words_sentences.html">stop_words_sentences</a></code> </p>
           </td>
-          <td><p>Sentence corpus - train part</p></td>
+          <td><p>Stop words list</p></td>
         </tr>
       </tbody>
       </table>
@@ -206,7 +224,10 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#section-general">General</a></li>
+      <li><a href="#section-supervised-learning">Supervised learning</a></li>
+      <li><a href="#section-unsupervised-learning">Unsupervised learning</a></li>
+      <li><a href="#section-data">data</a></li>
     </ul>
   </div>
 </div>
