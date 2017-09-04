@@ -19,5 +19,7 @@ get_analogies(model, w1, w2, w3, k = 1)
 }
 \description{
 From Mikolov paper
+Based on related move of a vector regarding a basis.
+King is to Quenn what a man is to ???
 w1 - w2 + w3
 }

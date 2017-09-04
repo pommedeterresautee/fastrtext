@@ -1,4 +1,5 @@
 library(testthat)
-library(FastRText)
+library(library(testthat)
+        library(FastRText)
 
 test_check("FastRText")
