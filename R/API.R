@@ -249,12 +249,36 @@ print_help <- function() {
 #' @param word reference word
 #' @param k [integer] defining the number of resutls to return
 #' @return [numeric] with distances with [names] as words
-#' @importFrom assertthat is.string is.number assert_that
+#' @importFrom assertthat assert_that is.string is.number
 #' @export
 get_nn <- function(model, word, k) {
   assert_that(is.string(word))
-  assert_that(is.number(word))
-  model$get_nn(word, k)
+  assert_that(is.number(k))
+  vec <- model$get_vector(word)
+  model$get_nn_by_vector(vec, word, k)
+}
+
+#' Get analogy
+#'
+#' From Mikolov paper
+#' Based on related move of a vector regarding a basis.
+#' King is to Quenn what a man is to ???
+#' w1 - w2 + w3
+#' @param model trained Fasttext model. Null if train a new model.
+#' @param w1 1st word, basis
+#' @param w2 2nd word, move
+#' @param w3 3d word, new basis
+#' @param k number of words to return
+#' @importFrom assertthat assert_that is.string is.number
+#' @export
+get_analogies <- function(model, w1, w2, w3, k = 1) {
+  assert_that(is.string(w1))
+  assert_that(is.string(w2))
+  assert_that(is.string(w3))
+  assert_that(is.number(k))
+
+  vec <- model$get_vector(w1) - model$get_vector(w2) + model$get_vector(w3)
+  model$get_nn_by_vector(vec, c(w1, w2, w3), k)
 }
 
 globalVariables(c("new"))

@@ -2,6 +2,7 @@
 
 S3method(predict,Rcpp_FastRText)
 export(execute)
+export(get_analogies)
 export(get_dictionary)
 export(get_hamming_loss)
 export(get_labels)

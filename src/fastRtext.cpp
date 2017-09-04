@@ -139,6 +139,12 @@ public:
     return words;
   }
 
+  NumericVector get_vector(const std::string& word) {
+    fasttext::Vector vec(privateMembers->args_->dim);
+    model->getVector(vec, word);
+    return wrap(std::vector<real>(vec.data_, vec.data_ + vec.m_));
+  }
+
   List get_vectors(CharacterVector words){
     check_model_loaded();
     List l(words.size());
@@ -179,53 +185,26 @@ public:
     return predictions;
   }
 
+  NumericVector get_nn_by_vector(const NumericVector& r_vector, const CharacterVector& banned_words, int32_t k) {
+    std::vector<real> vector = Rcpp::as<std::vector<real> >(r_vector);
+    fasttext::Vector queryVec(vector.size());
+    std::copy(vector.begin(), vector.end(), queryVec.data_);
+    std::set<std::string> banSet;
+    banSet.clear();
+
+    for(int i = 0; i < banned_words.size(); ++i) {
+      std::string w(banned_words[i]);
+      banSet.insert(w);
+    }
+
+    return find_nn_vector(queryVec, banSet, k);
+  }
+
   void print_help(){
     std::shared_ptr<Args> a = std::make_shared<Args>();
     a->printHelp();
   }
 
-  NumericVector get_nn(std::string queryWord, int32_t k) {
-
-    if(wordVectors == nullptr){
-      wordVectors = std::make_shared<fasttext::Matrix>(fasttext::Matrix(privateMembers->dict_->nwords(), privateMembers->args_->dim));
-      init_word_matrix(wordVectors);
-    }
-
-    fasttext::Vector queryVec(privateMembers->args_->dim);
-    model->getVector(queryVec, queryWord);
-    std::set<std::string> banSet;
-    banSet.clear();
-    banSet.insert(queryWord);
-
-    real queryNorm = queryVec.norm();
-    if (std::abs(queryNorm) < 1e-8) {
-      queryNorm = 1;
-    }
-
-    std::priority_queue<std::pair<real, std::string>> heap;
-    fasttext::Vector vec(privateMembers->args_->dim);
-    for (int32_t i = 0; i < privateMembers->dict_->nwords(); i++) {
-      std::string word = privateMembers->dict_->getWord(i);
-      real dp = wordVectors->dotRow(queryVec, i);
-      heap.push(std::make_pair(dp / queryNorm, word));
-    }
-    NumericVector distances(k);
-    CharacterVector word_string(k);
-    int32_t i = 0;
-    while (i < k && heap.size() > 0) {
-      auto it = banSet.find(heap.top().second);
-      if (it == banSet.end()) {
-        distances[i] = heap.top().first;
-        word_string[i] = heap.top().second;
-        //std::cout << heap.top().second << " " << heap.top().first << std::endl;
-        i++;
-      }
-      heap.pop();
-    }
-
-    distances.attr("names") = word_string;
-    return distances;
-  }
 
 private:
   FastTextPrivateMembers* privateMembers;
@@ -240,12 +219,6 @@ private:
 
   std::string getWord(int32_t i) {
     return privateMembers->dict_->getWord(i);
-  }
-
-  NumericVector get_vector(const std::string& word) {
-    fasttext::Vector vec(privateMembers->args_->dim);
-    model->getVector(vec, word);
-    return wrap(std::vector<real>(vec.data_, vec.data_ + vec.m_));
   }
 
   std::string getLabel(int32_t i) {
@@ -289,9 +262,44 @@ private:
     }
   }
 
+  NumericVector find_nn_vector(const fasttext::Vector& queryVec, const std::set<std::string>& banSet, int32_t k) {
+
+    if(wordVectors == nullptr){
+      wordVectors = std::make_shared<fasttext::Matrix>(fasttext::Matrix(privateMembers->dict_->nwords(), privateMembers->args_->dim));
+      init_word_matrix(wordVectors);
+    }
+
+    real queryNorm = queryVec.norm();
+    if (std::abs(queryNorm) < 1e-8) {
+      queryNorm = 1;
+    }
+
+    std::priority_queue<std::pair<real, std::string>> heap;
+    fasttext::Vector vec(privateMembers->args_->dim);
+    for (int32_t i = 0; i < privateMembers->dict_->nwords(); i++) {
+      std::string word = privateMembers->dict_->getWord(i);
+      real dp = wordVectors->dotRow(queryVec, i);
+      heap.push(std::make_pair(dp / queryNorm, word));
+    }
+    NumericVector distances(k);
+    CharacterVector word_string(k);
+    int32_t i = 0;
+    while (i < k && heap.size() > 0) {
+      auto it = banSet.find(heap.top().second);
+      if (it == banSet.end()) {
+        distances[i] = heap.top().first;
+        word_string[i] = heap.top().second;
+        i++;
+      }
+      heap.pop();
+    }
+
+    distances.attr("names") = word_string;
+    return distances;
+  }
+
   std::shared_ptr<fasttext::Matrix> wordVectors;
 };
-
 
 RCPP_MODULE(FASTRTEXT_MODULE) {
   class_<FastRText>("FastRText")
@@ -300,9 +308,10 @@ RCPP_MODULE(FASTRTEXT_MODULE) {
   .method("predict", &FastRText::predict, "Make a prediction")
   .method("execute", &FastRText::execute, "Execute commands")
   .method("get_vectors", &FastRText::get_vectors, "Get vectors related to provided words")
+  .method("get_vector", &FastRText::get_vector, "Get vector related to the provided word")
   .method("get_parameters", &FastRText::get_parameters, "Get parameters used to train the model")
   .method("get_words", &FastRText::get_words, "List all words learned")
   .method("get_labels", &FastRText::get_labels, "List all labels")
-  .method("get_nn", &FastRText::get_nn, "Get nearest neighboor vectors")
+  .method("get_nn_by_vector", &FastRText::get_nn_by_vector, "Get nearest neighbour words, providing a vector")
   .method("print_help", &FastRText::print_help, "Print command helps");
 }
