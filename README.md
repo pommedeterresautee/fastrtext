@@ -33,15 +33,12 @@ You will find below two tutorials.
 ### Supervised learning (text classification)
 
 Data for a multi-class task are embedded in this package.  
-You will find below a link to source code to learn a model and then measure the accuracy in 5 minutes.  
-
-https://pommedeterresautee.github.io/FastRText/docs/articles/supervised_learning.html
+Follow this [link](https://pommedeterresautee.github.io/FastRText/articles/supervised_learning.html) to learn a model and then measure the accuracy in 5 minutes.  
 
 
 ### Unsupervised learning (word representation)
 
-Following the link below will route you to 5mn tutorial to learn a representations of words (word embeddings):  
-https://pommedeterresautee.github.io/FastRText/docs/articles/supervised_learning.html
+Following this [link](https://pommedeterresautee.github.io/FastRText/articles/unsupervised_learning.html) will route you to 5mn tutorial to learn a representations of words (word embeddings):  
 
 Command list to use with execute() function
 -------------------------------------------
