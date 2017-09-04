@@ -21,14 +21,17 @@ You can install the FastRText package from Github as follows:
 devtools::install_github("pommedeterresautee/FastRText")
 ```
 
+Documentation
+-------------
+
+All the updated documentation can be reached to this [address](https://pommedeterresautee.github.io/FastRText/).
+
 API
 ---
 
-API documentation can be reached at this address:
+API documentation can be reached at this [address](https://pommedeterresautee.github.io/FastRText//reference/index.html).
 
-https://pommedeterresautee.github.io/FastRText/
-
-You will find below two tutorials.
+In particular, command line options are listed [here](https://pommedeterresautee.github.io/FastRText/articles/command_list.html).
 
 ### Supervised learning (text classification)
 
@@ -39,51 +42,6 @@ Follow this [link](https://pommedeterresautee.github.io/FastRText/articles/super
 ### Unsupervised learning (word representation)
 
 Following this [link](https://pommedeterresautee.github.io/FastRText/articles/unsupervised_learning.html) will route you to 5mn tutorial to learn a representations of words (word embeddings):  
-
-Command list to use with execute() function
--------------------------------------------
-
-```R
-print_help()
-```
-
-```
-The following arguments are mandatory:
-  -input              training file path
-  -output             output file path
-
-  The following arguments are optional:
-  -verbose            verbosity level [2]
-
-  The following arguments for the dictionary are optional:
-  -minCount           minimal number of word occurences [5]
-  -minCountLabel      minimal number of label occurences [0]
-  -wordNgrams         max length of word ngram [1]
-  -bucket             number of buckets [2000000]
-  -minn               min length of char ngram [3]
-  -maxn               max length of char ngram [6]
-  -t                  sampling threshold [0.0001]
-  -label              labels prefix [__label__]
-
-  The following arguments for training are optional:
-  -lr                 learning rate [0.05]
-  -lrUpdateRate       change the rate of updates for the learning rate [100]
-  -dim                size of word vectors [100]
-  -ws                 size of the context window [5]
-  -epoch              number of epochs [5]
-  -neg                number of negatives sampled [5]
-  -loss               loss function {ns, hs, softmax} [ns]
-  -thread             number of threads [12]
-  -pretrainedVectors  pretrained word vectors for supervised learning []
-  -saveOutput         whether output params should be saved [0]
-
-  The following arguments for quantization are optional:
-  -cutoff             number of words and ngrams to retain [0]
-  -retrain            finetune embeddings if a cutoff is applied [0]
-  -qnorm              quantizing the norm separately [0]
-  -qout               quantizing the classifier [0]
-  -dsub               size of each sub-vector [2]
-```
 
 Alternatives
 ------------

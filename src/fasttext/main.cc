@@ -231,25 +231,19 @@ void analogies(int argc, char** argv) {
 }
 
 void train(int argc, char** argv) {
-  std::cout << "before parsing" << std::endl;
   std::shared_ptr<Args> a = std::make_shared<Args>();
   a->parseArgs(argc, argv);
   FastText fasttext;
-  std::cout << "after parsing" << std::endl;
   fasttext.train(a);
 }
 
 int main(int argc, char** argv) {
-  std::cout << "in main" << std::endl;
   if (argc < 2) {
     printUsage();
     exit(EXIT_FAILURE);
   }
-  std::cout << "retrieve argv1" << std::endl;
   std::string command(argv[1]);
-  std::cout << "selection" << std::endl;
   if (command == "skipgram" || command == "cbow" || command == "supervised") {
-    std::cout << "selected" << std::endl;
     train(argc, argv);
   } else if (command == "test") {
     test(argc, argv);
@@ -268,7 +262,6 @@ int main(int argc, char** argv) {
   } else if (command == "predict" || command == "predict-prob" ) {
     predict(argc, argv);
   } else {
-    std::cout << "failed!!" << std::endl;
     printUsage();
     exit(EXIT_FAILURE);
   }

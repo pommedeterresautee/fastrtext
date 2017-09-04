@@ -45,6 +45,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="articles/list_commands.html">List of commands</a>
+    </li>
+    <li>
       <a href="articles/supervised_learning.html">Supervised learning</a>
     </li>
     <li>
@@ -85,12 +88,16 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("devtools")</span>
 devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"pommedeterresautee/FastRText"</span>)</code></pre></div>
 </div>
+<div id="documentation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#documentation" class="anchor"></a>Documentation</h2>
+<p>All the updated documentation can be reached to this <a href="https://pommedeterresautee.github.io/FastRText/">address</a>.</p>
+</div>
 <div id="api" class="section level2">
 <h2 class="hasAnchor">
 <a href="#api" class="anchor"></a>API</h2>
-<p>API documentation can be reached at this address:</p>
-<p><a href="https://pommedeterresautee.github.io/FastRText/" class="uri">https://pommedeterresautee.github.io/FastRText/</a></p>
-<p>You will find below two tutorials.</p>
+<p>API documentation can be reached at this <a href="https://pommedeterresautee.github.io/FastRText//reference/index.html">address</a>.</p>
+<p>In particular, command line options are listed <a href="https://pommedeterresautee.github.io/FastRText/articles/command_list.html">here</a>.</p>
 <div id="supervised-learning-text-classification" class="section level3">
 <h3 class="hasAnchor">
 <a href="#supervised-learning-text-classification" class="anchor"></a>Supervised learning (text classification)</h3>
@@ -102,46 +109,6 @@ Follow this <a href="https://pommedeterresautee.github.io/FastRText/articles/sup
 <a href="#unsupervised-learning-word-representation" class="anchor"></a>Unsupervised learning (word representation)</h3>
 <p>Following this <a href="https://pommedeterresautee.github.io/FastRText/articles/unsupervised_learning.html">link</a> will route you to 5mn tutorial to learn a representations of words (word embeddings):</p>
 </div>
-</div>
-<div id="command-list-to-use-with-execute-function" class="section level2">
-<h2 class="hasAnchor">
-<a href="#command-list-to-use-with-execute-function" class="anchor"></a>Command list to use with execute() function</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/print_help.html">print_help</a></span>()</code></pre></div>
-<pre><code>The following arguments are mandatory:
-  -input              training file path
-  -output             output file path
-
-  The following arguments are optional:
-  -verbose            verbosity level [2]
-
-  The following arguments for the dictionary are optional:
-  -minCount           minimal number of word occurences [5]
-  -minCountLabel      minimal number of label occurences [0]
-  -wordNgrams         max length of word ngram [1]
-  -bucket             number of buckets [2000000]
-  -minn               min length of char ngram [3]
-  -maxn               max length of char ngram [6]
-  -t                  sampling threshold [0.0001]
-  -label              labels prefix [__label__]
-
-  The following arguments for training are optional:
-  -lr                 learning rate [0.05]
-  -lrUpdateRate       change the rate of updates for the learning rate [100]
-  -dim                size of word vectors [100]
-  -ws                 size of the context window [5]
-  -epoch              number of epochs [5]
-  -neg                number of negatives sampled [5]
-  -loss               loss function {ns, hs, softmax} [ns]
-  -thread             number of threads [12]
-  -pretrainedVectors  pretrained word vectors for supervised learning []
-  -saveOutput         whether output params should be saved [0]
-
-  The following arguments for quantization are optional:
-  -cutoff             number of words and ngrams to retain [0]
-  -retrain            finetune embeddings if a cutoff is applied [0]
-  -qnorm              quantizing the norm separately [0]
-  -qout               quantizing the classifier [0]
-  -dsub               size of each sub-vector [2]</code></pre>
 </div>
 <div id="alternatives" class="section level2">
 <h2 class="hasAnchor">

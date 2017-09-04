@@ -14,7 +14,7 @@
 
 <meta name="date" content="2017-09-04" />
 
-<title>Unsupervised learning</title>
+<title>List of commands</title>
 
 
 
@@ -68,85 +68,52 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<h1 class="title toc-ignore">Unsupervised learning</h1>
+<h1 class="title toc-ignore">List of commands</h1>
 <h4 class="author"><em>M. Benesty</em></h4>
 <h4 class="date"><em>2017-09-04</em></h4>
 
 
 
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"> <span class="kw">library</span>(FastRText)
-    
-    <span class="kw">data</span>(<span class="st">&quot;train_sentences&quot;</span>)
-    <span class="kw">data</span>(<span class="st">&quot;test_sentences&quot;</span>)
-    texts &lt;-<span class="st"> </span><span class="kw">tolower</span>(train_sentences[,<span class="st">&quot;text&quot;</span>])
-    tmp_file_txt &lt;-<span class="st"> </span><span class="kw">tempfile</span>()
-    tmp_file_model &lt;-<span class="st"> </span><span class="kw">tempfile</span>()
-    <span class="kw">writeLines</span>(<span class="dt">text =</span> texts, <span class="dt">con =</span> tmp_file_txt)
-    <span class="kw">execute</span>(<span class="dt">commands =</span> <span class="kw">c</span>(<span class="st">&quot;skipgram&quot;</span>, <span class="st">&quot;-input&quot;</span>, tmp_file_txt, <span class="st">&quot;-output&quot;</span>, tmp_file_model, <span class="st">&quot;-verbose&quot;</span>, <span class="dv">1</span>))
- 
-    model &lt;-<span class="st"> </span><span class="kw">load_model</span>(tmp_file_model)
-   
-    <span class="co"># test word extraction</span>
-    dict &lt;-<span class="st"> </span><span class="kw">get_dictionary</span>(model)
-    <span class="kw">print</span>(<span class="kw">head</span>(dict, <span class="dv">5</span>))</code></pre></div>
-<pre><code>## [1] &quot;the&quot;  &quot;&lt;/s&gt;&quot; &quot;of&quot;   &quot;to&quot;   &quot;and&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  <span class="co"># print vector</span>
-  <span class="kw">print</span>(<span class="kw">get_word_vectors</span>(model, <span class="kw">c</span>(<span class="st">&quot;time&quot;</span>, <span class="st">&quot;timing&quot;</span>)))</code></pre></div>
-<pre><code>## $time
-##   [1]  0.171726555  0.082323901 -0.006823814  0.162304953  0.121157154
-##   [6]  0.050861705  0.089249246 -0.038655795 -0.005570155 -0.347323388
-##  [11] -0.116714664 -0.125648618 -0.167106509 -0.228952259  0.091188394
-##  [16]  0.309343904 -0.010920193 -0.152818754 -0.054735027  0.131747678
-##  [21] -0.135183021  0.011239356 -0.017015910  0.234494105  0.070822477
-##  [26] -0.121220097  0.147686839 -0.111613974  0.053187594  0.014785671
-##  [31] -0.051093526  0.081630580 -0.446643203  0.224308848 -0.030897796
-##  [36] -0.007415407 -0.295933336 -0.084187880 -0.225776285 -0.146052718
-##  [41] -0.003245723  0.277890384  0.296732962 -0.027614202 -0.324205905
-##  [46] -0.199389100  0.010215920 -0.037206713 -0.156358838  0.147153974
-##  [51] -0.016264498 -0.157256335  0.172922492  0.083909214 -0.128061444
-##  [56] -0.156640887 -0.129494473 -0.276783705  0.077891059 -0.016877547
-##  [61] -0.123429932 -0.050677378 -0.205803081  0.366145104  0.039795678
-##  [66] -0.180177689 -0.104677908 -0.300760776 -0.077779934 -0.100938506
-##  [71] -0.018204760  0.032332685 -0.124945350 -0.115109943 -0.003652955
-##  [76]  0.142585143 -0.071880572  0.163604394 -0.069172986  0.196843266
-##  [81] -0.013814519  0.018983820 -0.024918849  0.047416266  0.050843667
-##  [86] -0.034145564  0.021128530  0.341464609 -0.213721871 -0.097428843
-##  [91]  0.274670035  0.111335479  0.070338331 -0.058251280 -0.145654634
-##  [96]  0.095030680 -0.203380913 -0.147740573 -0.127508491  0.075970031
-## 
-## $timing
-##   [1]  0.217408687  0.029703455 -0.040984489  0.254867017  0.084461614
-##   [6]  0.055071920  0.100612678 -0.012095605  0.014506767 -0.380293220
-##  [11] -0.144446045 -0.131724089 -0.108870834 -0.208774716  0.160049006
-##  [16]  0.282536268  0.026378192 -0.103353992 -0.064543627  0.119213432
-##  [21] -0.169578373  0.017646614 -0.031619333  0.270861924  0.111669742
-##  [26] -0.172846124  0.114444658 -0.146587878  0.068050608  0.013320712
-##  [31] -0.057660092  0.056994352 -0.552357852  0.291680098 -0.111258686
-##  [36]  0.028578071 -0.314748734 -0.059481822 -0.196351781 -0.178693056
-##  [41]  0.005037676  0.361386687  0.286013514 -0.022233849 -0.335659891
-##  [46] -0.185854569  0.028288154 -0.116173655 -0.192110240  0.179938287
-##  [51] -0.009953712 -0.164457500  0.277843773  0.039930712 -0.158114552
-##  [56] -0.147956014 -0.151953027 -0.254142672  0.043234389 -0.003079409
-##  [61] -0.127552763 -0.078899935 -0.218461439  0.326662779 -0.038242329
-##  [66] -0.209149033 -0.151939303 -0.296492040 -0.135041997 -0.137157559
-##  [71] -0.003254051  0.027601874 -0.122488752 -0.090075955 -0.008424333
-##  [76]  0.179762393 -0.021465629  0.148236930 -0.148643255  0.199662641
-##  [81]  0.040901054 -0.001731807 -0.050718259  0.038237166  0.047852598
-##  [86] -0.070999965  0.016564824  0.383804739 -0.217716321 -0.102604099
-##  [91]  0.336498588  0.101638779  0.021141866  0.003718037 -0.162661403
-##  [96]  0.135823846 -0.202960223 -0.161714658 -0.094409660  0.114637025</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  <span class="co"># test word distance</span>
-  <span class="kw">get_word_distance</span>(model, <span class="st">&quot;time&quot;</span>, <span class="st">&quot;timing&quot;</span>)</code></pre></div>
-<pre><code>##            [,1]
-## [1,] 0.02391651</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  <span class="co"># free memory</span>
-  <span class="kw">unlink</span>(tmp_file_txt)
-  <span class="kw">unlink</span>(tmp_file_model)
-  <span class="kw">rm</span>(model)
-  <span class="kw">gc</span>()</code></pre></div>
-<pre><code>##           used (Mb) gc trigger (Mb) max used (Mb)
-## Ncells 1141131   61    1770749 94.6  1770749 94.6
-## Vcells 2351253   18    4411054 33.7  4407671 33.7</code></pre>
+<p>As seen in the other tutorials, <code>execute()</code> function works in a similar way to the command line client.<br />
+To list the commands, you just need to enter the following function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(FastRText)
+
+<span class="kw">print_help</span>()</code></pre></div>
+<pre><code>The following arguments are mandatory:
+  -input              training file path
+  -output             output file path
+
+  The following arguments are optional:
+  -verbose            verbosity level [2]
+
+  The following arguments for the dictionary are optional:
+  -minCount           minimal number of word occurences [5]
+  -minCountLabel      minimal number of label occurences [0]
+  -wordNgrams         max length of word ngram [1]
+  -bucket             number of buckets [2000000]
+  -minn               min length of char ngram [3]
+  -maxn               max length of char ngram [6]
+  -t                  sampling threshold [0.0001]
+  -label              labels prefix [__label__]
+
+  The following arguments for training are optional:
+  -lr                 learning rate [0.05]
+  -lrUpdateRate       change the rate of updates for the learning rate [100]
+  -dim                size of word vectors [100]
+  -ws                 size of the context window [5]
+  -epoch              number of epochs [5]
+  -neg                number of negatives sampled [5]
+  -loss               loss function {ns, hs, softmax} [ns]
+  -thread             number of threads [12]
+  -pretrainedVectors  pretrained word vectors for supervised learning []
+  -saveOutput         whether output params should be saved [0]
+
+  The following arguments for quantization are optional:
+  -cutoff             number of words and ngrams to retain [0]
+  -retrain            finetune embeddings if a cutoff is applied [0]
+  -qnorm              quantizing the norm separately [0]
+  -qout               quantizing the classifier [0]
+  -dsub               size of each sub-vector [2]</code></pre>
 
 
 
