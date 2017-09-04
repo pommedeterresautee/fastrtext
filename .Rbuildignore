@@ -2,8 +2,7 @@
 ^\.Rproj\.user$
 ^\.travis\.yml$
 ^appveyor\.yml$
-^\tools\\*\.png$
+^/tools/*\.png$
 ^docs$
+^README\.md$
 ^.*.\.o$
-^.*.\.so$
-^.*.\.dll$

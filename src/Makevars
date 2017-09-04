@@ -1,4 +1,4 @@
-PKGROOT = ../inst/include
+PKGROOT = ./fasttext
 CXX_STD = CXX11
 # include adds a header to each file, ugly hack to block call to exit() and replace cerr by cout
 PKG_CPPFLAGS = $(SHLIB_PTHREAD_FLAGS) -include r_compliancy.h -I$(PKGROOT)

@@ -3,8 +3,8 @@
 #include <Rcpp.h>
 #include <iostream>
 #include <sstream>
-#include "../inst/include/fasttext.h"
-#include "../inst/include/args.h"
+#include "fasttext/fasttext.h"
+#include "fasttext/args.h"
 #include "main.h"
 #include "fasttext_wrapper.h"
 

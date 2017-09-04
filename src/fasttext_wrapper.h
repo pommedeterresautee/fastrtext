@@ -1,10 +1,10 @@
 #ifndef FASTTEXT_WRAPPER_H
 #define FASTTEXT_WRAPPER_H
 
-#include "../inst/include/args.h"
-#include "../inst/include/dictionary.h"
-#include "../inst/include/matrix.h"
-#include "../inst/include/model.h"
+#include "fasttext/args.h"
+#include "fasttext/dictionary.h"
+#include "fasttext/matrix.h"
+#include "fasttext/model.h"
 
 /**
  * FastText's wrapper misc
