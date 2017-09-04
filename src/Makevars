@@ -7,7 +7,8 @@ PKG_LIBS = $(SHLIB_PTHREAD_FLAGS)
 
 OBJECTS = $(PKGROOT)/args.o $(PKGROOT)/dictionary.o $(PKGROOT)/productquantizer.o $(PKGROOT)/matrix.o $(PKGROOT)/qmatrix.o $(PKGROOT)/vector.o $(PKGROOT)/model.o $(PKGROOT)/utils.o $(PKGROOT)/fasttext.o $(PKGROOT)/main.o fastRtext.o
 
+# http://dirk.eddelbuettel.com/blog/2017/08/14/#009_compact_shared_libraries
 strippedLib: $(SHLIB)
-		if test -e "/usr/bin/strip"; then /usr/bin/strip --strip-debug $(SHLIB); fi  # http://dirk.eddelbuettel.com/blog/2017/08/14/#009_compact_shared_libraries
+		if test -e "/usr/bin/strip"; then /usr/bin/strip --strip-debug $(SHLIB); fi
 
 .phony: strippedLib

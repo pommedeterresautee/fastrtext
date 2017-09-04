@@ -239,4 +239,22 @@ print_help <- function() {
   rm(model)
 }
 
+#' Get nearest neighbour vectors
+#'
+#' Find the `k` words with the smallest distance.
+#' First execution can be slow because of some precomputations.
+#' Search is done linearly, if your model is big you may want to use an approximate neighbour algorithm from other R packages (like RcppAnnoy).
+#'
+#' @param model trained Fasttext model. Null if train a new model.
+#' @param word reference word
+#' @param k [integer] defining the number of resutls to return
+#' @return [numeric] with distances with [names] as words
+#' @importFrom assertthat is.string is.number assert_that
+#' @export
+get_nn <- function(model, word, k) {
+  assert_that(is.string(word))
+  assert_that(is.number(word))
+  model$get_nn(word, k)
+}
+
 globalVariables(c("new"))

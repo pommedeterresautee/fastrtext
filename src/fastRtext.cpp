@@ -3,6 +3,7 @@
 #include <Rcpp.h>
 #include <iostream>
 #include <sstream>
+#include <queue>
 #include "fasttext/fasttext.h"
 #include "fasttext/args.h"
 #include "main.h"
@@ -31,17 +32,13 @@ public:
     model.reset();
   }
 
-  void load(CharacterVector path) {
-    if(path.size() != 1){
-      stop("You have provided " + std::to_string(path.size()) + " paths instead of one.");
-    }
-    if(!std::ifstream(path[0])){
-      stop("Path doesn't point to a file: " + path[0]);
+  void load(const std::string path) {
+    if(!std::ifstream(path)){
+      stop("Path doesn't point to a file: " + path);
     }
     model.reset(new FastText);
     privateMembers = (FastTextPrivateMembers*) model.get();
-    std::string stringPath(path(0));
-    model->loadModel(stringPath);
+    model->loadModel(path);
     model_loaded = true;
   }
 
@@ -187,6 +184,49 @@ public:
     a->printHelp();
   }
 
+  NumericVector get_nn(std::string queryWord, int32_t k) {
+
+    if(wordVectors == nullptr){
+      wordVectors = std::make_shared<fasttext::Matrix>(fasttext::Matrix(privateMembers->dict_->nwords(), privateMembers->args_->dim));
+      init_word_matrix(wordVectors);
+    }
+
+    fasttext::Vector queryVec(privateMembers->args_->dim);
+    model->getVector(queryVec, queryWord);
+    std::set<std::string> banSet;
+    banSet.clear();
+    banSet.insert(queryWord);
+
+    real queryNorm = queryVec.norm();
+    if (std::abs(queryNorm) < 1e-8) {
+      queryNorm = 1;
+    }
+
+    std::priority_queue<std::pair<real, std::string>> heap;
+    fasttext::Vector vec(privateMembers->args_->dim);
+    for (int32_t i = 0; i < privateMembers->dict_->nwords(); i++) {
+      std::string word = privateMembers->dict_->getWord(i);
+      real dp = wordVectors->dotRow(queryVec, i);
+      heap.push(std::make_pair(dp / queryNorm, word));
+    }
+    NumericVector distances(k);
+    CharacterVector word_string(k);
+    int32_t i = 0;
+    while (i < k && heap.size() > 0) {
+      auto it = banSet.find(heap.top().second);
+      if (it == banSet.end()) {
+        distances[i] = heap.top().first;
+        word_string[i] = heap.top().second;
+        //std::cout << heap.top().second << " " << heap.top().first << std::endl;
+        i++;
+      }
+      heap.pop();
+    }
+
+    distances.attr("names") = word_string;
+    return distances;
+  }
+
 private:
   FastTextPrivateMembers* privateMembers;
   std::unique_ptr<FastText> model;
@@ -237,6 +277,19 @@ private:
       stop("Unrecognized model (cbow / SG / supervised) name!");
     }
   }
+
+  void init_word_matrix(std::shared_ptr<fasttext::Matrix> wordVectors) {
+    fasttext::Vector vec(privateMembers->args_->dim);
+    wordVectors->zero();
+    for (int32_t i = 0; i < privateMembers->dict_->nwords(); i++) {
+      std::string word = privateMembers->dict_->getWord(i);
+      model->getVector(vec, word);
+      real norm = vec.norm();
+      wordVectors->addRow(vec, i, 1.0 / norm);
+    }
+  }
+
+  std::shared_ptr<fasttext::Matrix> wordVectors;
 };
 
 
@@ -250,5 +303,6 @@ RCPP_MODULE(FASTRTEXT_MODULE) {
   .method("get_parameters", &FastRText::get_parameters, "Get parameters used to train the model")
   .method("get_words", &FastRText::get_words, "List all words learned")
   .method("get_labels", &FastRText::get_labels, "List all labels")
+  .method("get_nn", &FastRText::get_nn, "Get nearest neighboor vectors")
   .method("print_help", &FastRText::print_help, "Print command helps");
 }
