@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="M. Benesty" />
+
+<meta name="date" content="2017-09-04" />
+
+<title>Unsupervised learning</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Unsupervised learning</h1>
+<h4 class="author"><em>M. Benesty</em></h4>
+<h4 class="date"><em>2017-09-04</em></h4>
+
+
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"> <span class="kw">library</span>(FastRText)
+    
+    <span class="kw">data</span>(<span class="st">&quot;train_sentences&quot;</span>)
+    <span class="kw">data</span>(<span class="st">&quot;test_sentences&quot;</span>)
+    texts &lt;-<span class="st"> </span><span class="kw">tolower</span>(train_sentences[,<span class="st">&quot;text&quot;</span>])
+    tmp_file_txt &lt;-<span class="st"> </span><span class="kw">tempfile</span>()
+    tmp_file_model &lt;-<span class="st"> </span><span class="kw">tempfile</span>()
+    <span class="kw">writeLines</span>(<span class="dt">text =</span> texts, <span class="dt">con =</span> tmp_file_txt)
+    <span class="kw">execute</span>(<span class="dt">commands =</span> <span class="kw">c</span>(<span class="st">&quot;skipgram&quot;</span>, <span class="st">&quot;-input&quot;</span>, tmp_file_txt, <span class="st">&quot;-output&quot;</span>, tmp_file_model, <span class="st">&quot;-verbose&quot;</span>, <span class="dv">1</span>))
+ 
+    model &lt;-<span class="st"> </span><span class="kw">load_model</span>(tmp_file_model)
+   
+    <span class="co"># test word extraction</span>
+    dict &lt;-<span class="st"> </span><span class="kw">get_dictionary</span>(model)
+    <span class="kw">print</span>(<span class="kw">head</span>(dict, <span class="dv">5</span>))</code></pre></div>
+<pre><code>## [1] &quot;the&quot;  &quot;&lt;/s&gt;&quot; &quot;of&quot;   &quot;to&quot;   &quot;and&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  <span class="co"># print vector</span>
+  <span class="kw">print</span>(<span class="kw">get_word_vectors</span>(model, <span class="kw">c</span>(<span class="st">&quot;time&quot;</span>, <span class="st">&quot;timing&quot;</span>)))</code></pre></div>
+<pre><code>## $time
+##   [1] -0.125401154 -0.007584974 -0.005495636  0.137207747  0.166392133
+##   [6]  0.042444773  0.277263820  0.133768916 -0.053681359  0.107117243
+##  [11] -0.085964166  0.026571687 -0.032912951 -0.079237789  0.090253770
+##  [16]  0.246993616  0.026345614 -0.251028597 -0.069704086  0.175213411
+##  [21] -0.042094477 -0.062808223  0.019868931 -0.034445416 -0.012672730
+##  [26] -0.023322603  0.471561134 -0.314442694  0.019102842  0.145599008
+##  [31] -0.010615540  0.111760199 -0.185099438  0.443011284 -0.012147387
+##  [36] -0.330587447 -0.210250512  0.137792349  0.087389104 -0.170082644
+##  [41] -0.241446331  0.056001052  0.355353504  0.023268223 -0.240142748
+##  [46] -0.107577763  0.010616084  0.069246367 -0.090395041  0.126567632
+##  [51]  0.038983699 -0.287679017  0.318669975  0.029232442 -0.132395416
+##  [56] -0.245071858  0.208125159 -0.142831326  0.254157543  0.011047604
+##  [61] -0.010923521  0.022549739 -0.012886940  0.247543901  0.008923835
+##  [66] -0.080773264 -0.037609067 -0.138998941 -0.022403706  0.127076462
+##  [71] -0.138026521 -0.022783762 -0.095605291 -0.100378312 -0.006524485
+##  [76] -0.148472503  0.138585836  0.135473639  0.096995279  0.010142136
+##  [81] -0.186854154  0.069875143 -0.276853085 -0.165192038 -0.039937187
+##  [86] -0.264272571  0.252860785 -0.067959502 -0.150091916  0.020342290
+##  [91]  0.288943470  0.151978329  0.206763789 -0.172312021 -0.314156950
+##  [96]  0.090706654 -0.002092041 -0.089146465  0.039510082 -0.061392374
+## 
+## $timing
+##   [1] -0.102955721 -0.097411938 -0.068540037  0.202655166  0.149536774
+##   [6]  0.085311450  0.339850426  0.186255962 -0.023270424  0.109336190
+##  [11] -0.153327271  0.057483826  0.016627973 -0.093183652  0.140535802
+##  [16]  0.207922593  0.084654585 -0.230712265 -0.109393030  0.176456362
+##  [21] -0.058696423 -0.073290922  0.019364255 -0.014035272  0.025642533
+##  [26] -0.097064592  0.449064165 -0.347640783  0.046927325  0.164521486
+##  [31]  0.009962748  0.084421761 -0.271556467  0.498868048 -0.125623688
+##  [36] -0.300468296 -0.211293772  0.177720845  0.137737483 -0.211970776
+##  [41] -0.257029504  0.149794787  0.361668438  0.050665677 -0.327505469
+##  [46] -0.119408347  0.017083092 -0.012906262 -0.168851048  0.133423626
+##  [51] -0.009674794 -0.204608515  0.372258097 -0.056389231 -0.160203338
+##  [56] -0.232901618  0.200781241 -0.104722574  0.245164528 -0.027927129
+##  [61] -0.027594393 -0.002242918 -0.018423988  0.182058126 -0.025026042
+##  [66] -0.111819282 -0.093207426 -0.112832211 -0.035443343  0.124025434
+##  [71] -0.144340083  0.005930226 -0.095827408 -0.073411234 -0.053330760
+##  [76] -0.112916298  0.196663111  0.085941553  0.048135392 -0.051618360
+##  [81] -0.116354175  0.076603875 -0.322605163 -0.125223592 -0.052378908
+##  [86] -0.307566464  0.255748630 -0.060621489 -0.143032625  0.052542973
+##  [91]  0.309580594  0.173883677  0.131391257 -0.129288167 -0.313847750
+##  [96]  0.147588611  0.040007006 -0.059556656  0.059675135 -0.022035612</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  <span class="co"># test word distance</span>
+  <span class="kw">get_word_distance</span>(model, <span class="st">&quot;time&quot;</span>, <span class="st">&quot;timing&quot;</span>)</code></pre></div>
+<pre><code>##            [,1]
+## [1,] 0.03331276</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  <span class="co"># free memory</span>
+  <span class="kw">unlink</span>(tmp_file_txt)
+  <span class="kw">unlink</span>(tmp_file_model)
+  <span class="kw">rm</span>(model)
+  <span class="kw">gc</span>()</code></pre></div>
+<pre><code>##           used (Mb) gc trigger (Mb) max used (Mb)
+## Ncells  838587 44.8    1442291 77.1  1442291 77.1
+## Vcells 1743066 13.3    3176789 24.3  3176788 24.3</code></pre>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -37,6 +37,21 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/supervised_learning.html">Supervised learning</a>
+    </li>
+    <li>
+      <a href="articles/unsupervised_learning.html">Unsupervised learning</a>
+    </li>
+  </ul>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
@@ -80,146 +95,13 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
 <h3 class="hasAnchor">
 <a href="#supervised-learning-text-classification" class="anchor"></a>Supervised learning (text classification)</h3>
 <p>Data for a multi-class task are embedded in this package.<br>
-Below we will learn a model and then measure the accuracy.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">    <span class="kw">library</span>(FastRText)
-  
-    <span class="kw">data</span>(<span class="st">"train_sentences"</span>)
-    <span class="kw">data</span>(<span class="st">"test_sentences"</span>)
-    
-    <span class="co"># prepare data</span>
-    tmp_file_model &lt;-<span class="st"> </span><span class="kw">tempfile</span>()
-    
-    train_labels &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">"__label__"</span>, train_sentences[,<span class="st">"class.text"</span>])
-    train_texts &lt;-<span class="st"> </span><span class="kw">tolower</span>(train_sentences[,<span class="st">"text"</span>])
-    train_to_write &lt;-<span class="st"> </span><span class="kw">paste</span>(train_labels, train_texts)
-    train_tmp_file_txt &lt;-<span class="st"> </span><span class="kw">tempfile</span>()
-    <span class="kw">writeLines</span>(<span class="dt">text =</span> train_to_write, <span class="dt">con =</span> train_tmp_file_txt)
-    
-    test_labels &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">"__label__"</span>, test_sentences[,<span class="st">"class.text"</span>])
-    test_texts &lt;-<span class="st"> </span><span class="kw">tolower</span>(test_sentences[,<span class="st">"text"</span>])
-    test_to_write &lt;-<span class="st"> </span><span class="kw">paste</span>(test_labels, test_texts)
-    
-    <span class="co"># learn model</span>
-    <span class="kw"><a href="reference/execute.html">execute</a></span>(<span class="dt">commands =</span> <span class="kw">c</span>(<span class="st">"supervised"</span>, <span class="st">"-input"</span>, train_tmp_file_txt, <span class="st">"-output"</span>, tmp_file_model, <span class="st">"-dim"</span>, <span class="dv">20</span>, <span class="st">"-lr"</span>, <span class="dv">1</span>, <span class="st">"-epoch"</span>, <span class="dv">20</span>, <span class="st">"-wordNgrams"</span>, <span class="dv">2</span>, <span class="st">"-verbose"</span>, <span class="dv">1</span>))</code></pre></div>
-<pre><code>    Read 0M words
-    Number of words:  5060
-    Number of labels: 15
-    Progress: 100.0%  words/sec/thread: 1855760  lr: 0.000000  loss: 0.312088  eta: 0h0m </code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">    <span class="co"># load model</span>
-    model &lt;-<span class="st"> </span><span class="kw"><a href="reference/load_model.html">load_model</a></span>(tmp_file_model)
-    
-    <span class="co"># prediction are returned as a list with words and probabilities</span>
-    predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(model, <span class="dt">sentences =</span> test_to_write)
-    <span class="kw">print</span>(<span class="kw">head</span>(predictions, <span class="dv">5</span>))</code></pre></div>
-<pre><code>    [[1]]
-    __label__OWNX 
-        0.9980469 
-    
-    [[2]]
-    __label__MISC 
-        0.9667969 
-    
-    [[3]]
-    __label__MISC 
-        0.9863281 
-    
-    [[4]]
-    __label__OWNX 
-        0.9082031 
-    
-    [[5]]
-    __label__AIMX 
-         0.984375 </code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">    <span class="co"># Compute accuracy</span>
-    <span class="kw">mean</span>(<span class="kw">sapply</span>(predictions, names) <span class="op">==</span><span class="st"> </span>test_labels)
-    
-    <span class="co"># because there is only one category by observation, hamming loss will be the same</span>
-    <span class="kw"><a href="reference/get_hamming_loss.html">get_hamming_loss</a></span>(<span class="kw">as.list</span>(test_labels), predictions)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">    [<span class="dv">1</span>] <span class="fl">0.82</span></code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">    <span class="co"># test predictions</span>
-    predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(model, <span class="dt">sentences =</span> test_to_write)
-    <span class="kw">print</span>(<span class="kw">head</span>(predictions, <span class="dv">5</span>))</code></pre></div>
-<pre><code>    [[1]]
-    __label__OWNX 
-        0.9980469 
-    
-    [[2]]
-    __label__MISC 
-        0.9667969 
-    
-    [[3]]
-    __label__MISC 
-        0.9863281 
-    
-    [[4]]
-    __label__OWNX 
-        0.9082031 
-    
-    [[5]]
-    __label__AIMX 
-         0.984375 </code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">    <span class="co"># free memory</span>
-    <span class="kw">unlink</span>(train_tmp_file_txt)
-    <span class="kw">unlink</span>(tmp_file_model)
-    <span class="kw">rm</span>(model)
-    <span class="kw">gc</span>()</code></pre></div>
+You will find below a link to source code to learn a model and then measure the accuracy in 5 minutes.</p>
+<p><a href="https://pommedeterresautee.github.io/FastRText/docs/articles/supervised_learning.html" class="uri">https://pommedeterresautee.github.io/FastRText/docs/articles/supervised_learning.html</a></p>
 </div>
 <div id="unsupervised-learning-word-representation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#unsupervised-learning-word-representation" class="anchor"></a>Unsupervised learning (word representation)</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">    <span class="kw">library</span>(FastRText)
-    
-    <span class="kw">data</span>(<span class="st">"train_sentences"</span>)
-    <span class="kw">data</span>(<span class="st">"test_sentences"</span>)
-    texts &lt;-<span class="st"> </span><span class="kw">tolower</span>(train_sentences[,<span class="st">"text"</span>])
-    tmp_file_txt &lt;-<span class="st"> </span><span class="kw">tempfile</span>()
-    tmp_file_model &lt;-<span class="st"> </span><span class="kw">tempfile</span>()
-    <span class="kw">writeLines</span>(<span class="dt">text =</span> texts, <span class="dt">con =</span> tmp_file_txt)
-    <span class="kw"><a href="reference/execute.html">execute</a></span>(<span class="dt">commands =</span> <span class="kw">c</span>(<span class="st">"skipgram"</span>, <span class="st">"-input"</span>, tmp_file_txt, <span class="st">"-output"</span>, tmp_file_model, <span class="st">"-verbose"</span>, <span class="dv">1</span>))</code></pre></div>
-<pre><code>    Read 0M words
-    Number of words:  2061
-    Number of labels: 0
-    Progress: 100.0%  words/sec/thread: 18608  lr: 0.000000  loss: 2.717084  eta: 0h0m</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">    model &lt;-<span class="st"> </span><span class="kw"><a href="reference/load_model.html">load_model</a></span>(tmp_file_model)
-   
-    <span class="co"># test word extraction</span>
-    dict &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_dictionary.html">get_dictionary</a></span>(model)
-    <span class="kw">print</span>(<span class="kw">head</span>(dict, <span class="dv">5</span>))</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">    [<span class="dv">1</span>] <span class="st">"the"</span>  <span class="st">"&lt;/s&gt;"</span> <span class="st">"of"</span>   <span class="st">"to"</span>   <span class="st">"and"</span></code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  <span class="co"># print vector</span>
-  <span class="kw">print</span>(<span class="kw"><a href="reference/get_word_vectors.html">get_word_vectors</a></span>(model, <span class="kw">c</span>(<span class="st">"time"</span>, <span class="st">"timing"</span>)))</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">    <span class="op">$</span>time
-      [<span class="dv">1</span>]  <span class="fl">0.1296210885</span>  <span class="fl">0.1316468269</span>  <span class="fl">0.0007626821</span>  <span class="fl">0.0356817469</span>  <span class="fl">0.2006593198</span> <span class="op">-</span><span class="fl">0.0460157879</span>  <span class="fl">0.0231023580</span> <span class="op">-</span><span class="fl">0.0233316422</span>  <span class="fl">0.1362834424</span> <span class="op">-</span><span class="fl">0.0420252681</span>
-     [<span class="dv">11</span>] <span class="op">-</span><span class="fl">0.0655319244</span> <span class="op">-</span><span class="fl">0.0762185380</span> <span class="op">-</span><span class="fl">0.1488197595</span> <span class="op">-</span><span class="fl">0.1035384983</span> <span class="op">-</span><span class="fl">0.0845064148</span>  <span class="fl">0.2970835268</span> <span class="op">-</span><span class="fl">0.0226780772</span> <span class="op">-</span><span class="fl">0.1043037027</span> <span class="op">-</span><span class="fl">0.0474399552</span>  <span class="fl">0.2767507732</span>
-     [<span class="dv">21</span>] <span class="op">-</span><span class="fl">0.1631491482</span>  <span class="fl">0.0246577058</span> <span class="op">-</span><span class="fl">0.0510919876</span>  <span class="fl">0.1415337175</span> <span class="op">-</span><span class="fl">0.0186830349</span>  <span class="fl">0.0277102590</span>  <span class="fl">0.2989047170</span> <span class="op">-</span><span class="fl">0.1091243699</span>  <span class="fl">0.2127154171</span>  <span class="fl">0.1774759591</span>
-     [<span class="dv">31</span>] <span class="op">-</span><span class="fl">0.2118884921</span>  <span class="fl">0.1580083966</span> <span class="op">-</span><span class="fl">0.2573904097</span>  <span class="fl">0.0720630288</span>  <span class="fl">0.1223027334</span> <span class="op">-</span><span class="fl">0.1067906320</span> <span class="op">-</span><span class="fl">0.1770184636</span> <span class="op">-</span><span class="fl">0.1367645562</span> <span class="op">-</span><span class="fl">0.1797255427</span> <span class="op">-</span><span class="fl">0.2507483065</span>
-     [<span class="dv">41</span>] <span class="op">-</span><span class="fl">0.0737731382</span> <span class="op">-</span><span class="fl">0.0335764810</span>  <span class="fl">0.4934033751</span>  <span class="fl">0.0927968696</span> <span class="op">-</span><span class="fl">0.1988559216</span> <span class="op">-</span><span class="fl">0.1831049174</span>  <span class="fl">0.0014060348</span>  <span class="fl">0.2465015799</span> <span class="op">-</span><span class="fl">0.0966282785</span>  <span class="fl">0.0663930923</span>
-     [<span class="dv">51</span>]  <span class="fl">0.1156903356</span> <span class="op">-</span><span class="fl">0.0581681095</span>  <span class="fl">0.1633448750</span>  <span class="fl">0.0965265408</span> <span class="op">-</span><span class="fl">0.2318589687</span> <span class="op">-</span><span class="fl">0.0084880590</span> <span class="op">-</span><span class="fl">0.0637115017</span> <span class="op">-</span><span class="fl">0.3696584404</span>  <span class="fl">0.0428320728</span>  <span class="fl">0.0274929013</span>
-     [<span class="dv">61</span>] <span class="op">-</span><span class="fl">0.1674125642</span>  <span class="fl">0.0492200330</span> <span class="op">-</span><span class="fl">0.0935025662</span>  <span class="fl">0.4473278522</span>  <span class="fl">0.1401670724</span> <span class="op">-</span><span class="fl">0.0925518200</span>  <span class="fl">0.0110784201</span> <span class="op">-</span><span class="fl">0.2160260379</span> <span class="op">-</span><span class="fl">0.0858220831</span>  <span class="fl">0.0785235688</span>
-     [<span class="dv">71</span>] <span class="op">-</span><span class="fl">0.0083946604</span>  <span class="fl">0.0849706084</span> <span class="op">-</span><span class="fl">0.0517802760</span> <span class="op">-</span><span class="fl">0.2749955654</span> <span class="op">-</span><span class="fl">0.0682966709</span>  <span class="fl">0.0041731247</span>  <span class="fl">0.0097561805</span> <span class="op">-</span><span class="fl">0.0087426975</span>  <span class="fl">0.0818234086</span>  <span class="fl">0.0333902463</span>
-     [<span class="dv">81</span>] <span class="op">-</span><span class="fl">0.0850559697</span>  <span class="fl">0.1362940371</span> <span class="op">-</span><span class="fl">0.0933185294</span>  <span class="fl">0.1068129763</span> <span class="op">-</span><span class="fl">0.1092673689</span> <span class="op">-</span><span class="fl">0.1502138227</span>  <span class="fl">0.0475843176</span>  <span class="fl">0.1930907071</span> <span class="op">-</span><span class="fl">0.1171457469</span>  <span class="fl">0.0033585809</span>
-     [<span class="dv">91</span>]  <span class="fl">0.1949805468</span>  <span class="fl">0.1669725925</span>  <span class="fl">0.1696546674</span> <span class="op">-</span><span class="fl">0.1804515570</span> <span class="op">-</span><span class="fl">0.1499735862</span>  <span class="fl">0.0847207233</span> <span class="op">-</span><span class="fl">0.1824831218</span> <span class="op">-</span><span class="fl">0.2149232626</span> <span class="op">-</span><span class="fl">0.1255764067</span> <span class="op">-</span><span class="fl">0.0145111699</span>
-    
-    <span class="op">$</span>timing
-      [<span class="dv">1</span>]  <span class="fl">0.160078079</span>  <span class="fl">0.089299947</span> <span class="op">-</span><span class="fl">0.028443312</span>  <span class="fl">0.087577075</span>  <span class="fl">0.197204530</span> <span class="op">-</span><span class="fl">0.046088688</span>  <span class="fl">0.014435329</span>  <span class="fl">0.010740009</span>  <span class="fl">0.157881737</span> <span class="op">-</span><span class="fl">0.041626919</span> <span class="op">-</span><span class="fl">0.087656625</span>
-     [<span class="dv">12</span>] <span class="op">-</span><span class="fl">0.077158570</span> <span class="op">-</span><span class="fl">0.117233768</span> <span class="op">-</span><span class="fl">0.084212191</span> <span class="op">-</span><span class="fl">0.033463344</span>  <span class="fl">0.268052191</span>  <span class="fl">0.024618769</span> <span class="op">-</span><span class="fl">0.062947571</span> <span class="op">-</span><span class="fl">0.038740944</span>  <span class="fl">0.274398685</span> <span class="op">-</span><span class="fl">0.180828378</span>  <span class="fl">0.032722849</span>
-     [<span class="dv">23</span>] <span class="op">-</span><span class="fl">0.074779101</span>  <span class="fl">0.169604152</span>  <span class="fl">0.001532920</span>  <span class="fl">0.011797827</span>  <span class="fl">0.298075169</span> <span class="op">-</span><span class="fl">0.148507968</span>  <span class="fl">0.236132696</span>  <span class="fl">0.201769084</span> <span class="op">-</span><span class="fl">0.253632784</span>  <span class="fl">0.141390175</span> <span class="op">-</span><span class="fl">0.358699590</span>
-     [<span class="dv">34</span>]  <span class="fl">0.139938250</span>  <span class="fl">0.060195319</span> <span class="op">-</span><span class="fl">0.084415935</span> <span class="op">-</span><span class="fl">0.216627970</span> <span class="op">-</span><span class="fl">0.135275722</span> <span class="op">-</span><span class="fl">0.168502375</span> <span class="op">-</span><span class="fl">0.309166789</span> <span class="op">-</span><span class="fl">0.067674220</span>  <span class="fl">0.021249762</span>  <span class="fl">0.536724389</span>  <span class="fl">0.111997329</span>
-     [<span class="dv">45</span>] <span class="op">-</span><span class="fl">0.247994825</span> <span class="op">-</span><span class="fl">0.179069623</span> <span class="op">-</span><span class="fl">0.010358712</span>  <span class="fl">0.212842971</span> <span class="op">-</span><span class="fl">0.142138332</span>  <span class="fl">0.103004083</span>  <span class="fl">0.134464145</span> <span class="op">-</span><span class="fl">0.047396421</span>  <span class="fl">0.254947871</span>  <span class="fl">0.076861322</span> <span class="op">-</span><span class="fl">0.288775802</span>
-     [<span class="dv">56</span>]  <span class="fl">0.013832947</span> <span class="op">-</span><span class="fl">0.091028608</span> <span class="op">-</span><span class="fl">0.401299775</span>  <span class="fl">0.037415996</span>  <span class="fl">0.043258362</span> <span class="op">-</span><span class="fl">0.194530174</span>  <span class="fl">0.044848040</span> <span class="op">-</span><span class="fl">0.110459305</span>  <span class="fl">0.459034413</span>  <span class="fl">0.105486415</span> <span class="op">-</span><span class="fl">0.128112644</span>
-     [<span class="dv">67</span>] <span class="op">-</span><span class="fl">0.011169771</span> <span class="op">-</span><span class="fl">0.246604726</span> <span class="op">-</span><span class="fl">0.136286691</span>  <span class="fl">0.064792447</span>  <span class="fl">0.004366267</span>  <span class="fl">0.066067092</span> <span class="op">-</span><span class="fl">0.043443765</span> <span class="op">-</span><span class="fl">0.263737917</span> <span class="op">-</span><span class="fl">0.084394999</span>  <span class="fl">0.033850316</span>  <span class="fl">0.045276560</span>
-     [<span class="dv">78</span>] <span class="op">-</span><span class="fl">0.069755353</span>  <span class="fl">0.042322587</span>  <span class="fl">0.015659215</span> <span class="op">-</span><span class="fl">0.058141325</span>  <span class="fl">0.120230742</span> <span class="op">-</span><span class="fl">0.131767645</span>  <span class="fl">0.110347047</span> <span class="op">-</span><span class="fl">0.151947677</span> <span class="op">-</span><span class="fl">0.201012269</span>  <span class="fl">0.045367155</span>  <span class="fl">0.210986614</span>
-     [<span class="dv">89</span>] <span class="op">-</span><span class="fl">0.127198741</span>  <span class="fl">0.021938557</span>  <span class="fl">0.247432858</span>  <span class="fl">0.160363480</span>  <span class="fl">0.148728162</span> <span class="op">-</span><span class="fl">0.168013781</span> <span class="op">-</span><span class="fl">0.169050500</span>  <span class="fl">0.132359743</span> <span class="op">-</span><span class="fl">0.186982766</span> <span class="op">-</span><span class="fl">0.232297495</span> <span class="op">-</span><span class="fl">0.124483496</span>
-    [<span class="dv">100</span>]  <span class="fl">0.010415908</span></code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  <span class="co"># test word distance</span>
-  <span class="kw"><a href="reference/get_word_distance.html">get_word_distance</a></span>(model, <span class="st">"time"</span>, <span class="st">"timing"</span>)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">           [,<span class="dv">1</span>]
-[<span class="dv">1</span>,] <span class="fl">0.01769618</span></code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  <span class="co"># free memory</span>
-  <span class="kw">unlink</span>(tmp_file_txt)
-  <span class="kw">unlink</span>(tmp_file_model)
-  <span class="kw">rm</span>(model)
-  <span class="kw">gc</span>()</code></pre></div>
+<p>Following the link below will route you to 5mn tutorial to learn a representations of words (word embeddings):<br><a href="https://pommedeterresautee.github.io/FastRText/docs/articles/supervised_learning.html" class="uri">https://pommedeterresautee.github.io/FastRText/docs/articles/supervised_learning.html</a></p>
 </div>
 </div>
 <div id="command-list-to-use-with-execute-function" class="section level2">
