@@ -98,17 +98,180 @@
     </tr>
     <tr>
       <th>commands</th>
-      <td><p>[character] of commands</p></td>
+      <td><p>character of commands</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p><code>model</code> provided as a parameter, if any.</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='co'># Supervised learning example</span>
+<span class='fu'>library</span>(<span class='no'>FastRText</span>)
+
+<span class='fu'>data</span>(<span class='st'>"train_sentences"</span>)
+<span class='fu'>data</span>(<span class='st'>"test_sentences"</span>)
+
+<span class='co'># prepare data</span>
+<span class='no'>tmp_file_model</span> <span class='kw'>&lt;-</span> <span class='fu'>tempfile</span>()
+
+<span class='no'>train_labels</span> <span class='kw'>&lt;-</span> <span class='fu'>paste0</span>(<span class='st'>"__label__"</span>, <span class='no'>train_sentences</span>[,<span class='st'>"class.text"</span>])
+<span class='no'>train_texts</span> <span class='kw'>&lt;-</span> <span class='fu'>tolower</span>(<span class='no'>train_sentences</span>[,<span class='st'>"text"</span>])
+<span class='no'>train_to_write</span> <span class='kw'>&lt;-</span> <span class='fu'>paste</span>(<span class='no'>train_labels</span>, <span class='no'>train_texts</span>)
+<span class='no'>train_tmp_file_txt</span> <span class='kw'>&lt;-</span> <span class='fu'>tempfile</span>()
+<span class='fu'>writeLines</span>(<span class='kw'>text</span> <span class='kw'>=</span> <span class='no'>train_to_write</span>, <span class='kw'>con</span> <span class='kw'>=</span> <span class='no'>train_tmp_file_txt</span>)
+
+<span class='no'>test_labels</span> <span class='kw'>&lt;-</span> <span class='fu'>paste0</span>(<span class='st'>"__label__"</span>, <span class='no'>test_sentences</span>[,<span class='st'>"class.text"</span>])
+<span class='no'>test_texts</span> <span class='kw'>&lt;-</span> <span class='fu'>tolower</span>(<span class='no'>test_sentences</span>[,<span class='st'>"text"</span>])
+<span class='no'>test_to_write</span> <span class='kw'>&lt;-</span> <span class='fu'>paste</span>(<span class='no'>test_labels</span>, <span class='no'>test_texts</span>)
+
+<span class='co'># learn model</span>
+<span class='fu'>execute</span>(<span class='kw'>commands</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"supervised"</span>, <span class='st'>"-input"</span>, <span class='no'>train_tmp_file_txt</span>,
+                     <span class='st'>"-output"</span>, <span class='no'>tmp_file_model</span>, <span class='st'>"-dim"</span>, <span class='fl'>20</span>, <span class='st'>"-lr"</span>, <span class='fl'>1</span>,
+                     <span class='st'>"-epoch"</span>, <span class='fl'>20</span>, <span class='st'>"-wordNgrams"</span>, <span class='fl'>2</span>, <span class='st'>"-verbose"</span>, <span class='fl'>1</span>))
+
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='load_model.html'>load_model</a></span>(<span class='no'>tmp_file_model</span>)
+<span class='fu'>predict</span>(<span class='no'>model</span>, <span class='kw'>sentences</span> <span class='kw'>=</span> <span class='no'>test_sentences</span>[<span class='fl'>1</span>, <span class='st'>"text"</span>])</div><div class='output co'>#&gt; [[1]]
+#&gt; __label__OWNX 
+#&gt;     0.9980469 
+#&gt; </div><div class='input'>
+<span class='co'># Unsupervised learning example</span>
+<span class='fu'>library</span>(<span class='no'>FastRText</span>)
+
+<span class='fu'>data</span>(<span class='st'>"train_sentences"</span>)
+<span class='fu'>data</span>(<span class='st'>"test_sentences"</span>)
+<span class='no'>texts</span> <span class='kw'>&lt;-</span> <span class='fu'>tolower</span>(<span class='no'>train_sentences</span>[,<span class='st'>"text"</span>])
+<span class='no'>tmp_file_txt</span> <span class='kw'>&lt;-</span> <span class='fu'>tempfile</span>()
+<span class='no'>tmp_file_model</span> <span class='kw'>&lt;-</span> <span class='fu'>tempfile</span>()
+<span class='fu'>writeLines</span>(<span class='kw'>text</span> <span class='kw'>=</span> <span class='no'>texts</span>, <span class='kw'>con</span> <span class='kw'>=</span> <span class='no'>tmp_file_txt</span>)
+<span class='fu'>execute</span>(<span class='kw'>commands</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"skipgram"</span>, <span class='st'>"-input"</span>, <span class='no'>tmp_file_txt</span>, <span class='st'>"-output"</span>, <span class='no'>tmp_file_model</span>, <span class='st'>"-verbose"</span>, <span class='fl'>1</span>))
+
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='load_model.html'>load_model</a></span>(<span class='no'>tmp_file_model</span>)
+<span class='no'>dict</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_dictionary.html'>get_dictionary</a></span>(<span class='no'>model</span>)
+<span class='fu'><a href='get_word_vectors.html'>get_word_vectors</a></span>(<span class='no'>model</span>, <span class='fu'>head</span>(<span class='no'>dict</span>, <span class='fl'>5</span>))</div><div class='output co'>#&gt; $the
+#&gt;   [1]  0.186978161  0.087274998 -0.009759075 -0.021742947  0.155782282
+#&gt;   [6] -0.054954872 -0.124970794 -0.129495695 -0.189301118 -0.085508384
+#&gt;  [11] -0.274112582 -0.053552873  0.091401853 -0.020436835  0.208485916
+#&gt;  [16]  0.238621831 -0.213408396 -0.236763835  0.069734529  0.125680864
+#&gt;  [21] -0.070946857  0.164457232  0.127831563 -0.066533297 -0.266566098
+#&gt;  [26]  0.073284306  0.213375390 -0.297895730  0.166954920 -0.031889375
+#&gt;  [31] -0.321882546 -0.025013752 -0.262145698  0.132004306  0.203503102
+#&gt;  [36] -0.069803610 -0.083181761 -0.171746686 -0.256394356 -0.171945229
+#&gt;  [41] -0.142179757  0.080677927  0.468708187  0.050739296 -0.103168644
+#&gt;  [46] -0.333425969 -0.109427094  0.247369587 -0.069456011 -0.072637700
+#&gt;  [51]  0.171921328  0.131022677  0.041109759  0.154516608 -0.065311946
+#&gt;  [56] -0.138323903  0.162388906 -0.266767383  0.018958366  0.032092780
+#&gt;  [61] -0.196529225 -0.086149082 -0.031009879  0.167560071  0.023539726
+#&gt;  [66] -0.193998277 -0.045366772 -0.196204036 -0.118323281 -0.184312850
+#&gt;  [71]  0.218448102  0.065787554 -0.064342819 -0.251551896 -0.034454744
+#&gt;  [76] -0.096685134 -0.075659268  0.261837929  0.004680661  0.222786427
+#&gt;  [81] -0.085483357  0.064016789  0.220670044  0.266553134 -0.080823623
+#&gt;  [86] -0.003044820  0.196881786  0.113702081 -0.170544580 -0.179007813
+#&gt;  [91]  0.193153903  0.161548838 -0.017875222 -0.162568733 -0.209086597
+#&gt;  [96] -0.109398045 -0.110553958 -0.094307691 -0.148640960 -0.204879209
+#&gt; 
+#&gt; $`&lt;/s&gt;`
+#&gt;   [1]  0.368215263 -0.004380006 -0.121990085  0.046569675  0.196513072
+#&gt;   [6] -0.091922849 -0.060021408 -0.094274372 -0.127155170 -0.105783433
+#&gt;  [11] -0.259942025 -0.117810510  0.192792654 -0.018454785  0.265343785
+#&gt;  [16]  0.226815298 -0.132310405 -0.168844327  0.008308786  0.093736812
+#&gt;  [21] -0.057153903  0.075399943  0.115623377 -0.075578928 -0.257072061
+#&gt;  [26] -0.025936734  0.118443556 -0.253629088  0.146426365 -0.084423587
+#&gt;  [31] -0.276792198  0.080699086 -0.288665205  0.230817631  0.092778184
+#&gt;  [36] -0.148339227 -0.108420648 -0.089627944 -0.260093957 -0.139908448
+#&gt;  [41] -0.111405887  0.114201844  0.409859598  0.112525769 -0.103522599
+#&gt;  [46] -0.293272853 -0.053941719  0.165058136 -0.093836464 -0.050163504
+#&gt;  [51]  0.075132541  0.113436148  0.111310877  0.079850733 -0.072526596
+#&gt;  [56] -0.144271761  0.210248232 -0.218276113 -0.032230861  0.038530048
+#&gt;  [61] -0.198319092 -0.067207895 -0.054156501  0.085840404 -0.024847934
+#&gt;  [66] -0.203287736 -0.162156984 -0.139716178 -0.189617708 -0.125120938
+#&gt;  [71]  0.223729074  0.088762373 -0.069131002 -0.212959453 -0.036583256
+#&gt;  [76] -0.067345902 -0.039403852  0.183769494 -0.051349934  0.176022559
+#&gt;  [81] -0.007693124  0.121597327  0.150898054  0.289282471 -0.056503646
+#&gt;  [86] -0.074887335  0.120898508  0.087530106 -0.220963135 -0.088990308
+#&gt;  [91]  0.208128154  0.165828407 -0.101537578 -0.173287317 -0.223139226
+#&gt;  [96] -0.092344083 -0.104023859 -0.178484559 -0.104914017 -0.150653690
+#&gt; 
+#&gt; $of
+#&gt;   [1]  0.376491249 -0.017508024 -0.141302601  0.064486824  0.220610499
+#&gt;   [6] -0.104697905 -0.045728449 -0.097346865 -0.126625463 -0.114938267
+#&gt;  [11] -0.242295340 -0.122504324  0.196486145 -0.044328000  0.260212421
+#&gt;  [16]  0.207980335 -0.137942404 -0.165611759 -0.011279646  0.078935400
+#&gt;  [21] -0.067001104  0.076220162  0.096659370 -0.066820584 -0.259908706
+#&gt;  [26] -0.039778747  0.101092458 -0.261000782  0.155218899 -0.105132967
+#&gt;  [31] -0.277152181  0.092135184 -0.301985204  0.259121060  0.069240510
+#&gt;  [36] -0.140893638 -0.133624658 -0.061226383 -0.277693927 -0.132434011
+#&gt;  [41] -0.094943359  0.137361512  0.405531794  0.094971545 -0.119290918
+#&gt;  [46] -0.296172380 -0.040406242  0.150769606 -0.105763905 -0.055704039
+#&gt;  [51]  0.068462245  0.125554472  0.118501045  0.085700065 -0.072967283
+#&gt;  [56] -0.145142525  0.228967786 -0.219623446 -0.040458355  0.033788908
+#&gt;  [61] -0.200116277 -0.068336129 -0.061039615  0.085214779 -0.038663715
+#&gt;  [66] -0.210630342 -0.157739908 -0.160286352 -0.199172854 -0.116261646
+#&gt;  [71]  0.241241351  0.073355727 -0.068885349 -0.228151307 -0.031676192
+#&gt;  [76] -0.094508231 -0.038863391  0.182874769 -0.056816306  0.186775506
+#&gt;  [81]  0.005899239  0.132685617  0.149377123  0.298344702 -0.052265782
+#&gt;  [86] -0.082669653  0.112228833  0.090038106 -0.216548979 -0.080427356
+#&gt;  [91]  0.211272925  0.146501034 -0.119715929 -0.172251463 -0.213730931
+#&gt;  [96] -0.085903898 -0.112927899 -0.182630852 -0.077574112 -0.131446779
+#&gt; 
+#&gt; $to
+#&gt;   [1]  0.339642227  0.025738765 -0.082513809  0.015167568  0.217473775
+#&gt;   [6] -0.066897586 -0.102799222 -0.114169061 -0.157926738 -0.099900395
+#&gt;  [11] -0.266487032 -0.074906223  0.149697930 -0.043272313  0.261218488
+#&gt;  [16]  0.231662363 -0.150652274 -0.204906628  0.024855683  0.089544475
+#&gt;  [21] -0.055415049  0.102270380  0.144121915 -0.082280479 -0.265152037
+#&gt;  [26]  0.006008904  0.169188350 -0.272416025  0.149169207 -0.071036518
+#&gt;  [31] -0.282221913  0.062928624 -0.282351047  0.210303009  0.142024398
+#&gt;  [36] -0.137549117 -0.097076111 -0.131302133 -0.279403090 -0.160862759
+#&gt;  [41] -0.113346554  0.122389667  0.441841483  0.110634021 -0.097526111
+#&gt;  [46] -0.329353571 -0.068017393  0.201929212 -0.073877737 -0.047699399
+#&gt;  [51]  0.101960607  0.099457532  0.070512876  0.109747358 -0.057044551
+#&gt;  [56] -0.155118018  0.184331581 -0.238450110 -0.004977605  0.034113172
+#&gt;  [61] -0.205285639 -0.077354036 -0.055431951  0.115057781 -0.024655804
+#&gt;  [66] -0.197327420 -0.124442011 -0.159421220 -0.174468130 -0.148872241
+#&gt;  [71]  0.229971930  0.079879582 -0.075147524 -0.219922557 -0.037283897
+#&gt;  [76] -0.056935068 -0.084749281  0.214793026 -0.033702992  0.193900019
+#&gt;  [81] -0.043327592  0.110296816  0.185540408  0.285927355 -0.062092155
+#&gt;  [86] -0.057801772  0.141392857  0.113142326 -0.197521150 -0.124473125
+#&gt;  [91]  0.206457466  0.180290952 -0.073595129 -0.168786913 -0.234882757
+#&gt;  [96] -0.102556862 -0.117076389 -0.155495480 -0.118843235 -0.171446845
+#&gt; 
+#&gt; $and
+#&gt;   [1]  0.348473579 -0.021789830 -0.133755326  0.056247752  0.211046770
+#&gt;   [6] -0.116405152 -0.027422044 -0.092660889 -0.125129536 -0.112013362
+#&gt;  [11] -0.236998767 -0.142370626  0.196769968 -0.029942501  0.275836378
+#&gt;  [16]  0.211241275 -0.137953043 -0.162895650  0.002748991  0.088674404
+#&gt;  [21] -0.069304898  0.077939324  0.108382761 -0.096400931 -0.265268713
+#&gt;  [26] -0.051132075  0.110832728 -0.244475499  0.148447618 -0.115364969
+#&gt;  [31] -0.291937232  0.093120582 -0.301070333  0.255012572  0.085986502
+#&gt;  [36] -0.139526457 -0.129222736 -0.060238056 -0.282636404 -0.146052673
+#&gt;  [41] -0.102579601  0.123289488  0.412604451  0.114807531 -0.107705720
+#&gt;  [46] -0.309964508 -0.044084873  0.156931549 -0.098807104 -0.064132363
+#&gt;  [51]  0.063130967  0.107286580  0.108813681  0.081576258 -0.065621056
+#&gt;  [56] -0.142891735  0.235060945 -0.209711269 -0.032900073  0.031457387
+#&gt;  [61] -0.211905926 -0.066215910 -0.058526628  0.066640109 -0.034385294
+#&gt;  [66] -0.215991542 -0.163335562 -0.153920755 -0.187392503 -0.107729025
+#&gt;  [71]  0.241382167  0.069394290 -0.073298849 -0.228385597 -0.027921580
+#&gt;  [76] -0.071088061 -0.049062274  0.166094258 -0.048883479  0.187649697
+#&gt;  [81]  0.004708136  0.129350871  0.156844184  0.313345522 -0.056108873
+#&gt;  [86] -0.069118015  0.128094286  0.079069056 -0.230256677 -0.059190899
+#&gt;  [91]  0.225002170  0.155662879 -0.123901375 -0.187598497 -0.234686732
+#&gt;  [96] -0.084983930 -0.111907460 -0.196287826 -0.091503747 -0.135944590
+#&gt; </div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#value">Value</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
