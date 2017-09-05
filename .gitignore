@@ -6,3 +6,5 @@ build/*
 *.o
 *.so
 *.dll
+data-raw/*.bin
+data-raw/*.vec
