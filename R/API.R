@@ -181,6 +181,14 @@ execute <- function(model = NULL, commands) {
 #' @param w1 first word to compare
 #' @param w2 second word to compare
 #' @return a `scalar` with the distance
+#' 
+#' @examples
+#' 
+#' library(FastRText)
+#' model_test_path <- system.file("extdata", "model_unsupervised_test.bin", package = "FastRText")
+#' model <- load_model(model_test_path)
+#' get_word_distance(model, "time", "timing") 
+#' 
 #' @importFrom assertthat assert_that is.string
 #' @export
 get_word_distance <- function(model, w1, w2) {
@@ -197,7 +205,7 @@ get_word_distance <- function(model, w1, w2) {
 #' @param labels list of labels
 #' @param predictions list returned by the predict command (including both the probability and the categories)
 #' @return a `scalar` with the loss
-#' @importFrom assertthat assert_that
+#' 
 #' @examples
 #'
 #' library(FastRText)
@@ -208,7 +216,8 @@ get_word_distance <- function(model, w1, w2) {
 #' test_labels <- test_sentences[, "class.text"]
 #' predictions <- predict(model, sentences)
 #' get_hamming_loss(as.list(test_labels), predictions)
-#'
+#' 
+#' @importFrom assertthat assert_that
 #' @export
 get_hamming_loss <- function(labels, predictions) {
   diff <- function(a, b) {
@@ -249,6 +258,14 @@ print_help <- function() {
 #' @param word reference word
 #' @param k [integer] defining the number of resutls to return
 #' @return [numeric] with distances with [names] as words
+#' 
+#' @examples 
+#' 
+#' library(FastRText)
+#' model_test_path <- system.file("extdata", "model_unsupervised_test.bin", package = "FastRText")
+#' model <- load_model(model_test_path)
+#' get_nn(model, "time", 10)
+#' 
 #' @importFrom assertthat assert_that is.string is.number
 #' @export
 get_nn <- function(model, word, k) {
@@ -269,6 +286,14 @@ get_nn <- function(model, word, k) {
 #' @param w2 2nd word, move
 #' @param w3 3d word, new basis
 #' @param k number of words to return
+#' @return a [numeric] with distances and [names] are words
+#' @examples 
+#' 
+#' library(FastRText)
+#' model_test_path <- system.file("extdata", "model_unsupervised_test.bin", package = "FastRText")
+#' model <- load_model(model_test_path)
+#' get_analogies(model, "experience", "experiences", "result")
+#' 
 #' @importFrom assertthat assert_that is.string is.number
 #' @export
 get_analogies <- function(model, w1, w2, w3, k = 1) {

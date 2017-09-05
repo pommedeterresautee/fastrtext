@@ -17,9 +17,20 @@ get_analogies(model, w1, w2, w3, k = 1)
 
 \item{k}{number of words to return}
 }
+\value{
+a \link{numeric} with distances and \link{names} are words
+}
 \description{
 From Mikolov paper
 Based on related move of a vector regarding a basis.
 King is to Quenn what a man is to ???
 w1 - w2 + w3
+}
+\examples{
+
+library(FastRText)
+model_test_path <- system.file("extdata", "model_unsupervised_test.bin", package = "FastRText")
+model <- load_model(model_test_path)
+get_analogies(model, "experience", "experiences", "result")
+
 }

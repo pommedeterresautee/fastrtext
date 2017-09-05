@@ -131,6 +131,16 @@ Search is done linearly, if your model is big you may want to use an approximate
     <p>numeric with distances with names as words</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='fu'>library</span>(<span class='no'>FastRText</span>)
+<span class='no'>model_test_path</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata"</span>, <span class='st'>"model_unsupervised_test.bin"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"FastRText"</span>)
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='load_model.html'>load_model</a></span>(<span class='no'>model_test_path</span>)
+<span class='fu'>get_nn</span>(<span class='no'>model</span>, <span class='st'>"time"</span>, <span class='fl'>10</span>)</div><div class='output co'>#&gt;     times    scales  all-atom    timing weakening   replica       lag       100 
+#&gt; 0.6071578 0.5840154 0.5531826 0.5505469 0.5447562 0.5351555 0.5093998 0.5065415 
+#&gt;   scaling   solvent 
+#&gt; 0.4921480 0.4904943 </div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -138,7 +148,9 @@ Search is done linearly, if your model is big you may want to use an approximate
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

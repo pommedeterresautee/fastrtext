@@ -21,3 +21,11 @@ Find the \code{k} words with the smallest distance.
 First execution can be slow because of some precomputations.
 Search is done linearly, if your model is big you may want to use an approximate neighbour algorithm from other R packages (like RcppAnnoy).
 }
+\examples{
+
+library(FastRText)
+model_test_path <- system.file("extdata", "model_unsupervised_test.bin", package = "FastRText")
+model <- load_model(model_test_path)
+get_nn(model, "time", 10)
+
+}

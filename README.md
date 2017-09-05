@@ -24,14 +24,14 @@ devtools::install_github("pommedeterresautee/FastRText")
 Documentation
 -------------
 
-All the updated documentation can be reached to this [address](https://pommedeterresautee.github.io/FastRText/).
+All the updated documentation can be reached at this [address](https://pommedeterresautee.github.io/FastRText/).
 
 API
 ---
 
 API documentation can be reached at this [address](https://pommedeterresautee.github.io/FastRText//reference/index.html).
 
-In particular, command line options are listed [here](https://pommedeterresautee.github.io/FastRText/articles/command_list.html).
+In particular, command line options are listed [there](https://pommedeterresautee.github.io/FastRText/articles/command_list.html).
 
 ### Supervised learning (text classification)
 
@@ -41,22 +41,25 @@ Follow this [link](https://pommedeterresautee.github.io/FastRText/articles/super
 
 ### Unsupervised learning (word representation)
 
+Data for a word representation learning task are embedded in this package.  
 Following this [link](https://pommedeterresautee.github.io/FastRText/articles/unsupervised_learning.html) will route you to 5mn tutorial to learn a representations of words (word embeddings):  
 
 Alternatives
 ------------
 
-* Why not use the command line client?  
-  * You can call the client from the client using `system("fastext ...")`.  
-  * To get prediction, you will need to write file, make predictions from the command line, then read the results.  
-  * FastRText makes your life easier by making all these operations in memory.  
-  * It takes less time, and use less commands.
-  * Easy to install from R directly. 
+Why not use the command line client?  
 
-* Why not use [fastTextR](https://github.com/mlampros/fastTextR/) ?
-  * FastRText implements both supervised and unsupervised parts of fasttext.
-  * Predictions can be done in memory (unlike fastTextR)
-  * fastText original source code embedded in fastTextR is not up to date (miss many new features, bug fixes since January 2017) because original source code has been modified (not the case of this package)
+* You can call the client from the client using `system("fastext ...")` ;
+* To get prediction, you will need to write file, make predictions from the command line, then read the results ;
+* FastRText makes your life easier by making all these operations in memory ;
+* It takes less time, and use less commands ;
+* Easy to install from R directly.
+
+Why not use [fastTextR](https://github.com/mlampros/fastTextR/) ?  
+
+* FastRText implements both supervised and unsupervised parts of fasttext (fastTextR implements only the unsupervised part) ;
+* with FastRText. predictions can be done in memory (fastTextR requires to write the sentence on hard drive and requires you to read the predictions after) ;
+* fastText original source code embedded in fastTextR is not up to date (miss several new features, bug fixes since January 2017).
 
 References
 ----------
