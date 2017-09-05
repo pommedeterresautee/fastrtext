@@ -31,7 +31,9 @@ test_that("Test predictions", {
   test_texts <- tolower(test_sentences[, "text"])
   test_to_write <- paste(test_labels, test_texts)
   predictions <- predict(model, sentences = test_to_write)
-  mean(sapply(predictions, names) == test_labels)
+  
+  # test measure (for 1 class, hamming == accuracy)
+  expect_equal(get_hamming_loss(as.list(test_labels), predictions), mean(sapply(predictions, names) == test_labels))
   
   predictions <- predict(model, sentences = test_to_write)
   expect_length(predictions, 600)

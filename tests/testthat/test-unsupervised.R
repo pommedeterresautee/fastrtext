@@ -50,4 +50,21 @@ test_that("Test word embeddings", {
   expect_lt(get_word_distance(model, "time", "timing"), get_word_distance(model, "experience", "section"))
 })
 
+test_that("Nearest neighbours", {
+  model <- load_model(model_test_path)
+  nn <- get_nn(model, "time", 10)
+  expect_true("times" %in% names(nn))
+})
+
+test_that("Test analogies", {
+  model <- load_model(model_test_path)
+  analogies <- get_analogies(model, "experience", "experiences", "result")
+  expect_equal(names(analogies), "results")
+})
+
+test_that("Print help", {
+  # Check that printing help doesn't crash
+  print_help()
+})
+
 gc()
