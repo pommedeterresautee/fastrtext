@@ -44,7 +44,7 @@ test_that("Training of a classification model", {
   expect_gt(mean(names(unlist(learned_model_predictions)) == names(unlist(embedded_model_predictions))), 0.75)
 
   # Compare with quantize model
-  try(execute(commands = c("quantize", "-output", tmp_file_model, "-input", train_tmp_file_txt, "-qnorm", "-retrain", "-epoch", "1", "-cutoff", "100000")), silent = TRUE)
+  execute(commands = c("quantize", "-output", tmp_file_model, "-input", train_tmp_file_txt, "-qnorm", "-retrain", "-epoch", "1", "-cutoff", "100000"))
   expect_true(file.exists(paste0(tmp_file_model, ".ftz")))
   quantized_model <- load_model(paste0(tmp_file_model, ".ftz"))
   quantized_model_predictions <- predict(quantized_model, sentences = test_sentences_with_labels)

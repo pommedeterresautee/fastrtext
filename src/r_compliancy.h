@@ -6,8 +6,9 @@
 #include <Rcpp.h>
 #include <stdexcept>
 
-#define exit(error_code) Rcpp::stop("Exit code: " + std::to_string(error_code));
-#define cerr cout
+#define exit(error_code) if (error_code != 0) {Rcpp::stop("Exit code: " + std::to_string(error_code));};
+#define cerr cout // with cerr, no line refresh possible on R
 #define main main_fastrtext // no call to main()
+
 
 #endif //R_COMPLIANCY
