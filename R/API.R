@@ -112,9 +112,7 @@ get_word_vectors <- function(model, words) {
 #' Execute command on Fasttext model (including training)
 #'
 #' Use the same commands than the one to use for the command line.
-#' @param model trained Fasttext model. Null if train a new model.
 #' @param commands [character] of commands
-#' @return `model` provided as a parameter, if any.
 #' @examples
 #'
 #' # Supervised learning example
@@ -160,19 +158,9 @@ get_word_vectors <- function(model, words) {
 #' get_word_vectors(model, head(dict, 5))
 #'
 #' @export
-execute <- function(model = NULL, commands) {
-  if (is.null(model)) {
-    model <- new(FastRText)
-    model_provided <- FALSE
-  } else {
-    model_provided <- TRUE
-  }
+execute <- function(commands) {
+  model <- new(FastRText)
   model$execute(c("fasttext", commands))
-  if (model_provided) {
-    return(invisible(model))
-  } else {
-    return(invisible())
-  }
 }
 
 #' Distance between two words

@@ -4,15 +4,10 @@
 \alias{execute}
 \title{Execute command on Fasttext model (including training)}
 \usage{
-execute(model = NULL, commands)
+execute(commands)
 }
 \arguments{
-\item{model}{trained Fasttext model. Null if train a new model.}
-
 \item{commands}{\link{character} of commands}
-}
-\value{
-\code{model} provided as a parameter, if any.
 }
 \description{
 Use the same commands than the one to use for the command line.
