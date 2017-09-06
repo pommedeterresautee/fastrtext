@@ -22,12 +22,20 @@ test_that("Training of a classification model", {
 
   # learn model
   execute(commands =
-            c("supervised", "-input", train_tmp_file_txt,
-              "-output", tmp_file_model, "-dim", 20, "-lr", 1,
-              "-epoch", 20, "-wordNgrams", 2, "-verbose", 0, "-thread", 1))
+            c("supervised",
+              "-input", train_tmp_file_txt,
+              "-output", tmp_file_model,
+              "-dim", 20,
+              "-lr", 1,
+              "-epoch", 20,
+              "-bucket", 1e4,
+              "-verbose", 0,
+              "-thread", 1))
+
+  # Check learned file exists
+  expect_true(file.exists(paste0(tmp_file_model, ".bin")))
+
   learned_model <- load_model(tmp_file_model)
-  parameters <- get_parameters(learned_model)
-  expect_equal(parameters$model_name, "supervised")
   learned_model_predictions <- predict(learned_model, sentences = test_sentences_with_labels)
 
   # Compare with embedded model
@@ -36,7 +44,11 @@ test_that("Training of a classification model", {
   expect_gt(mean(names(unlist(learned_model_predictions)) == names(unlist(embedded_model_predictions))), 0.75)
 
   # Compare with quantize model
-  # execute(commands = c("quantize", "-output", tmp_file_model_quantize, "-input", tmp_file_model, "-qnorm", "-retrain", "-epoch", "1", "-cutoff", "100000"))
+  try(execute(commands = c("quantize", "-output", tmp_file_model, "-input", train_tmp_file_txt, "-qnorm", "-retrain", "-epoch", "1", "-cutoff", "100000")), silent = TRUE)
+  expect_true(file.exists(paste0(tmp_file_model, ".ftz")))
+  quantized_model <- load_model(paste0(tmp_file_model, ".ftz"))
+  quantized_model_predictions <- predict(quantized_model, sentences = test_sentences_with_labels)
+  expect_gt(mean(names(unlist(learned_model_predictions)) == names(unlist(quantized_model_predictions))), 0.9)
 })
 
 test_that("Test predictions", {

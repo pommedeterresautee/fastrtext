@@ -17,6 +17,11 @@ test_that("Training", {
                        "-dim", 50,
                        "-bucket", 1e3,
                        "-epoch", 20))
+
+  # Check learned file exists
+  expect_true(file.exists(paste0(tmp_file_model, ".bin")))
+  expect_true(file.exists(paste0(tmp_file_model, ".vec")))
+
   model <- load_model(tmp_file_model)
   parameters <- get_parameters(model)
   expect_equal(parameters$model_name, "sg")
@@ -28,7 +33,7 @@ test_that("Test parameter extraction", {
   expect_equal(parameters$dim, 100)
   expect_equal(parameters$model_name, "sg")
 })
-  
+
 test_that("Test word extraction", {
   model <- load_model(model_test_path)
   dict <- get_dictionary(model)
@@ -41,7 +46,7 @@ test_that("Test word extraction", {
 
 test_that("Test word embeddings", {
   model <- load_model(model_test_path)
-  
+
   # test vector lentgh
   parameters <- get_parameters(model)
   expect_length(get_word_vectors(model, "time")[[1]], parameters$dim)

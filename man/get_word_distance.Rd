@@ -24,6 +24,6 @@ Distance is equal to \code{1 - cosine}
 library(FastRText)
 model_test_path <- system.file("extdata", "model_unsupervised_test.bin", package = "FastRText")
 model <- load_model(model_test_path)
-get_word_distance(model, "time", "timing") 
+get_word_distance(model, "time", "timing")
 
 }
