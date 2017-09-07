@@ -60,14 +60,14 @@ void Args::parseArgs(int argc, char** argv) {
   int ai = 2;
   while (ai < argc) {
     if (argv[ai][0] != '-') {
-      std::cerr << "Provided argument without a dash! Usage:" << argv[ai] << std::endl;
+      std::cerr << "Provided argument without a dash! Usage:" << std::endl;
       printHelp();
-      //exit(EXIT_FAILURE);
+      exit(EXIT_FAILURE);
     }
     if (strcmp(argv[ai], "-h") == 0) {
       std::cerr << "Here is the help! Usage:" << std::endl;
       printHelp();
-      //exit(EXIT_FAILURE);
+      exit(EXIT_FAILURE);
     } else if (strcmp(argv[ai], "-input") == 0) {
       input = std::string(argv[ai + 1]);
     } else if (strcmp(argv[ai], "-test") == 0) {
@@ -102,7 +102,7 @@ void Args::parseArgs(int argc, char** argv) {
       } else {
         std::cerr << "Unknown loss: " << argv[ai + 1] << std::endl;
         printHelp();
-        //exit(EXIT_FAILURE);
+        exit(EXIT_FAILURE);
       }
     } else if (strcmp(argv[ai], "-bucket") == 0) {
       bucket = atoi(argv[ai + 1]);
@@ -135,14 +135,14 @@ void Args::parseArgs(int argc, char** argv) {
     } else {
       std::cerr << "Unknown argument: " << argv[ai] << std::endl;
       printHelp();
-      //exit(EXIT_FAILURE);
+      exit(EXIT_FAILURE);
     }
     ai += 2;
   }
   if (input.empty() || output.empty()) {
     std::cerr << "Empty input or output path." << std::endl;
     printHelp();
-    //exit(EXIT_FAILURE);
+    exit(EXIT_FAILURE);
   }
   if (wordNgrams <= 1 && maxn == 0) {
     bucket = 0;
