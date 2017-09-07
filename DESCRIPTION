@@ -5,7 +5,7 @@ Version: 0.2
 Date: 2017-07-01
 Authors@R: person("Michaël", "Benesty", role = c("aut", "cre"), email = "michael@benesty.fr")
 Maintainer: Michaël Benesty <michael@benesty.fr>
-Description: Wrapper of the excellent Fasttext by Facebook for text classification and word reprensentation.
+Description: R wrapper of fastText by Facebook for both text classification and word reprensentation.
 URL: https://github.com/pommedeterresautee/FastRText
 BugReports: https://github.com/pommedeterresautee/FastRText/issues
 License: MIT + file LICENSE
