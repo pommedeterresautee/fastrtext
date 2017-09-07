@@ -315,3 +315,13 @@ RCPP_MODULE(FASTRTEXT_MODULE) {
   .method("get_nn_by_vector", &FastRText::get_nn_by_vector, "Get nearest neighbour words, providing a vector")
   .method("print_help", &FastRText::print_help, "Print command helps");
 }
+
+// Ugly hack
+// RCpp module generates a Note, this call avoid the check
+// Inspired from http://lists.r-forge.r-project.org/pipermail/rcpp-devel/2017-March/009554.html
+// More info on http://thecoatlessprofessor.com/programming/r/registration-of-entry-points-in-compiled-code-loaded-into-r/
+void anything(DllInfo *dll)
+{
+  R_registerRoutines(dll, NULL, NULL, NULL, NULL);
+  R_useDynamicSymbols(dll, TRUE);
+}
