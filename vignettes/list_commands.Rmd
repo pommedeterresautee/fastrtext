@@ -12,7 +12,7 @@ vignette: >
 As seen in the other tutorials, `execute()` function works in a similar way to the command line client.  
 To list the commands, you just need to enter the following function:
 
-```{r command_list}
+```{R eval=FALSE}
 library(FastRText)
 
 print_help()

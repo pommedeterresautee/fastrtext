@@ -10,7 +10,8 @@ print_help()
 Print command information, mainly to use with \code{\link[=execute]{execute()}} \code{function}.
 }
 \examples{
-
+\dontrun{
 print_help()
+}
 
 }

@@ -31,7 +31,7 @@ API
 
 API documentation can be reached at this [address](https://pommedeterresautee.github.io/FastRText//reference/index.html).
 
-In particular, command line options are listed [there](https://pommedeterresautee.github.io/FastRText/articles/command_list.html).
+In particular, command line options are listed [there](https://pommedeterresautee.github.io/FastRText/articles/list_command.html).
 
 ### Supervised learning (text classification)
 

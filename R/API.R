@@ -227,8 +227,9 @@ get_hamming_loss <- function(labels, predictions) {
 #' Print command information, mainly to use with [execute()] `function`.
 #'
 #' @examples
-#'
+#' \dontrun{
 #' print_help()
+#' }
 #'
 #' @export
 print_help <- function() {
