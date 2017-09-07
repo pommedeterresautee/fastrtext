@@ -14,8 +14,8 @@ writeLines(text = texts, con = tmp_file_txt)
 execute(commands = c("skipgram",
                      "-input", tmp_file_txt,
                      "-output", tmp_file_model,
-                     "-dim", 100,
-                     "-bucket", 5e3,
+                     "-dim", 70,
+                     "-bucket", 1e3,
                      "-epoch", 20))
 
 # Supervised
@@ -23,7 +23,7 @@ train_labels <- paste0("__label__", train_sentences[, "class.text"])
 train_texts <- tolower(train_sentences[, "text"])
 train_to_write <- paste(train_labels, train_texts)
 train_tmp_file_txt <- tempfile()
-tmp_file_model <- "./data-raw/model_supervised_test"
+tmp_file_model <- "./data-raw/model_classification_test"
 writeLines(text = train_to_write, con = train_tmp_file_txt)
 
 test_labels <- paste0("__label__", test_sentences[, "class.text"])
@@ -39,4 +39,4 @@ execute(commands =
             "-lr", 1,
             "-epoch", 20, 
             "-wordNgrams", 2,
-            "-bucket", 5e3))
+            "-bucket", 1e3))

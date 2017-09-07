@@ -30,7 +30,7 @@ test_that("Training", {
 test_that("Test parameter extraction", {
   model <- load_model(model_test_path)
   parameters <- get_parameters(model)
-  expect_equal(parameters$dim, 100)
+  expect_equal(parameters$dim, 70)
   expect_equal(parameters$model_name, "sg")
 })
 
