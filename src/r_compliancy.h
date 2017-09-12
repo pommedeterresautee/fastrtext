@@ -5,10 +5,11 @@
 
 #include <Rcpp.h>
 #include <stdexcept>
+#include "exit_fasttext.h"
 
-#define exit(error_code) if (error_code != 0) {Rcpp::stop("Exit code: " + std::to_string(error_code));};
-#define cerr cout // with cerr, no line refresh possible on R
+#define exit(error_code) ciao(error_code)
+#define cerr Rccout // with cerr, no line refresh possible on R
+#define cout Rccout
 #define main main_fastrtext // no call to main()
-
 
 #endif //R_COMPLIANCY
