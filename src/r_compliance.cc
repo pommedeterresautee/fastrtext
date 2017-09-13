@@ -1,4 +1,5 @@
-// Code to be included in all cc files to avoid warnings / notes from Cran
+// Content of this file is added to each source of fastText to change some behaviours
+
 #include <stdlib.h>
 #include <string.h>
 #include <Rcpp.h>
@@ -6,7 +7,7 @@
 
 void exit_fasttext(int status_code) {
   if (status_code != EXIT_SUCCESS) {
-    Rcpp::stop("Exit code: " + std::to_string(status_code));
+    Rcpp::stop("Failure in FastRText. Exit code: " + std::to_string(status_code));
   }
 }
 
