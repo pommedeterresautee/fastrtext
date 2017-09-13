@@ -11,7 +11,7 @@
 extern SEXP _rcpp_module_boot_FASTRTEXT_MODULE();
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_rcpp_module_boot_FASTRTEXT_MODULE", (DL_FUNC) &_rcpp_module_boot_AnnoyAngular, 0},
+    {"_rcpp_module_boot_FASTRTEXT_MODULE", (DL_FUNC) &_rcpp_module_boot_FASTRTEXT_MODULE, 0},
     {NULL, NULL, 0}
 };
 
