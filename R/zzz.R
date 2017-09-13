@@ -19,6 +19,3 @@ loadModule("FASTRTEXT_MODULE", TRUE)
 #' @slot get_words List all words learned
 #' @slot get_labels List all labels learned
 NULL
-
-#' @export _rcpp_module_boot_FASTRTEXT_MODULE
-NULL
