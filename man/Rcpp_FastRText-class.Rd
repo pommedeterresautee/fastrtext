@@ -19,7 +19,7 @@ Models are objects with several methods which can be called that way: model$meth
 
 \item{\code{get_parameters}}{Get parameters used to train the model}
 
-\item{\code{get_words}}{List all words learned}
+\item{\code{get_dictionary}}{List all words learned}
 
 \item{\code{get_labels}}{List all labels learned}
 }}

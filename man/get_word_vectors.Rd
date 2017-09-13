@@ -12,7 +12,7 @@ get_word_vectors(model, words)
 \item{words}{\link{character} of words}
 }
 \value{
-\link{list} containing each word and its \code{numeric} vector.
+\link{matrix} containing each word embedding as a row and \code{rownames} are populated with word strings.
 }
 \description{
 Return the vector representation of provided words (unsupervised training)

@@ -49,10 +49,11 @@ test_that("Test word embeddings", {
 
   # test vector lentgh
   parameters <- get_parameters(model)
-  expect_length(get_word_vectors(model, "time")[[1]], parameters$dim)
+  expect_length(get_word_vectors(model, "time")[1,], parameters$dim)
 
   # test word distance
-  expect_lt(get_word_distance(model, "time", "timing"), get_word_distance(model, "experience", "section"))
+  expect_lt(get_word_distance(model, "introduction", "conclusions"), get_word_distance(model, "experience", "section"))
+  expect_lt(get_word_distance(model, "our", "we"), get_word_distance(model, "introduction", "conclusions"))
 })
 
 test_that("Nearest neighbours", {

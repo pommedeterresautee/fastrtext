@@ -16,6 +16,6 @@ loadModule("FASTRTEXT_MODULE", TRUE)
 #' @slot execute Execute commands
 #' @slot get_vectors Get vectors related to provided words
 #' @slot get_parameters Get parameters used to train the model
-#' @slot get_words List all words learned
+#' @slot get_dictionary List all words learned
 #' @slot get_labels List all labels learned
 NULL

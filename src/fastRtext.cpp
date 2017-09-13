@@ -129,7 +129,7 @@ public:
                               Rcpp::Named("model_name") = wrap(getModelName()));
   }
 
-  std::vector<std::string> get_words() {
+  std::vector<std::string> get_dictionary() {
     check_model_loaded();
     std::vector<std::string> words;
     int32_t nwords = privateMembers->dict_->nwords();
@@ -140,23 +140,26 @@ public:
   }
 
   NumericVector get_vector(const std::string& word) {
+    check_model_loaded();
     fasttext::Vector vec(privateMembers->args_->dim);
     model->getVector(vec, word);
     return wrap(std::vector<real>(vec.data_, vec.data_ + vec.m_));
   }
 
-  List get_vectors(CharacterVector words){
+  NumericMatrix get_vectors(CharacterVector words){
     check_model_loaded();
-    List l(words.size());
+    int dim(privateMembers->args_->dim);
+    NumericMatrix mat(words.size(), dim);
     CharacterVector names(words.size());
+
     for(int i = 0 ; i < words.size(); ++i) {
       std::string word(words(i));
-      NumericVector vector = get_vector(word);
-      l[i] = vector;
       names[i] = word;
+      mat.row(i) = get_vector(word);
     }
-    l.attr("names") = names;
-    return l;
+
+    rownames(mat) = names;
+    return mat;
   }
 
   std::vector<std::string> get_labels() {
@@ -310,18 +313,8 @@ RCPP_MODULE(FASTRTEXT_MODULE) {
   .method("get_vectors", &FastRText::get_vectors, "Get vectors related to provided words")
   .method("get_vector", &FastRText::get_vector, "Get vector related to the provided word")
   .method("get_parameters", &FastRText::get_parameters, "Get parameters used to train the model")
-  .method("get_words", &FastRText::get_words, "List all words learned")
+  .method("get_dictionary", &FastRText::get_dictionary, "List all words learned")
   .method("get_labels", &FastRText::get_labels, "List all labels")
   .method("get_nn_by_vector", &FastRText::get_nn_by_vector, "Get nearest neighbour words, providing a vector")
   .method("print_help", &FastRText::print_help, "Print command helps");
 }
-
-// Ugly hack
-// RCpp module generates a Note, this call avoid the check
-// Inspired from http://lists.r-forge.r-project.org/pipermail/rcpp-devel/2017-March/009554.html
-// More info on http://thecoatlessprofessor.com/programming/r/registration-of-entry-points-in-compiled-code-loaded-into-r/
-// void anything(DllInfo *dll)
-// {
-//   R_registerRoutines(dll, NULL, NULL, NULL, NULL);
-//   R_useDynamicSymbols(dll, TRUE);
-// }

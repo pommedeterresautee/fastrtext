@@ -50,7 +50,7 @@ get_parameters <- function(model) {
 #'
 #' @export
 get_dictionary <- function(model) {
-  model$get_words()
+  model$get_dictionary()
 }
 
 #' Get list of labels (supervised model)
@@ -103,7 +103,7 @@ predict.Rcpp_FastRText <- function(object, sentences, k = 1, ...) {
 #' or provided labels (supervised training).
 #' @param model trained Fasttext model
 #' @param words [character] of words
-#' @return [list] containing each word and its `numeric` vector.
+#' @return [matrix] containing each word embedding as a row and `rownames` are populated with word strings.
 #' @export
 get_word_vectors <- function(model, words) {
   model$get_vectors(words)
@@ -183,9 +183,9 @@ execute <- function(commands) {
 get_word_distance <- function(model, w1, w2) {
   assert_that(is.string(w1))
   assert_that(is.string(w2))
-  embeddings <- get_word_vectors(model, c(w1, w2) )
-  1 - crossprod(embeddings[[1]], embeddings[[2]]) /
-    sqrt(crossprod(embeddings[[1]]) * crossprod(embeddings[[2]]))
+  embeddings <- get_word_vectors(model, c(w1, w2))
+  1 - crossprod(embeddings[1,], embeddings[2,]) /
+    sqrt(crossprod(embeddings[1,]) * crossprod(embeddings[2,]))
 }
 
 #' Hamming loss
