@@ -320,8 +320,8 @@ RCPP_MODULE(FASTRTEXT_MODULE) {
 // RCpp module generates a Note, this call avoid the check
 // Inspired from http://lists.r-forge.r-project.org/pipermail/rcpp-devel/2017-March/009554.html
 // More info on http://thecoatlessprofessor.com/programming/r/registration-of-entry-points-in-compiled-code-loaded-into-r/
-void anything(DllInfo *dll)
-{
-  R_registerRoutines(dll, NULL, NULL, NULL, NULL);
-  R_useDynamicSymbols(dll, TRUE);
-}
+// void anything(DllInfo *dll)
+// {
+//   R_registerRoutines(dll, NULL, NULL, NULL, NULL);
+//   R_useDynamicSymbols(dll, TRUE);
+// }
