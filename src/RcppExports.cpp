@@ -5,15 +5,3 @@
 
 using namespace Rcpp;
 
-
-RcppExport SEXP _rcpp_module_boot_FASTRTEXT_MODULE();
-
-static const R_CallMethodDef CallEntries[] = {
-    {"_rcpp_module_boot_FASTRTEXT_MODULE", (DL_FUNC) &_rcpp_module_boot_FASTRTEXT_MODULE, 0},
-    {NULL, NULL, 0}
-};
-
-RcppExport void R_init_FastRText(DllInfo *dll) {
-    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
-    R_useDynamicSymbols(dll, FALSE);
-}
