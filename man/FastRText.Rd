@@ -5,9 +5,9 @@
 \alias{FastRText}
 \alias{FastRText-package}
 \alias{FastRText-package}
-\title{FastRText: FastRText}
+\title{FastRText: FastRText for text classification and word representation}
 \description{
-R wrapper of fastText by Facebook for both text classification and word reprensentation.
+R wrapper of fastText by Facebook for both text classification and word representation.
 }
 \seealso{
 Useful links:
