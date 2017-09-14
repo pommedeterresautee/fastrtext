@@ -1,6 +1,8 @@
 context("Unsupervised training")
 
-model_test_path <- system.file("extdata", "model_unsupervised_test.bin", package = "FastRText")
+model_test_path <- system.file("extdata",
+                               "model_unsupervised_test.bin",
+                               package = "fastrtext")
 
 test_that("Training", {
   data("train_sentences")
@@ -49,11 +51,13 @@ test_that("Test word embeddings", {
 
   # test vector lentgh
   parameters <- get_parameters(model)
-  expect_length(get_word_vectors(model, "time")[1,], parameters$dim)
+  expect_length(get_word_vectors(model, "time")[1, ], parameters$dim)
 
   # test word distance
-  expect_lt(get_word_distance(model, "introduction", "conclusions"), get_word_distance(model, "experience", "section"))
-  expect_lt(get_word_distance(model, "our", "we"), get_word_distance(model, "introduction", "conclusions"))
+  expect_lt(get_word_distance(model, "introduction", "conclusions"),
+            get_word_distance(model, "experience", "section"))
+  expect_lt(get_word_distance(model, "our", "we"),
+            get_word_distance(model, "introduction", "conclusions"))
 })
 
 test_that("Nearest neighbours", {

@@ -2,6 +2,8 @@ reference:
   - title: "General"
     desc: "Functions useful in both supervised and unsupervised contexts."
     contents:
+     - fastrtext
+     - Rcpp_fastrtext-class
      - load_model
      - execute
      - get_parameters
@@ -9,7 +11,7 @@ reference:
   - title: "Supervised learning"
     desc: "Function useful for text classification."
     contents:
-      - predict.Rcpp_FastRText
+      - predict.Rcpp_fastrtext
       - get_hamming_loss
       - get_labels
   - title: "Unsupervised learning"

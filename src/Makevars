@@ -8,7 +8,7 @@ PKG_CPPFLAGS = $(SHLIB_PTHREAD_FLAGS) -include r_compliance.h -I$(PKGROOT)
 # pthread is used for multithreading by fastText
 PKG_LIBS = $(SHLIB_PTHREAD_FLAGS)
 
-OBJECTS = r_compliance.o $(PKGROOT)/args.o $(PKGROOT)/dictionary.o $(PKGROOT)/productquantizer.o $(PKGROOT)/matrix.o $(PKGROOT)/qmatrix.o $(PKGROOT)/vector.o $(PKGROOT)/model.o $(PKGROOT)/utils.o $(PKGROOT)/fasttext.o $(PKGROOT)/main.o fastRtext.o RcppExports.o
+OBJECTS = r_compliance.o $(PKGROOT)/args.o $(PKGROOT)/dictionary.o $(PKGROOT)/productquantizer.o $(PKGROOT)/matrix.o $(PKGROOT)/qmatrix.o $(PKGROOT)/vector.o $(PKGROOT)/model.o $(PKGROOT)/utils.o $(PKGROOT)/fasttext.o $(PKGROOT)/main.o fastrtext.o RcppExports.o
 
 # Reduce the size of the compiled library by removing unneeded debug information
 # http://dirk.eddelbuettel.com/blog/2017/08/14/#009_compact_shared_libraries

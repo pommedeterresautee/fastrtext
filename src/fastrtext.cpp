@@ -13,17 +13,17 @@ using namespace Rcpp;
 using namespace fasttext;
 using namespace FastTextWrapper;
 
-class FastRText{
+class fastrtext{
 public:
 
-  FastRText(): model_loaded(false){
+  fastrtext(): model_loaded(false){
     model =  std::unique_ptr<FastText>(new FastText());
     // HACK: A trick to get access to FastText's private members.
     // Reference: http://stackoverflow.com/a/8282638
     privateMembers = (FastTextPrivateMembers*) model.get();
   }
 
-  ~FastRText(){
+  ~fastrtext(){
     privateMembers->args_.reset();
     privateMembers->dict_.reset();
     privateMembers->input_.reset();
@@ -305,16 +305,16 @@ private:
 };
 
 RCPP_MODULE(FASTRTEXT_MODULE) {
-  class_<FastRText>("FastRText")
+  class_<fastrtext>("fastrtext")
   .constructor("Managed fasttext model")
-  .method("load", &FastRText::load, "Load a model")
-  .method("predict", &FastRText::predict, "Make a prediction")
-  .method("execute", &FastRText::execute, "Execute commands")
-  .method("get_vectors", &FastRText::get_vectors, "Get vectors related to provided words")
-  .method("get_vector", &FastRText::get_vector, "Get vector related to the provided word")
-  .method("get_parameters", &FastRText::get_parameters, "Get parameters used to train the model")
-  .method("get_dictionary", &FastRText::get_dictionary, "List all words learned")
-  .method("get_labels", &FastRText::get_labels, "List all labels")
-  .method("get_nn_by_vector", &FastRText::get_nn_by_vector, "Get nearest neighbour words, providing a vector")
-  .method("print_help", &FastRText::print_help, "Print command helps");
+  .method("load", &fastrtext::load, "Load a model")
+  .method("predict", &fastrtext::predict, "Make a prediction")
+  .method("execute", &fastrtext::execute, "Execute commands")
+  .method("get_vectors", &fastrtext::get_vectors, "Get vectors related to provided words")
+  .method("get_vector", &fastrtext::get_vector, "Get vector related to the provided word")
+  .method("get_parameters", &fastrtext::get_parameters, "Get parameters used to train the model")
+  .method("get_dictionary", &fastrtext::get_dictionary, "List all words learned")
+  .method("get_labels", &fastrtext::get_labels, "List all labels")
+  .method("get_nn_by_vector", &fastrtext::get_nn_by_vector, "Get nearest neighbour words, providing a vector")
+  .method("print_help", &fastrtext::print_help, "Print command helps");
 }

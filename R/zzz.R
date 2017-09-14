@@ -1,15 +1,15 @@
 loadModule("FASTRTEXT_MODULE", TRUE)
 
-#' @name FastRText
-#' @useDynLib FastRText, .registration = TRUE
+#' @name fastrtext
+#' @useDynLib fastrtext, .registration = TRUE
 #' @importFrom Rcpp evalCpp loadModule cpp_object_initializer
 "_PACKAGE"
 
-#' Rcpp_FastRText class
+#' Rcpp_fastrtext class
 #'
-#' Models are objects with several methods which can be called that way: model$method()
+#' Models are [S4] objects with several methods which can be called that way: model$method()
 #'
-#' @name Rcpp_FastRText-class
+#' @name Rcpp_fastrtext-class
 #'
 #' @slot load Load a model
 #' @slot predict Make a prediction

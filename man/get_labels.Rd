@@ -17,8 +17,8 @@ Get a \link{character} containing each label seen during training.
 }
 \examples{
 
-library(FastRText)
-model_test_path <- system.file("extdata", "model_classification_test.bin", package = "FastRText")
+library(fastrtext)
+model_test_path <- system.file("extdata", "model_classification_test.bin", package = "fastrtext")
 model <- load_model(model_test_path)
 print(head(get_labels(model), 5))
 

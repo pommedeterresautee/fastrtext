@@ -19,9 +19,9 @@ Compute the hamming loss. When there is only one category, this measure the accu
 }
 \examples{
 
-library(FastRText)
+library(fastrtext)
 data("test_sentences")
-model_test_path <- system.file("extdata", "model_classification_test.bin", package = "FastRText")
+model_test_path <- system.file("extdata", "model_classification_test.bin", package = "fastrtext")
 model <- load_model(model_test_path)
 sentences <- test_sentences[, "text"]
 test_labels <- test_sentences[, "class.text"]

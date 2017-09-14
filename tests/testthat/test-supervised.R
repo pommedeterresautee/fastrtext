@@ -7,7 +7,9 @@ test_labels <- paste0("__label__", test_sentences[, "class.text"])
 test_texts <- tolower(test_sentences[, "text"])
 test_sentences_with_labels <- paste(test_labels, test_texts)
 
-model_test_path <- system.file("extdata", "model_classification_test.bin", package = "FastRText")
+model_test_path <- system.file("extdata",
+                               "model_classification_test.bin",
+                               package = "fastrtext")
 
 test_that("Training of a classification model", {
   # prepare data
@@ -36,19 +38,31 @@ test_that("Training of a classification model", {
   expect_true(file.exists(paste0(tmp_file_model, ".bin")))
 
   learned_model <- load_model(tmp_file_model)
-  learned_model_predictions <- predict(learned_model, sentences = test_sentences_with_labels)
+  learned_model_predictions <- predict(learned_model,
+                                       sentences = test_sentences_with_labels)
 
   # Compare with embedded model
   embedded_model <- load_model(model_test_path)
-  embedded_model_predictions <- predict(embedded_model, sentences = test_sentences_with_labels)
-  expect_gt(mean(names(unlist(learned_model_predictions)) == names(unlist(embedded_model_predictions))), 0.75)
+  embedded_model_predictions <- predict(embedded_model,
+                                        sentences = test_sentences_with_labels)
+  expect_gt(mean(names(unlist(learned_model_predictions)) ==
+                   names(unlist(embedded_model_predictions))), 0.75)
 
   # Compare with quantize model
-  execute(commands = c("quantize", "-output", tmp_file_model, "-input", train_tmp_file_txt, "-qnorm", "-retrain", "-epoch", "1", "-cutoff", "100000"))
+  execute(commands = c("quantize",
+                       "-output", tmp_file_model,
+                       "-input", train_tmp_file_txt,
+                       "-qnorm",
+                       "-retrain",
+                       "-epoch", "1",
+                       "-cutoff", "100000"))
+
   expect_true(file.exists(paste0(tmp_file_model, ".ftz")))
   quantized_model <- load_model(paste0(tmp_file_model, ".ftz"))
-  quantized_model_predictions <- predict(quantized_model, sentences = test_sentences_with_labels)
-  expect_gt(mean(names(unlist(learned_model_predictions)) == names(unlist(quantized_model_predictions))), 0.9)
+  quantized_model_predictions <- predict(quantized_model,
+                                         sentences = test_sentences_with_labels)
+  expect_gt(mean(names(unlist(learned_model_predictions)) ==
+                   names(unlist(quantized_model_predictions))), 0.9)
 })
 
 test_that("Test predictions", {
@@ -56,7 +70,8 @@ test_that("Test predictions", {
   predictions <- predict(model, sentences = test_sentences_with_labels)
 
   # test measure (for 1 class, hamming == accuracy)
-  expect_equal(get_hamming_loss(as.list(test_labels), predictions), mean(sapply(predictions, names) == test_labels))
+  expect_equal(get_hamming_loss(as.list(test_labels), predictions),
+               mean(sapply(predictions, names) == test_labels))
 
   predictions <- predict(model, sentences = test_sentences_with_labels)
   expect_length(predictions, 600)

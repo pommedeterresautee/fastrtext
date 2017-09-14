@@ -15,7 +15,7 @@ Use the same commands than the one to use for the command line.
 \examples{
 
 # Supervised learning example
-library(FastRText)
+library(fastrtext)
 
 data("train_sentences")
 data("test_sentences")
@@ -42,7 +42,7 @@ model <- load_model(tmp_file_model)
 predict(model, sentences = test_sentences[1, "text"])
 
 # Unsupervised learning example
-library(FastRText)
+library(fastrtext)
 
 data("train_sentences")
 data("test_sentences")

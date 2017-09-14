@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get nearest neighbour vectors — get_nn • FastRText</title>
+<title>Get nearest neighbour vectors — get_nn • fastrtext</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -47,7 +47,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">FastRText</a>
+      <a class="navbar-brand" href="../index.html">fastrtext</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -133,8 +133,8 @@ Search is done linearly, if your model is big you may want to use an approximate
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'>library</span>(<span class='no'>FastRText</span>)
-<span class='no'>model_test_path</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata"</span>, <span class='st'>"model_unsupervised_test.bin"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"FastRText"</span>)
+<span class='fu'>library</span>(<span class='no'>fastrtext</span>)
+<span class='no'>model_test_path</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata"</span>, <span class='st'>"model_unsupervised_test.bin"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"fastrtext"</span>)
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='load_model.html'>load_model</a></span>(<span class='no'>model_test_path</span>)
 <span class='fu'>get_nn</span>(<span class='no'>model</span>, <span class='st'>"time"</span>, <span class='fl'>10</span>)</div><div class='output co'>#&gt;      times       size   indicate     access    success   allowing   feelings 
 #&gt;  0.6120564  0.5041215  0.4941387  0.4777856  0.4719051  0.4696053  0.4652924 

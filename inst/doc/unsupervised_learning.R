@@ -1,5 +1,5 @@
 ## ----unsupervised_learning-----------------------------------------------
- library(FastRText)
+ library(fastrtext)
     
     data("train_sentences")
     data("test_sentences")

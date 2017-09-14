@@ -1,5 +1,5 @@
 ## ----eval=FALSE----------------------------------------------------------
-#  library(FastRText)
+#  library(fastrtext)
 #  
 #  print_help()
 

@@ -1,64 +1,64 @@
-FastRText
+fastrtext
 =========
 
-[![Travis-CI Build Status](https://travis-ci.org/pommedeterresautee/FastRText.svg?branch=master)](https://travis-ci.org/pommedeterresautee/FastRText)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/pommedeterresautee/FastRText?branch=master&svg=true)](https://ci.appveyor.com/project/pommedeterresautee/FastRText)
-[![codecov](https://codecov.io/gh/pommedeterresautee/FastRText/branch/master/graph/badge.svg)](https://codecov.io/gh/pommedeterresautee/FastRText)
+[![Travis-CI Build Status](https://travis-ci.org/pommedeterresautee/fastrtext.svg?branch=master)](https://travis-ci.org/pommedeterresautee/fastrtext)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/pommedeterresautee/fastrtext?branch=master&svg=true)](https://ci.appveyor.com/project/pommedeterresautee/fastrtext)
+[![codecov](https://codecov.io/gh/pommedeterresautee/fastrtext/branch/master/graph/badge.svg)](https://codecov.io/gh/pommedeterresautee/fastrtext)
 
 R wrapper for [fastText](https://github.com/facebookresearch/fastText) C++ code from Facebook.
 
 fastText is a library for efficient learning of word representations and sentence classification.
 
-![fastText logo](https://github.com/pommedeterresautee/FastRText/raw/master/tools/fasttext-logo-color-web.png) 
+![fastText logo](https://github.com/pommedeterresautee/fastrtext/raw/master/tools/fasttext-logo-color-web.png) 
 
 Installation
 ------------
 
-You can install the FastRText package from Github as follows:
+You can install the fastrtext package from Github as follows:
 
 ```R
 # install.packages("devtools")
-devtools::install_github("pommedeterresautee/FastRText")
+devtools::install_github("pommedeterresautee/fastrtext")
 ```
 
 Documentation
 -------------
 
-All the updated documentation can be reached at this [address](https://pommedeterresautee.github.io/FastRText/).
+All the updated documentation can be reached at this [address](https://pommedeterresautee.github.io/fastrtext/).
 
 API
 ---
 
-API documentation can be reached at this [address](https://pommedeterresautee.github.io/FastRText//reference/index.html).
+API documentation can be reached at this [address](https://pommedeterresautee.github.io/fastrtext/reference/index.html).
 
-In particular, command line options are listed [there](https://pommedeterresautee.github.io/FastRText/articles/list_command.html).
+In particular, command line options are listed [there](https://pommedeterresautee.github.io/fastrtext/articles/list_command.html).
 
 ### Supervised learning (text classification)
 
 Data for a multi-class task are embedded in this package.  
-Follow this [link](https://pommedeterresautee.github.io/FastRText/articles/supervised_learning.html) to learn a model and then measure the accuracy in 5 minutes.  
+Follow this [link](https://pommedeterresautee.github.io/fastrtext/articles/supervised_learning.html) to learn a model and then measure the accuracy in 5 minutes.  
 
 
 ### Unsupervised learning (word representation)
 
 Data for a word representation learning task are embedded in this package.  
-Following this [link](https://pommedeterresautee.github.io/FastRText/articles/unsupervised_learning.html) will route you to 5mn tutorial to learn a representations of words (word embeddings):  
+Following this [link](https://pommedeterresautee.github.io/fastrtext/articles/unsupervised_learning.html) will route you to 5mn tutorial to learn a representations of words (word embeddings):  
 
 Alternatives
 ------------
 
 Why not use the command line client?  
 
-* You can call the client from the client using `system("fastext ...")` ;
+* You can call the client from the client using `system("fasttext ...")` ;
 * To get prediction, you will need to write file, make predictions from the command line, then read the results ;
-* FastRText makes your life easier by making all these operations in memory ;
+* fastrtext makes your life easier by making all these operations in memory ;
 * It takes less time, and use less commands ;
 * Easy to install from R directly.
 
 Why not use [fastTextR](https://github.com/mlampros/fastTextR/) ?  
 
-* FastRText implements both supervised and unsupervised parts of fasttext (fastTextR implements only the unsupervised part) ;
-* with FastRText. predictions can be done in memory (fastTextR requires to write the sentence on hard drive and requires you to read the predictions after) ;
+* fastrtext implements both supervised and unsupervised parts of `fastText` (fastTextR implements only the unsupervised part) ;
+* with fastrtext. predictions can be done in memory (fastTextR requires to write the sentence on hard drive and requires you to read the predictions after) ;
 * fastText original source code embedded in fastTextR is not up to date (miss several new features, bug fixes since January 2017).
 
 References

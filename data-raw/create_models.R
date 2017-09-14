@@ -1,7 +1,7 @@
 # The purpose of this script is to create models
 # used in tests.
 
-require(FastRText)
+require(fastrtext)
 
 data("train_sentences")
 data("test_sentences")

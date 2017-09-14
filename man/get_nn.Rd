@@ -23,8 +23,8 @@ Search is done linearly, if your model is big you may want to use an approximate
 }
 \examples{
 
-library(FastRText)
-model_test_path <- system.file("extdata", "model_unsupervised_test.bin", package = "FastRText")
+library(fastrtext)
+model_test_path <- system.file("extdata", "model_unsupervised_test.bin", package = "fastrtext")
 model <- load_model(model_test_path)
 get_nn(model, "time", 10)
 

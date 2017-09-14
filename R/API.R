@@ -4,8 +4,8 @@
 #' @param path path to the existing model
 #' @examples
 #'
-#' library(FastRText)
-#' model_test_path <- system.file("extdata", "model_classification_test.bin", package = "FastRText")
+#' library(fastrtext)
+#' model_test_path <- system.file("extdata", "model_classification_test.bin", package = "fastrtext")
 #' model <- load_model(model_test_path)
 #'
 #' @export
@@ -14,7 +14,7 @@ load_model <- function(path) {
     message("add .bin extension to the path")
     path <- paste0(path, ".bin")
   }
-  model <- new(FastRText)
+  model <- new(fastrtext)
   model$load(path)
   model
 }
@@ -26,8 +26,8 @@ load_model <- function(path) {
 #' @return [list] contaning each parameter
 #' @examples
 #'
-#' library(FastRText)
-#' model_test_path <- system.file("extdata", "model_classification_test.bin", package = "FastRText")
+#' library(fastrtext)
+#' model_test_path <- system.file("extdata", "model_classification_test.bin", package = "fastrtext")
 #' model <- load_model(model_test_path)
 #' print(head(get_parameters(model), 5))
 #'
@@ -43,8 +43,8 @@ get_parameters <- function(model) {
 #' @return [character] contaning each word
 #' @examples
 #'
-#' library(FastRText)
-#' model_test_path <- system.file("extdata", "model_classification_test.bin", package = "FastRText")
+#' library(fastrtext)
+#' model_test_path <- system.file("extdata", "model_classification_test.bin", package = "fastrtext")
 #' model <- load_model(model_test_path)
 #' print(head(get_dictionary(model), 5))
 #'
@@ -61,8 +61,8 @@ get_dictionary <- function(model) {
 #' @importFrom assertthat assert_that
 #' @examples
 #'
-#' library(FastRText)
-#' model_test_path <- system.file("extdata", "model_classification_test.bin", package = "FastRText")
+#' library(fastrtext)
+#' model_test_path <- system.file("extdata", "model_classification_test.bin", package = "fastrtext")
 #' model <- load_model(model_test_path)
 #' print(head(get_labels(model), 5))
 #'
@@ -85,15 +85,15 @@ get_labels <- function(model) {
 #' @return [list] containing for each sentence the probability to be associated with `k` labels.
 #' @examples
 #'
-#' library(FastRText)
+#' library(fastrtext)
 #' data("test_sentences")
-#' model_test_path <- system.file("extdata", "model_classification_test.bin", package = "FastRText")
+#' model_test_path <- system.file("extdata", "model_classification_test.bin", package = "fastrtext")
 #' model <- load_model(model_test_path)
 #' sentence <- test_sentences[1, "text"]
 #' print(predict(model, sentence))
 #'
 #' @export
-predict.Rcpp_FastRText <- function(object, sentences, k = 1, ...) {
+predict.Rcpp_fastrtext <- function(object, sentences, k = 1, ...) {
   object$predict(sentences, k)
 }
 
@@ -104,8 +104,8 @@ predict.Rcpp_FastRText <- function(object, sentences, k = 1, ...) {
 #'
 #' @examples
 #'
-#' library(FastRText)
-#' model_test_path <- system.file("extdata", "model_unsupervised_test.bin", package = "FastRText")
+#' library(fastrtext)
+#' model_test_path <- system.file("extdata", "model_unsupervised_test.bin", package = "fastrtext")
 #' model <- load_model(model_test_path)
 #' get_word_vectors(model, c("introduction", "we"))
 #'
@@ -124,7 +124,7 @@ get_word_vectors <- function(model, words) {
 #' @examples
 #'
 #' # Supervised learning example
-#' library(FastRText)
+#' library(fastrtext)
 #'
 #' data("train_sentences")
 #' data("test_sentences")
@@ -151,7 +151,7 @@ get_word_vectors <- function(model, words) {
 #' predict(model, sentences = test_sentences[1, "text"])
 #'
 #' # Unsupervised learning example
-#' library(FastRText)
+#' library(fastrtext)
 #'
 #' data("train_sentences")
 #' data("test_sentences")
@@ -167,7 +167,7 @@ get_word_vectors <- function(model, words) {
 #'
 #' @export
 execute <- function(commands) {
-  model <- new(FastRText)
+  model <- new(fastrtext)
   model$execute(c("fasttext", commands))
 }
 
@@ -181,8 +181,8 @@ execute <- function(commands) {
 #'
 #' @examples
 #'
-#' library(FastRText)
-#' model_test_path <- system.file("extdata", "model_unsupervised_test.bin", package = "FastRText")
+#' library(fastrtext)
+#' model_test_path <- system.file("extdata", "model_unsupervised_test.bin", package = "fastrtext")
 #' model <- load_model(model_test_path)
 #' get_word_distance(model, "time", "timing")
 #'
@@ -192,8 +192,8 @@ get_word_distance <- function(model, w1, w2) {
   assert_that(is.string(w1))
   assert_that(is.string(w2))
   embeddings <- get_word_vectors(model, c(w1, w2))
-  1 - crossprod(embeddings[1,], embeddings[2,]) /
-    sqrt(crossprod(embeddings[1,]) * crossprod(embeddings[2,]))
+  1 - crossprod(embeddings[1, ], embeddings[2, ]) /
+    sqrt(crossprod(embeddings[1, ]) * crossprod(embeddings[2, ]))
 }
 
 #' Hamming loss
@@ -205,9 +205,9 @@ get_word_distance <- function(model, w1, w2) {
 #'
 #' @examples
 #'
-#' library(FastRText)
+#' library(fastrtext)
 #' data("test_sentences")
-#' model_test_path <- system.file("extdata", "model_classification_test.bin", package = "FastRText")
+#' model_test_path <- system.file("extdata", "model_classification_test.bin", package = "fastrtext")
 #' model <- load_model(model_test_path)
 #' sentences <- test_sentences[, "text"]
 #' test_labels <- test_sentences[, "class.text"]
@@ -241,7 +241,7 @@ get_hamming_loss <- function(labels, predictions) {
 #'
 #' @export
 print_help <- function() {
-  model <- new(FastRText)
+  model <- new(fastrtext)
   model$print_help()
   rm(model)
 }
@@ -259,8 +259,8 @@ print_help <- function() {
 #'
 #' @examples
 #'
-#' library(FastRText)
-#' model_test_path <- system.file("extdata", "model_unsupervised_test.bin", package = "FastRText")
+#' library(fastrtext)
+#' model_test_path <- system.file("extdata", "model_unsupervised_test.bin", package = "fastrtext")
 #' model <- load_model(model_test_path)
 #' get_nn(model, "time", 10)
 #'
@@ -287,8 +287,8 @@ get_nn <- function(model, word, k) {
 #' @return a [numeric] with distances and [names] are words
 #' @examples
 #'
-#' library(FastRText)
-#' model_test_path <- system.file("extdata", "model_unsupervised_test.bin", package = "FastRText")
+#' library(fastrtext)
+#' model_test_path <- system.file("extdata", "model_unsupervised_test.bin", package = "fastrtext")
 #' model <- load_model(model_test_path)
 #' get_analogies(model, "experience", "experiences", "result")
 #'

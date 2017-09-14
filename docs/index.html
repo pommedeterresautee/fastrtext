@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FastRText • FastRText</title>
+<title>fastrtext for text classification and word representation • fastrtext</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
@@ -24,7 +24,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">FastRText</a>
+      <a class="navbar-brand" href="index.html">fastrtext</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -76,39 +76,39 @@
   <div class="contents col-md-9">
     <div id="fastrtext" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#fastrtext" class="anchor"></a>FastRText</h1></div>
+<a href="#fastrtext" class="anchor"></a>fastrtext</h1></div>
 
 <p>R wrapper for <a href="https://github.com/facebookresearch/fastText">fastText</a> C++ code from Facebook.</p>
 <p>fastText is a library for efficient learning of word representations and sentence classification.</p>
-<p><img src="https://github.com/pommedeterresautee/FastRText/raw/master/tools/fasttext-logo-color-web.png" alt="fastText logo"></p>
+<p><img src="https://github.com/pommedeterresautee/fastrtext/raw/master/tools/fasttext-logo-color-web.png" alt="fastText logo"></p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>You can install the FastRText package from Github as follows:</p>
+<p>You can install the fastrtext package from Github as follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("devtools")</span>
-devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"pommedeterresautee/FastRText"</span>)</code></pre></div>
+devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"pommedeterresautee/fastrtext"</span>)</code></pre></div>
 </div>
 <div id="documentation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#documentation" class="anchor"></a>Documentation</h2>
-<p>All the updated documentation can be reached at this <a href="https://pommedeterresautee.github.io/FastRText/">address</a>.</p>
+<p>All the updated documentation can be reached at this <a href="https://pommedeterresautee.github.io/fastrtext/">address</a>.</p>
 </div>
 <div id="api" class="section level2">
 <h2 class="hasAnchor">
 <a href="#api" class="anchor"></a>API</h2>
-<p>API documentation can be reached at this <a href="https://pommedeterresautee.github.io/FastRText//reference/index.html">address</a>.</p>
-<p>In particular, command line options are listed <a href="https://pommedeterresautee.github.io/FastRText/articles/list_command.html">there</a>.</p>
+<p>API documentation can be reached at this <a href="https://pommedeterresautee.github.io/fastrtext/reference/index.html">address</a>.</p>
+<p>In particular, command line options are listed <a href="https://pommedeterresautee.github.io/fastrtext/articles/list_command.html">there</a>.</p>
 <div id="supervised-learning-text-classification" class="section level3">
 <h3 class="hasAnchor">
 <a href="#supervised-learning-text-classification" class="anchor"></a>Supervised learning (text classification)</h3>
 <p>Data for a multi-class task are embedded in this package.<br>
-Follow this <a href="https://pommedeterresautee.github.io/FastRText/articles/supervised_learning.html">link</a> to learn a model and then measure the accuracy in 5 minutes.</p>
+Follow this <a href="https://pommedeterresautee.github.io/fastrtext/articles/supervised_learning.html">link</a> to learn a model and then measure the accuracy in 5 minutes.</p>
 </div>
 <div id="unsupervised-learning-word-representation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#unsupervised-learning-word-representation" class="anchor"></a>Unsupervised learning (word representation)</h3>
 <p>Data for a word representation learning task are embedded in this package.<br>
-Following this <a href="https://pommedeterresautee.github.io/FastRText/articles/unsupervised_learning.html">link</a> will route you to 5mn tutorial to learn a representations of words (word embeddings):</p>
+Following this <a href="https://pommedeterresautee.github.io/fastrtext/articles/unsupervised_learning.html">link</a> will route you to 5mn tutorial to learn a representations of words (word embeddings):</p>
 </div>
 </div>
 <div id="alternatives" class="section level2">
@@ -116,16 +116,16 @@ Following this <a href="https://pommedeterresautee.github.io/FastRText/articles/
 <a href="#alternatives" class="anchor"></a>Alternatives</h2>
 <p>Why not use the command line client?</p>
 <ul>
-<li>You can call the client from the client using <code>system("fastext ...")</code> ;</li>
+<li>You can call the client from the client using <code>system("fasttext ...")</code> ;</li>
 <li>To get prediction, you will need to write file, make predictions from the command line, then read the results ;</li>
-<li>FastRText makes your life easier by making all these operations in memory ;</li>
+<li>fastrtext makes your life easier by making all these operations in memory ;</li>
 <li>It takes less time, and use less commands ;</li>
 <li>Easy to install from R directly.</li>
 </ul>
 <p>Why not use <a href="https://github.com/mlampros/fastTextR/">fastTextR</a> ?</p>
 <ul>
-<li>FastRText implements both supervised and unsupervised parts of fasttext (fastTextR implements only the unsupervised part) ;</li>
-<li>with FastRText. predictions can be done in memory (fastTextR requires to write the sentence on hard drive and requires you to read the predictions after) ;</li>
+<li>fastrtext implements both supervised and unsupervised parts of fasttext (fastTextR implements only the unsupervised part) ;</li>
+<li>with fastrtext. predictions can be done in memory (fastTextR requires to write the sentence on hard drive and requires you to read the predictions after) ;</li>
 <li>fastText original source code embedded in fastTextR is not up to date (miss several new features, bug fixes since January 2017).</li>
 </ul>
 </div>
@@ -187,9 +187,9 @@ Following this <a href="https://pommedeterresautee.github.io/FastRText/articles/
 </ul>
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://travis-ci.org/pommedeterresautee/FastRText"><img src="https://travis-ci.org/pommedeterresautee/FastRText.svg?branch=master" alt="Travis-CI Build Status"></a></li>
-<li><a href="https://ci.appveyor.com/project/pommedeterresautee/FastRText"><img src="https://ci.appveyor.com/api/projects/status/github/pommedeterresautee/FastRText?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a></li>
-<li><a href="https://codecov.io/gh/pommedeterresautee/FastRText"><img src="https://codecov.io/gh/pommedeterresautee/FastRText/branch/master/graph/badge.svg" alt="codecov"></a></li>
+<li><a href="https://travis-ci.org/pommedeterresautee/fastrtext"><img src="https://travis-ci.org/pommedeterresautee/fastrtext.svg?branch=master" alt="Travis-CI Build Status"></a></li>
+<li><a href="https://ci.appveyor.com/project/pommedeterresautee/fastrtext"><img src="https://ci.appveyor.com/api/projects/status/github/pommedeterresautee/fastrtext?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a></li>
+<li><a href="https://codecov.io/gh/pommedeterresautee/fastrtext"><img src="https://codecov.io/gh/pommedeterresautee/fastrtext/branch/master/graph/badge.svg" alt="codecov"></a></li>
 </ul>
 </div>
 </div>

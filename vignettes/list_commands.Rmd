@@ -13,7 +13,7 @@ As seen in the other tutorials, `execute()` function works in a similar way to t
 To list the commands, you just need to enter the following function:
 
 ```{R eval=FALSE}
-library(FastRText)
+library(fastrtext)
 
 print_help()
 ```
