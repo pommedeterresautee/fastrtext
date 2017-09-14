@@ -1,6 +1,6 @@
 Package: fastrtext
 Type: Package
-Title: fastrtext for text classification and word representation
+Title: Fastrtext for text classification and word representation
 Version: 0.2
 Date: 2017-09-14
 Authors@R: person("Michaël", "Benesty", role = c("aut", "cre"), email = "michael@benesty.fr")
