@@ -5,9 +5,15 @@
 \alias{fastrtext}
 \alias{fastrtext-package}
 \alias{fastrtext-package}
-\title{fastrtext: Fastrtext for text classification and word representation}
+\title{fastrtext: FastText R Wrapper for Text Classification and Word Representation}
 \description{
-This package is an R wrapper of fastText by Facebook for both performing text classification and generating word dense vectorial representations.
+This package is an R wrapper of fastText by Facebook.
+FastText is an open-source, free, lightweight library that allows
+users to learn text representations and text classifiers.
+It transforms text into continuous vectors that can later
+be used on many language related task.
+It works on standard, generic hardware (no GPU required).
+It also includes model size reduction feature.
 }
 \seealso{
 Useful links:
