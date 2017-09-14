@@ -7,8 +7,7 @@
 \alias{fastrtext-package}
 \title{fastrtext: FastText R Wrapper for Text Classification and Word Representation}
 \description{
-This package is an R wrapper of fastText by Facebook.
-FastText is an open-source, free, lightweight library that allows
+'FastText' is an open-source, free, lightweight library that allows
 users to learn text representations and text classifiers.
 It transforms text into continuous vectors that can later
 be used on many language related task.
