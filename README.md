@@ -14,7 +14,7 @@ fastText is a library for efficient learning of word representations and sentenc
 Installation
 ------------
 
-You can install the fastrtext package from Github as follows:
+You can install the `fastrtext` package from Github as follows:
 
 ```R
 # install.packages("devtools")
@@ -42,7 +42,7 @@ Follow this [link](https://pommedeterresautee.github.io/fastrtext/articles/super
 ### Unsupervised learning (word representation)
 
 Data for a word representation learning task are embedded in this package.  
-Following this [link](https://pommedeterresautee.github.io/fastrtext/articles/unsupervised_learning.html) will route you to 5mn tutorial to learn a representations of words (word embeddings):  
+Following this [link](https://pommedeterresautee.github.io/fastrtext/articles/unsupervised_learning.html) will route you to a 5mn tutorial to learn vectorial representation of words (aka word embeddings):  
 
 Alternatives
 ------------
@@ -51,14 +51,14 @@ Why not use the command line client?
 
 * You can call the client from the client using `system("fasttext ...")` ;
 * To get prediction, you will need to write file, make predictions from the command line, then read the results ;
-* fastrtext makes your life easier by making all these operations in memory ;
+* `fastrtext` makes your life easier by making all these operations in memory ;
 * It takes less time, and use less commands ;
 * Easy to install from R directly.
 
 Why not use [fastTextR](https://github.com/mlampros/fastTextR/) ?  
 
-* fastrtext implements both supervised and unsupervised parts of `fastText` (fastTextR implements only the unsupervised part) ;
-* with fastrtext. predictions can be done in memory (fastTextR requires to write the sentence on hard drive and requires you to read the predictions after) ;
+* `fastrtext` implements both supervised and unsupervised parts of `fastText` (`fastTextR` implements only the unsupervised part) ;
+* with `fastrtext`. predictions can be done in memory (fastTextR requires to write the sentence on hard drive and requires you to read the predictions after) ;
 * fastText original source code embedded in fastTextR is not up to date (miss several new features, bug fixes since January 2017).
 
 References
