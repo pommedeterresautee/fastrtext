@@ -122,7 +122,7 @@ get_word_vectors <- function(model, words) {
 #' Use the same commands than the one to use for the command line.
 #' @param commands [character] of commands
 #' @examples
-#'
+#' \dontrun{
 #' # Supervised learning example
 #' library(fastrtext)
 #'
@@ -164,7 +164,7 @@ get_word_vectors <- function(model, words) {
 #' model <- load_model(tmp_file_model)
 #' dict <- get_dictionary(model)
 #' get_word_vectors(model, head(dict, 5))
-#'
+#' }
 #' @export
 execute <- function(commands) {
   model <- new(fastrtext)

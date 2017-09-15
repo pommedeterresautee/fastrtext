@@ -13,7 +13,7 @@ execute(commands)
 Use the same commands than the one to use for the command line.
 }
 \examples{
-
+\dontrun{
 # Supervised learning example
 library(fastrtext)
 
@@ -55,5 +55,5 @@ execute(commands = c("skipgram", "-input", tmp_file_txt, "-output", tmp_file_mod
 model <- load_model(tmp_file_model)
 dict <- get_dictionary(model)
 get_word_vectors(model, head(dict, 5))
-
+}
 }
