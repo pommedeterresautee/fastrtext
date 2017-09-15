@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>fastrtext for text classification and word representation • fastrtext</title>
+<title>FastText R Wrapper for Text Classification and Word Representation • fastrtext</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
@@ -84,7 +84,7 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>You can install the fastrtext package from Github as follows:</p>
+<p>You can install the <code>fastrtext</code> package from Github as follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("devtools")</span>
 devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"pommedeterresautee/fastrtext"</span>)</code></pre></div>
 </div>
@@ -108,7 +108,7 @@ Follow this <a href="https://pommedeterresautee.github.io/fastrtext/articles/sup
 <h3 class="hasAnchor">
 <a href="#unsupervised-learning-word-representation" class="anchor"></a>Unsupervised learning (word representation)</h3>
 <p>Data for a word representation learning task are embedded in this package.<br>
-Following this <a href="https://pommedeterresautee.github.io/fastrtext/articles/unsupervised_learning.html">link</a> will route you to 5mn tutorial to learn a representations of words (word embeddings):</p>
+Following this <a href="https://pommedeterresautee.github.io/fastrtext/articles/unsupervised_learning.html">link</a> will route you to a 5mn tutorial to learn vectorial representation of words (aka word embeddings):</p>
 </div>
 </div>
 <div id="alternatives" class="section level2">
@@ -118,14 +118,16 @@ Following this <a href="https://pommedeterresautee.github.io/fastrtext/articles/
 <ul>
 <li>You can call the client from the client using <code>system("fasttext ...")</code> ;</li>
 <li>To get prediction, you will need to write file, make predictions from the command line, then read the results ;</li>
-<li>fastrtext makes your life easier by making all these operations in memory ;</li>
+<li>
+<code>fastrtext</code> makes your life easier by making all these operations in memory ;</li>
 <li>It takes less time, and use less commands ;</li>
 <li>Easy to install from R directly.</li>
 </ul>
 <p>Why not use <a href="https://github.com/mlampros/fastTextR/">fastTextR</a> ?</p>
 <ul>
-<li>fastrtext implements both supervised and unsupervised parts of fasttext (fastTextR implements only the unsupervised part) ;</li>
-<li>with fastrtext. predictions can be done in memory (fastTextR requires to write the sentence on hard drive and requires you to read the predictions after) ;</li>
+<li>
+<code>fastrtext</code> implements both supervised and unsupervised parts of <code>fastText</code> (<code>fastTextR</code> implements only the unsupervised part) ;</li>
+<li>with <code>fastrtext</code>. predictions can be done in memory (fastTextR requires to write the sentence on hard drive and requires you to read the predictions after) ;</li>
 <li>fastText original source code embedded in fastTextR is not up to date (miss several new features, bug fixes since January 2017).</li>
 </ul>
 </div>

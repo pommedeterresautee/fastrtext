@@ -2,7 +2,7 @@
 % Please edit documentation in R/API.R
 \name{execute}
 \alias{execute}
-\title{Execute command on Fasttext model (including training)}
+\title{Execute command on fastText model (including training)}
 \usage{
 execute(commands)
 }

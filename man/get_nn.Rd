@@ -7,18 +7,18 @@
 get_nn(model, word, k)
 }
 \arguments{
-\item{model}{trained Fasttext model. Null if train a new model.}
+\item{model}{trained fastText model. Null if train a new model.}
 
 \item{word}{reference word}
 
-\item{k}{\link{integer} defining the number of resutls to return}
+\item{k}{\link{integer} defining the number of results to return}
 }
 \value{
 \link{numeric} with distances with \link{names} as words
 }
 \description{
 Find the \code{k} words with the smallest distance.
-First execution can be slow because of some precomputations.
+First execution can be slow because of precomputation.
 Search is done linearly, if your model is big you may want to use an approximate neighbour algorithm from other R packages (like RcppAnnoy).
 }
 \examples{

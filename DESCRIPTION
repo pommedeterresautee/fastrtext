@@ -1,7 +1,7 @@
 Package: fastrtext
 Type: Package
 Title: FastText R Wrapper for Text Classification and Word Representation
-Version: 0.2
+Version: 0.2.0
 Date: 2017-09-14
 Authors@R: person("Michaël", "Benesty", role = c("aut", "cre"), email = "michael@benesty.fr")
 Maintainer: Michaël Benesty <michael@benesty.fr>

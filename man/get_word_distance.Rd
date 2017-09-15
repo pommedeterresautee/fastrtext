@@ -7,7 +7,7 @@
 get_word_distance(model, w1, w2)
 }
 \arguments{
-\item{model}{trained Fasttext model. Null if train a new model.}
+\item{model}{trained fastText model. Null if train a new model.}
 
 \item{w1}{first word to compare}
 
