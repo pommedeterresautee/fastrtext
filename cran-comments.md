@@ -1,3 +1,16 @@
+## Comments from Swetlana Herbrandt - 15.09.17 - 4:45PM (French time)
+* please omit the redundant 'R' in your title -> the R is now removed from the title field.
+* please write package names and software names in Title and Description in single quotes (e.g. 'FastText'). -> quotes have been applied on any software name.
+* please add an URL for 'FastText' in the form <http:...> or <https:...> with angle brackets for auto-linking and no space after 'http:' and 'https:' -> the link has been added at the end of the decsription text.
+* we see code lines such as  Copyright (c) 2016-present, Facebook, Inc. All rights reserved. Please add all authors and copyright holders in the Authors@R field with the appropriate roles. -> a new person Facebook, Inc. has been added, with the role cph
+
+Note to Cran
+------------
+The introduction of quotes (see above) has raised a new note:
+"The Description field should start with a capital letter."
+This is wanted.
+
+
 ## Test environments
 * Local ubuntu 17.04 + R version 3.4.1
 * R-Hub Cran check (Linux + Windows)

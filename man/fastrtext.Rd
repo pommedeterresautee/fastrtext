@@ -5,24 +5,31 @@
 \alias{fastrtext}
 \alias{fastrtext-package}
 \alias{fastrtext-package}
-\title{fastrtext: FastText R Wrapper for Text Classification and Word Representation}
+\title{fastrtext: 'fastText' Wrapper for Text Classification and Word Representation}
 \description{
-'FastText' is an open-source, free, lightweight library that allows
+'fastText' is an open-source, free, lightweight library that allows
 users to learn text representations and text classifiers.
 It transforms text into continuous vectors that can later
 be used on many language related task.
-It works on standard, generic hardware (no GPU required).
+It works on standard, generic hardware (no 'GPU' required).
 It also includes model size reduction feature.
+'fastText' original source code is available
+at <https://github.com/facebookresearch/fastText>.
 }
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/pommedeterresautee/FastRText}
-  \item Report bugs at \url{https://github.com/pommedeterresautee/FastRText/issues}
+  \item \url{https://github.com/pommedeterresautee/fastrtext}
+  \item Report bugs at \url{https://github.com/pommedeterresautee/fastrtext/issues}
 }
 
 }
 \author{
 \strong{Maintainer}: Michaël Benesty \email{michael@benesty.fr}
+
+Other contributors:
+\itemize{
+  \item Facebook, Inc \email{bojanowski@fb.com} [copyright holder]
+}
 
 }
