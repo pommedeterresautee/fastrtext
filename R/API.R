@@ -7,7 +7,7 @@
 #' library(fastrtext)
 #' model_test_path <- system.file("extdata", "model_classification_test.bin", package = "fastrtext")
 #' model <- load_model(model_test_path)
-#'
+#' @importFrom methods new
 #' @export
 load_model <- function(path) {
   if (!grepl("\\.(bin|ftz)$", path)) {
@@ -165,6 +165,7 @@ get_word_vectors <- function(model, words) {
 #' dict <- get_dictionary(model)
 #' get_word_vectors(model, head(dict, 5))
 #' }
+#' @importFrom methods new
 #' @export
 execute <- function(commands) {
   model <- new(fastrtext)
@@ -239,6 +240,7 @@ get_hamming_loss <- function(labels, predictions) {
 #' print_help()
 #' }
 #'
+#' @importFrom methods new
 #' @export
 print_help <- function() {
   model <- new(fastrtext)
