@@ -20,6 +20,7 @@ at <https://github.com/facebookresearch/fastText>.
 Useful links:
 \itemize{
   \item \url{https://github.com/pommedeterresautee/fastrtext}
+  \item \url{https://pommedeterresautee.github.io/fastrtext/}
   \item Report bugs at \url{https://github.com/pommedeterresautee/fastrtext/issues}
 }
 

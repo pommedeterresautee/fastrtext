@@ -1,3 +1,9 @@
+## Version 0.2.1 - 17.09.17
+* Fix compilation crash on Mac OS
+* remove note on R devel
+
+There is no change to other information (excluding version number which is increased) compared to previous version.
+
 ## Comments from Swetlana Herbrandt - 15.09.17 - 4:45PM (French time)
 * please omit the redundant 'R' in your title -> the R is now removed from the title field.
 * please write package names and software names in Title and Description in single quotes (e.g. 'FastText'). -> quotes have been applied on any software name.
