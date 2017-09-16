@@ -7,7 +7,7 @@
 get_word_vectors(model, words)
 }
 \arguments{
-\item{model}{trained Fasttext model}
+\item{model}{trained fastText model}
 
 \item{words}{\link{character} of words}
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/API.R
 \name{load_model}
 \alias{load_model}
-\title{Load an existing Fasttext trained model}
+\title{Load an existing fastText trained model}
 \usage{
 load_model(path)
 }

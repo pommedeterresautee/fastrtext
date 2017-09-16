@@ -1,4 +1,4 @@
-#' Load an existing Fasttext trained model
+#' Load an existing fastText trained model
 #'
 #' Load and return a pointer to an existing model which will be used in other functions of this package.
 #' @param path path to the existing model
@@ -21,9 +21,9 @@ load_model <- function(path) {
 
 #' Export hyper parameters
 #'
-#' Retrieve hyper paramters used to train the model
-#' @param model trained fasttext model
-#' @return [list] contaning each parameter
+#' Retrieve hyper parameters used to train the model
+#' @param model trained fastText model
+#' @return [list] containing each parameter
 #' @examples
 #'
 #' library(fastrtext)
@@ -39,8 +39,8 @@ get_parameters <- function(model) {
 #' Get list of known words
 #'
 #' Get a [character] containing each word seen during training.
-#' @param model trained Fasttext model
-#' @return [character] contaning each word
+#' @param model trained fastText model
+#' @return [character] containing each word
 #' @examples
 #'
 #' library(fastrtext)
@@ -56,8 +56,8 @@ get_dictionary <- function(model) {
 #' Get list of labels (supervised model)
 #'
 #' Get a [character] containing each label seen during training.
-#' @param model trained Fasttext model
-#' @return [character] contaning each label
+#' @param model trained fastText model
+#' @return [character] containing each label
 #' @importFrom assertthat assert_that
 #' @examples
 #'
@@ -78,7 +78,7 @@ get_labels <- function(model) {
 #'
 #' Apply the trained  model to new sentences.
 #' Average word embeddings and search most similar `label` vector.
-#' @param object trained Fasttext model
+#' @param object trained fastText model
 #' @param sentences [character] containing the sentences
 #' @param k will return the `k` most probable labels (default = 1)
 #' @param ... not used
@@ -109,7 +109,7 @@ predict.Rcpp_fastrtext <- function(object, sentences, k = 1, ...) {
 #' model <- load_model(model_test_path)
 #' get_word_vectors(model, c("introduction", "we"))
 #'
-#' @param model trained Fasttext model
+#' @param model trained fastText model
 #' @param words [character] of words
 #' @return [matrix] containing each word embedding as a row and `rownames` are populated with word strings.
 #' @export
@@ -117,7 +117,7 @@ get_word_vectors <- function(model, words) {
   model$get_vectors(words)
 }
 
-#' Execute command on Fasttext model (including training)
+#' Execute command on fastText model (including training)
 #'
 #' Use the same commands than the one to use for the command line.
 #' @param commands [character] of commands
@@ -175,7 +175,7 @@ execute <- function(commands) {
 #' Distance between two words
 #'
 #' Distance is equal to `1 - cosine`
-#' @param model trained Fasttext model. Null if train a new model.
+#' @param model trained fastText model. Null if train a new model.
 #' @param w1 first word to compare
 #' @param w2 second word to compare
 #' @return a `scalar` with the distance
@@ -251,12 +251,12 @@ print_help <- function() {
 #' Get nearest neighbour vectors
 #'
 #' Find the `k` words with the smallest distance.
-#' First execution can be slow because of some precomputations.
+#' First execution can be slow because of precomputation.
 #' Search is done linearly, if your model is big you may want to use an approximate neighbour algorithm from other R packages (like RcppAnnoy).
 #'
-#' @param model trained Fasttext model. Null if train a new model.
+#' @param model trained fastText model. Null if train a new model.
 #' @param word reference word
-#' @param k [integer] defining the number of resutls to return
+#' @param k [integer] defining the number of results to return
 #' @return [numeric] with distances with [names] as words
 #'
 #' @examples
@@ -281,7 +281,7 @@ get_nn <- function(model, word, k) {
 #' Based on related move of a vector regarding a basis.
 #' King is to Quenn what a man is to ???
 #' w1 - w2 + w3
-#' @param model trained Fasttext model. Null if train a new model.
+#' @param model trained fastText model. Null if train a new model.
 #' @param w1 1st word, basis
 #' @param w2 2nd word, move
 #' @param w3 3d word, new basis

@@ -7,13 +7,13 @@
 get_parameters(model)
 }
 \arguments{
-\item{model}{trained fasttext model}
+\item{model}{trained fastText model}
 }
 \value{
-\link{list} contaning each parameter
+\link{list} containing each parameter
 }
 \description{
-Retrieve hyper paramters used to train the model
+Retrieve hyper parameters used to train the model
 }
 \examples{
 

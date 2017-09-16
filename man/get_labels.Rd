@@ -7,10 +7,10 @@
 get_labels(model)
 }
 \arguments{
-\item{model}{trained Fasttext model}
+\item{model}{trained fastText model}
 }
 \value{
-\link{character} contaning each label
+\link{character} containing each label
 }
 \description{
 Get a \link{character} containing each label seen during training.

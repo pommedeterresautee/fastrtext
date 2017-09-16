@@ -12,7 +12,7 @@
 
 <meta name="author" content="M. Benesty" />
 
-<meta name="date" content="2017-09-14" />
+<meta name="date" content="2017-09-15" />
 
 <title>Supervised learning</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Supervised learning</h1>
 <h4 class="author"><em>M. Benesty</em></h4>
-<h4 class="date"><em>2017-09-14</em></h4>
+<h4 class="date"><em>2017-09-15</em></h4>
 
 
 
@@ -99,7 +99,7 @@ Read 0M words
 ## Number of words:  5060
 ## Number of labels: 15
 ## 
-Progress: 100.0%  words/sec/thread: 1554442  lr: 0.000000  loss: 0.324475  eta: 0h0m</code></pre>
+Progress: 100.0%  words/sec/thread: 1506508  lr: 0.000000  loss: 0.341056  eta: 0h0m</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load model</span>
 model &lt;-<span class="st"> </span><span class="kw">load_model</span>(tmp_file_model)</code></pre></div>
 <pre><code>## add .bin extension to the path</code></pre>
@@ -112,25 +112,25 @@ predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(model,
 ## 
 ## [[2]]
 ## __label__MISC 
-##     0.9882813 
+##     0.9863281 
 ## 
 ## [[3]]
 ## __label__MISC 
-##     0.9941406 
+##     0.9882813 
 ## 
 ## [[4]]
 ## __label__OWNX 
-##     0.9160156 
+##     0.8964844 
 ## 
 ## [[5]]
 ## __label__AIMX 
-##      0.984375</code></pre>
+##     0.9863281</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Compute accuracy</span>
 <span class="kw">mean</span>(<span class="kw">sapply</span>(predictions, names) <span class="op">==</span><span class="st"> </span>test_labels)</code></pre></div>
-<pre><code>## [1] 0.8333333</code></pre>
+<pre><code>## [1] 0.8283333</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># because there is only one category by observation, hamming loss will be the same</span>
 <span class="kw">get_hamming_loss</span>(<span class="kw">as.list</span>(test_labels), predictions)</code></pre></div>
-<pre><code>## [1] 0.8333333</code></pre>
+<pre><code>## [1] 0.8283333</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># test predictions</span>
 predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(model, <span class="dt">sentences =</span> test_to_write)
 <span class="kw">print</span>(<span class="kw">head</span>(predictions, <span class="dv">5</span>))</code></pre></div>
@@ -140,27 +140,27 @@ predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(model,
 ## 
 ## [[2]]
 ## __label__MISC 
-##     0.9882813 
+##     0.9863281 
 ## 
 ## [[3]]
 ## __label__MISC 
-##     0.9941406 
+##     0.9882813 
 ## 
 ## [[4]]
 ## __label__OWNX 
-##     0.9160156 
+##     0.8964844 
 ## 
 ## [[5]]
 ## __label__AIMX 
-##      0.984375</code></pre>
+##     0.9863281</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># free memory</span>
 <span class="kw">unlink</span>(train_tmp_file_txt)
 <span class="kw">unlink</span>(tmp_file_model)
 <span class="kw">rm</span>(model)
 <span class="kw">gc</span>()</code></pre></div>
-<pre><code>##           used (Mb) gc trigger (Mb) max used (Mb)
-## Ncells  917489 49.0    1442291 77.1  1442291 77.1
-## Vcells 1820995 13.9    2941010 22.5  2941010 22.5</code></pre>
+<pre><code>##           used (Mb) gc trigger  (Mb) max used (Mb)
+## Ncells 1190662 63.6    2164898 115.7  1770749 94.6
+## Vcells 2520782 19.3    3942845  30.1  3942844 30.1</code></pre>
 
 
 

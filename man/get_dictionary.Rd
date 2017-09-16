@@ -7,10 +7,10 @@
 get_dictionary(model)
 }
 \arguments{
-\item{model}{trained Fasttext model}
+\item{model}{trained fastText model}
 }
 \value{
-\link{character} contaning each word
+\link{character} containing each word
 }
 \description{
 Get a \link{character} containing each word seen during training.

@@ -7,7 +7,7 @@
 \method{predict}{Rcpp_fastrtext}(object, sentences, k = 1, ...)
 }
 \arguments{
-\item{object}{trained Fasttext model}
+\item{object}{trained fastText model}
 
 \item{sentences}{\link{character} containing the sentences}
 

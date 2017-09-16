@@ -7,7 +7,7 @@
 get_analogies(model, w1, w2, w3, k = 1)
 }
 \arguments{
-\item{model}{trained Fasttext model. Null if train a new model.}
+\item{model}{trained fastText model. Null if train a new model.}
 
 \item{w1}{1st word, basis}
 

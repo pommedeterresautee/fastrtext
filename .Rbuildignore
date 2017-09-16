@@ -5,6 +5,7 @@
 ^/tools/*\.png$
 ^docs$
 ^README\.md$
+^cran-comments\.md$
 ^.*.\.o$
 ^_pkgdown\.yml$
 ^data-raw$
