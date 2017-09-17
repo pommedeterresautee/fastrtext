@@ -7,8 +7,8 @@
 \alias{fastrtext-package}
 \title{fastrtext: 'fastText' Wrapper for Text Classification and Word Representation}
 \description{
-Learning text representations and a text classifier may rely
-on the same family of technics. 'fastText' is an open-source, free,
+Learning text representations and text classifiers may rely
+on the same simple and efficient approach. 'fastText' is an open-source, free,
 lightweight library that allows users to perform both tasks.
 It transforms text into continuous vectors that can later
 be used on many language related task.
@@ -27,7 +27,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Michaël Benesty \email{michael@benesty.fr}
+\strong{Maintainer}: Michaël Benesty \email{michael@benesty.fr} [copyright holder]
 
 Other contributors:
 \itemize{

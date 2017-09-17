@@ -109,10 +109,12 @@ predict.Rcpp_fastrtext <- function(object, sentences, k = 1, ...) {
 #' get_word_vectors(model, c("introduction", "we"))
 #'
 #' @param model trained fastText model
-#' @param words [character] of words
+#' @param words [character] of words. Default: return every word from the dictionary.
 #' @return [matrix] containing each word embedding as a row and `rownames` are populated with word strings.
+#' @importFrom assertthat assert_that
 #' @export
-get_word_vectors <- function(model, words) {
+get_word_vectors <- function(model, words = get_dictionary(model)) {
+  assert_that(is.character(words))
   model$get_vectors(words)
 }
 

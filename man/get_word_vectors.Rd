@@ -4,12 +4,12 @@
 \alias{get_word_vectors}
 \title{Get word embeddings}
 \usage{
-get_word_vectors(model, words)
+get_word_vectors(model, words = get_dictionary(model))
 }
 \arguments{
 \item{model}{trained fastText model}
 
-\item{words}{\link{character} of words}
+\item{words}{\link{character} of words. Default: return every word from the dictionary.}
 }
 \value{
 \link{matrix} containing each word embedding as a row and \code{rownames} are populated with word strings.
