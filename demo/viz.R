@@ -4,6 +4,7 @@ library(magrittr)
 library(plotly)
 require(Rtsne)
 
+set.seed(123)
 
 model_test_path <- system.file("extdata", "model_unsupervised_test.bin", package = "fastrtext")
 model <- load_model(model_test_path)
@@ -21,14 +22,14 @@ cos_sim <- function(vector_to_compare, full_matrix){
 
 library(RcppAnnoy)
 
-set.seed(123)                           # be reproducible
-a <- new(AnnoyAngular, ncol(word_embeddings))
-
-for (i in seq(nrow(word_embeddings))) {
-  a$addItem(i - 1, word_embeddings[i,])
+build_annoy_model <- function(vectors, trees) {
+  a <- new(AnnoyAngular, ncol(vectors))
+  for (i in seq(nrow(vectors))) {
+    a$addItem(i - 1, vectors[i,])
+  }
+  a$build(trees)
+  a
 }
-
-a$build(5)
 
 get_list_word <- function(word, dict, annoy_model, n, search_k = 10000, with_distance = TRUE) {
   position <- which(word == dict)
@@ -59,6 +60,8 @@ center_coordinates <- function(coordinates) {
   coordinates$y <- coordinates$y - coordinates[1,]$y
   coordinates
 }
+
+a <- build_annoy_model(word_embeddings, 5)
 
 "loisir" %>%
   get_list_word(dict, a, 1000) %>%
