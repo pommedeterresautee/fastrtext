@@ -3,11 +3,12 @@ Type: Package
 Title: 'fastText' Wrapper for Text Classification and Word Representation
 Version: 0.2.1
 Date: 2017-09-18
-Authors@R: c(person("Michaël", "Benesty", role = c("aut", "cre"), email = "michael@benesty.fr"),
+Authors@R: c(person("Michaël", "Benesty", role = c("aut", "cre", "cph"), email = "michael@benesty.fr"),
   person("Facebook, Inc", role = c("cph"), email = "bojanowski@fb.com"))
 Maintainer: Michaël Benesty <michael@benesty.fr>
-Description: 'fastText' is an open-source, free, lightweight library that allows
-  users to learn text representations and text classifiers.
+Description: Learning text representations and text classifiers may rely
+  on the same simple and efficient approach. 'fastText' is an open-source, free, 
+  lightweight library that allows users to perform both tasks.
   It transforms text into continuous vectors that can later
   be used on many language related task.
   It works on standard, generic hardware (no 'GPU' required).
@@ -17,6 +18,7 @@ Description: 'fastText' is an open-source, free, lightweight library that allows
 URL: https://github.com/pommedeterresautee/fastrtext, https://pommedeterresautee.github.io/fastrtext/
 BugReports: https://github.com/pommedeterresautee/fastrtext/issues
 License: MIT + file LICENSE
+Depends: R (>= 3.1)
 Imports: methods, 
   Rcpp (>= 0.12.12),
   assertthat

@@ -4,7 +4,7 @@
 \alias{Rcpp_fastrtext-class}
 \title{Rcpp_fastrtext class}
 \description{
-Models are \link{S4} objects with several methods which can be called that way: model$method()
+Models are \link{S4} objects with several slots (methods) which can be called that way: model$slot_name()
 }
 \section{Slots}{
 
