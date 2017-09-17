@@ -16,9 +16,13 @@ fastText is a library for efficient learning of word representations and sentenc
 Installation
 ------------
 
-You can install the `fastrtext` package from Github as follows:
+You can install the `fastrtext` package from Cran or Github as follows:
 
 ```R
+# From Cran
+install.packages("fastrtext")
+
+# Install from Github
 # install.packages("devtools")
 devtools::install_github("pommedeterresautee/fastrtext")
 ```
