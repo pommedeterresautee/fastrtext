@@ -2,6 +2,7 @@ library(fastrtext)
 library(irlba)
 library(magrittr)
 library(plotly)
+library(RcppAnnoy)
 require(Rtsne)
 
 set.seed(123)
@@ -12,26 +13,16 @@ model <- load_model(model_test_path)
 word_embeddings <- get_word_vectors(model)
 dict <- rownames(word_embeddings)
 
-cos_sim <- function(vector_to_compare, full_matrix){
-  ma <- matrix(vector_to_compare, nrow = 1)
-  mat <- tcrossprod(ma, full_matrix)
-  t1 <- sqrt(apply(ma, 1, crossprod))
-  t2 <- sqrt(apply(full_matrix, 1, crossprod))
-  mat / outer(t1,t2)
-}
-
-library(RcppAnnoy)
-
 build_annoy_model <- function(vectors, trees) {
-  a <- new(AnnoyAngular, ncol(vectors))
+  model <- new(AnnoyAngular, ncol(vectors))
   for (i in seq(nrow(vectors))) {
-    a$addItem(i - 1, vectors[i,])
+    model$addItem(i - 1, vectors[i,])
   }
-  a$build(trees)
-  a
+  model$build(trees)
+  model
 }
 
-get_list_word <- function(word, dict, annoy_model, n, search_k = 10000, with_distance = TRUE) {
+get_list_word <- function(word, dict, annoy_model, n, search_k = max(10000, 10 * n), with_distance = TRUE) {
   position <- which(word == dict)
   l <- annoy_model$getNNsByItemList(position - 1, n, search_k, with_distance)
   l$item <- l$item + 1
@@ -61,11 +52,12 @@ center_coordinates <- function(coordinates) {
   coordinates
 }
 
-a <- build_annoy_model(word_embeddings, 5)
+system.time(a <- build_annoy_model(word_embeddings, 5))
 
-"loisir" %>%
+b = "arbre" %>%
   get_list_word(dict, a, 1000) %>%
   {word_embeddings[.$item,]} %>%
   get_coordinates_tsne() %>%
-  center_coordinates() %>%
-  plot_ly(x = ~x, y = ~y, name = "default", text = ~text, type = "scatter")
+  center_coordinates() #%>%
+
+  plot_ly(b, x = ~x, y = ~y, name = "default", text = ~text, type = "scatter", mode = "markers", color = ifelse(b$text %in% head(dict, 20e3), "#A93226", "#AEB6BF"))
