@@ -60,4 +60,4 @@ b = "arbre" %>%
   get_coordinates_tsne() %>%
   center_coordinates() #%>%
 
-  plot_ly(b, x = ~x, y = ~y, name = "default", text = ~text, type = "scatter", mode = "markers", color = ifelse(b$text %in% head(dict, 20e3), "#A93226", "#AEB6BF"))
+plot_ly(b, x = ~x, y = ~y, name = "default", text = ~text, type = "scatter", mode = "markers", color = ifelse(b$text %in% head(dict, 20e3), "#A93226", "#AEB6BF"))
