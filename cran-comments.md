@@ -1,4 +1,4 @@
-## Version 0.2.1 - 17.09.17
+## Version 0.2.1 - 18.09.17
 * Fix compilation crash on Mac OS
 * remove note on R devel
 

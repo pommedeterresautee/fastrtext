@@ -1,6 +1,7 @@
 loadModule("FASTRTEXT_MODULE", TRUE)
 
 #' @name fastrtext
+#' @import methods
 #' @useDynLib fastrtext, .registration = TRUE
 #' @importFrom Rcpp evalCpp loadModule cpp_object_initializer
 "_PACKAGE"
