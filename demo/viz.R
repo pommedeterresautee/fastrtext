@@ -3,7 +3,8 @@ library(irlba)
 library(magrittr)
 library(plotly)
 library(RcppAnnoy)
-require(Rtsne)
+library(Rtsne)
+library(assertthat)
 
 set.seed(123)
 
@@ -24,6 +25,7 @@ build_annoy_model <- function(vectors, trees) {
 
 get_list_word <- function(word, dict, annoy_model, n, search_k = max(10000, 10 * n), with_distance = TRUE) {
   position <- which(word == dict)
+  assert_that(is.count(position))
   l <- annoy_model$getNNsByItemList(position - 1, n, search_k, with_distance)
   l$item <- l$item + 1
   l$text <- dict[l$item]
@@ -52,12 +54,15 @@ center_coordinates <- function(coordinates) {
   coordinates
 }
 
+retrieve_neighboors <- function(text, embeddings, annoy_model, n = 1000) {
+    get_list_word(text, rownames(embeddings), annoy_model, n) %>%
+    {embeddings[.$item,]} %>%
+    get_coordinates_tsne() %>%
+    center_coordinates()
+}
+
 system.time(a <- build_annoy_model(word_embeddings, 5))
 
-b = "arbre" %>%
-  get_list_word(dict, a, 1000) %>%
-  {word_embeddings[.$item,]} %>%
-  get_coordinates_tsne() %>%
-  center_coordinates() #%>%
+b <- retrieve_neighboors("avocat", word_embeddings, a, n = 10e4)
 
-plot_ly(b, x = ~x, y = ~y, name = "default", text = ~text, type = "scatter", mode = "markers", color = ifelse(b$text %in% head(dict, 20e3), "#A93226", "#AEB6BF"))
+plot_ly(b, x = ~x, y = ~y, name = "default", text = ~text, type = "scatter", mode = "markers", marker = list(color = 1 - (match(b$text, dict) / length(dict)), colorscale = c('#FFE1A1', '#683531'), showscale = TRUE), size = ifelse(b$text == "avocat", 20, 10))
