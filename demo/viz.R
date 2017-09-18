@@ -75,7 +75,7 @@ prepare <- function(embeddings, trees, explore_k) {
 }
 
 plot_text <- function(coordinates) {
-  plot_ly(coordinates, x = ~x, y = ~y, name = "default", text = ~text, type = "scatter", mode = "markers", marker = list(color = 1 - (match(b$text, dict) / length(dict)), colorscale = "Reds", showscale = TRUE), size = ifelse(b$text == selected_word, 20, 10))
+  plot_ly(coordinates, x = ~x, y = ~y, name = "default", text = ~text, type = "scatter", mode = "markers", marker = list(color = (match(b$text, dict) / length(dict)), colorscale = "Hot", showscale = TRUE), size = ifelse(b$text == selected_word, 20, 10))
 }
 
 selected_word <- "we"

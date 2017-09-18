@@ -1,8 +1,6 @@
 ## Version 0.2.1 - 18.09.17
 * Fix compilation crash on Mac OS
-* remove note on R devel
-
-There is no change to other information (excluding version number which is increased) compared to previous version.
+* remove notes on R devel
 
 ## Comments from Swetlana Herbrandt - 15.09.17 - 4:45PM (French time)
 * please omit the redundant 'R' in your title -> the R is now removed from the title field.

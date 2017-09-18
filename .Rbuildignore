@@ -9,4 +9,3 @@
 ^.*.\.o$
 ^_pkgdown\.yml$
 ^data-raw$
-^NEWS\.md$

@@ -1,7 +1,7 @@
 NEWS
 ====
 
-version 0.2.1 (.09.17)
+version 0.2.1 (18.09.17)
 ------------------------
   * fix small bugs in compilation (mostly for mac os)
   * remove all notes (Cran)
