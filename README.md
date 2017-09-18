@@ -64,7 +64,7 @@ Why not use the command line client?
 Why not use [fastTextR](https://github.com/mlampros/fastTextR/) ?  
 
 * `fastrtext` implements both supervised and unsupervised parts of `fastText` (`fastTextR` implements only the unsupervised part) ;
-* with `fastrtext`. predictions can be done in memory (fastTextR requires to write the sentence on hard drive and requires you to read the predictions after) ;
+* with `fastrtext`, predictions can be done in memory (`fastTextR` requires to write the sentence on hard drive and requires you to read the predictions after) ;
 * fastText original source code embedded in fastTextR is not up to date (miss several new features, bug fixes since January 2017).
 
 References

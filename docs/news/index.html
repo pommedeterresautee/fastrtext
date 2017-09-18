@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get list of labels (supervised model) — get_labels • fastrtext</title>
+<title>All news • fastrtext</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -37,7 +37,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-topic">
+    <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -99,51 +99,42 @@
       </header>
 
       <div class="row">
-  <div class="col-md-9 contents">
+
+  <div class="col-md-9">
     <div class="page-header">
-    <h1>Get list of labels (supervised model)</h1>
+      <h1>Change log <small>All releases</small></h1>
     </div>
 
-    
-    <p>Get a character containing each label seen during training.</p>
-    
-
-    <pre class="usage"><span class='fu'>get_labels</span>(<span class='no'>model</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>model</th>
-      <td><p>trained fastText model</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>character containing each label</p>
-    
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'>library</span>(<span class='no'>fastrtext</span>)
-<span class='no'>model_test_path</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata"</span>, <span class='st'>"model_classification_test.bin"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"fastrtext"</span>)
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='load_model.html'>load_model</a></span>(<span class='no'>model_test_path</span>)
-<span class='fu'>print</span>(<span class='fu'>head</span>(<span class='fu'>get_labels</span>(<span class='no'>model</span>), <span class='fl'>5</span>))</div><div class='output co'>#&gt; [1] "__label__MISC" "__label__OWNX" "__label__AIMX" "__label__CONT"
-#&gt; [5] "__label__BASE"</div><div class='input'>
-</div></pre>
+    <div class="contents">
+    <div id="fastrtext-0-2-1-18-09-17" class="section level1">
+<h1 class="hasAnchor">
+<a href="#fastrtext-0-2-1-18-09-17" class="anchor"></a>fastrtext 0.2.1 (18.09.17)</h1>
+<ul>
+<li>fix small bugs in compilation (mostly for mac os)</li>
+<li>remove all notes (Cran)</li>
+</ul>
+</div>
+    <div id="fastrtext-0-2-0-15-09-17" class="section level1">
+<h1 class="hasAnchor">
+<a href="#fastrtext-0-2-0-15-09-17" class="anchor"></a>fastrtext 0.2.0 (15.09.17)</h1>
+<ul>
+<li>first Cran release</li>
+<li>covers all basic features of fastText</li>
+</ul>
+</div>
+    </div>
   </div>
+
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+    <div id="tocnav">
+      <h2>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+        <li><a href="#fastrtext-0-2-1-18-09-17">0.2.1</a></li>
+        <li><a href="#fastrtext-0-2-0-15-09-17">0.2.0</a></li>
+      </ul>
+    </div>
   </div>
+
 </div>
 
       <footer>

@@ -78,11 +78,14 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">News</a>
+</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/pommedeterresautee/FastRText">
+  <a href="https://github.com/pommedeterresautee/fastrtext">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -106,7 +109,7 @@
 or provided labels (supervised training).</p>
     
 
-    <pre class="usage"><span class='fu'>get_word_vectors</span>(<span class='no'>model</span>, <span class='no'>words</span>)</pre>
+    <pre class="usage"><span class='fu'>get_word_vectors</span>(<span class='no'>model</span>, <span class='kw'>words</span> <span class='kw'>=</span> <span class='fu'><a href='get_dictionary.html'>get_dictionary</a></span>(<span class='no'>model</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -117,7 +120,7 @@ or provided labels (supervised training).</p>
     </tr>
     <tr>
       <th>words</th>
-      <td><p>character of words</p></td>
+      <td><p>character of words. Default: return every word from the dictionary.</p></td>
     </tr>
     </table>
     
