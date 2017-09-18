@@ -22,7 +22,7 @@ You can install the `fastrtext` package from Cran or Github as follows:
 # From Cran
 install.packages("fastrtext")
 
-# Install from Github
+# From Github
 # install.packages("devtools")
 devtools::install_github("pommedeterresautee/fastrtext")
 ```

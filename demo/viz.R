@@ -7,12 +7,6 @@ library(assertthat)
 
 set.seed(123)
 
-model_test_path <- system.file("extdata", "model_unsupervised_test.bin", package = "fastrtext")
-model <- load_model(model_test_path)
-#model <- load_model("/home/geantvert/workspace/justice-data/ML/models/fasttext/wiki.fr.bin")
-word_embeddings <- get_word_vectors(model)
-dict <- rownames(word_embeddings)
-
 build_annoy_model <- function(vectors, trees) {
   model <- new(AnnoyAngular, ncol(vectors))
   for (i in seq(nrow(vectors))) {
@@ -78,7 +72,17 @@ plot_text <- function(coordinates) {
   plot_ly(coordinates, x = ~x, y = ~y, name = "default", text = ~text, type = "scatter", mode = "markers", marker = list(color = (match(b$text, dict) / length(dict)), colorscale = "Hot", showscale = TRUE), size = ifelse(b$text == selected_word, 20, 10))
 }
 
-selected_word <- "we"
+model_test_path <- system.file("extdata", 
+                               "model_unsupervised_test.bin", 
+                               package = "fastrtext")
+model <- load_model(model_test_path)
+#model <- load_model("/home/geantvert/workspace/justice-data/ML/models/fasttext/wiki.fr.bin")
+word_embeddings <- get_word_vectors(model)
+dict <- rownames(word_embeddings)
+
 c <- prepare(word_embeddings, trees = 5, explore_k = 10e4)
-b <- retrieve_neighboors(selected_word, word_embeddings, "pca", c, 1000)
+
+selected_word <- "appartement"
+
+b <- retrieve_neighboors(selected_word, word_embeddings, "tsne", c, 1000)
 plot_text(b)
