@@ -8,6 +8,7 @@ fastrtext
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/fastrtext)](https://cran.r-project.org/package=fastrtext)
 [![CRAN_Download](http://cranlogs.r-pkg.org/badges/fastrtext)](http://cran.rstudio.com/web/packages/fastrtext/index.html)
 [![codecov](https://codecov.io/gh/pommedeterresautee/fastrtext/branch/master/graph/badge.svg)](https://codecov.io/gh/pommedeterresautee/fastrtext)
+[![Follow](https://img.shields.io/twitter/follow/pommedeterre33.svg?style=social)](https://twitter.com/intent/follow?screen_name=pommedeterre33)
 
 R wrapper for [fastText](https://github.com/facebookresearch/fastText) C++ code from Facebook.
 
