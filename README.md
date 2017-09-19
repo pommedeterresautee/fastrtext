@@ -1,6 +1,8 @@
 fastrtext
 =========
 
+![fastrtext](https://github.com/pommedeterresautee/fastrtext/raw/master/tools/logo.png) 
+
 [![Travis-CI Build Status](https://travis-ci.org/pommedeterresautee/fastrtext.svg?branch=master)](https://travis-ci.org/pommedeterresautee/fastrtext)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/pommedeterresautee/fastrtext?branch=master&svg=true)](https://ci.appveyor.com/project/pommedeterresautee/fastrtext)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/fastrtext)](https://cran.r-project.org/package=fastrtext)
@@ -10,8 +12,6 @@ fastrtext
 R wrapper for [fastText](https://github.com/facebookresearch/fastText) C++ code from Facebook.
 
 fastText is a library for efficient learning of word representations and sentence classification.
-
-![fastText logo](https://github.com/pommedeterresautee/fastrtext/raw/master/tools/logo.png) 
 
 Installation
 ------------
