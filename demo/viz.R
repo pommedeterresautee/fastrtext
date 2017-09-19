@@ -1,11 +1,9 @@
 library(fastrtext)
-library(irlba)
 library(plotly)
 library(RcppAnnoy)
 library(Rtsne)
 library(assertthat)
-library(largeVis)
-
+library(RColorBrewer)
 
 set.seed(123)
 
@@ -30,26 +28,19 @@ get_list_word <- function(word, dict, annoy_model, n, search_k = min(max(10000, 
 }
 
 get_coordinates_pca <- function(vectors) {
-  pca <- irlba(vectors, nv = 2)
-  data.frame(pca$u)
+  pca <- prcomp(vectors, center = TRUE, scale. = TRUE)
+  data.frame(pca$x[,1:2])
 }
 
-get_coordinates_largeVis <- function(vectors) {
-  transposed_vectors <- t(scale(vectors))
-  visObject <- largeVis(transposed_vectors, distance_method = "Cosine", sgd_batches = 0.1)
-  data.frame(t(visObject$coords))
-}
-
-get_coordinates_tsne <- function(vectors) {
-  tsne_model_1 <- Rtsne(vectors, check_duplicates = FALSE, pca = TRUE, perplexity = 30, theta = 0.5, dims = 2)
+get_coordinates_tsne <- function(vectors, max_iter = 500) {
+  tsne_model_1 <- Rtsne(vectors, check_duplicates = FALSE, pca = TRUE, perplexity = 30, theta = 0.5, dims = 2, verbose = TRUE, max_iter = max_iter, stop_lying_iter = min(max_iter / 2, 250))
   data.frame(tsne_model_1$Y)
 }
 
 get_coordinates <- function(vectors, projection_type, frequency) {
   coordinates <- switch(projection_type,
               tsne = get_coordinates_tsne(vectors = vectors),
-              pca = get_coordinates_pca(vectors = vectors),
-              largeVis = get_coordinates_largeVis(vectors = vectors))
+              pca = get_coordinates_pca(vectors = vectors))
 
   colnames(coordinates) <- c("x", "y")
   coordinates$text <- rownames(vectors)
@@ -77,8 +68,12 @@ prepare <- function(embeddings, trees, explore_k) {
   container
 }
 
-plot_text <- function(coordinates) {
-  plot_ly(coordinates, x = ~x, y = ~y, name = "default", text = ~text, type = "scatter", mode = "markers", marker = list(color = ~frequency, colorscale = "Hot", showscale = TRUE), size = ifelse(b$text == selected_word, 20, 10))
+plot_text <- function(coordinates, min_cluster_size = 5) {
+  cl <- hdbscan(coordinates[, 1:2], minPts = min_cluster_size)
+  number_cluster <- length(unique(cl$cluster))
+  colors <- colorRampPalette(brewer.pal(min(11, number_cluster), "Paired"))(number_cluster)
+  coordinates$colors <- colors[cl$cluster + 1]
+  plot_ly(coordinates, x = ~x, y = ~y, name = "default", text = ~text, type = "scatter", mode = "markers", marker = list(size = ifelse(coordinates$text == selected_word, 30, 10), color = ~colors))
 }
 
 model_test_path <- system.file("extdata",
@@ -86,12 +81,10 @@ model_test_path <- system.file("extdata",
                                package = "fastrtext")
 model <- load_model(model_test_path)
 #model <- load_model("/home/geantvert/workspace/justice-data/ML/models/fasttext/wiki.fr.bin")
-word_embeddings <- get_word_vectors(model)
-#dict <- rownames(word_embeddings)
+word_embeddings <- get_word_vectors(model, words = head(get_dictionary(model), 2e5))
 
 c <- prepare(word_embeddings, trees = 5, explore_k = 10e4)
 
 selected_word <- "avocat"
-b <- retrieve_neighboors(selected_word, word_embeddings, "tsne", c, 1000)
-plot_text(b)
-
+b <- retrieve_neighboors(selected_word, word_embeddings, "tsne", c, 10000)
+plot_text(b, 3)
