@@ -1,7 +1,5 @@
-fastrtext
-=========
-
 ![fastrtext](https://github.com/pommedeterresautee/fastrtext/raw/master/tools/logo.png) 
+=========
 
 [![Travis-CI Build Status](https://travis-ci.org/pommedeterresautee/fastrtext.svg?branch=master)](https://travis-ci.org/pommedeterresautee/fastrtext)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/pommedeterresautee/fastrtext?branch=master&svg=true)](https://ci.appveyor.com/project/pommedeterresautee/fastrtext)
