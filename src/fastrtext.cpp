@@ -83,6 +83,7 @@ public:
       NumericVector probabilities(exp(logProbabilities));
       probabilities.attr("names") = labels;
       list[i] = probabilities;
+      Rcpp::checkUserInterrupt();
     }
     return list;
   }
@@ -156,6 +157,7 @@ public:
       std::string word(words(i));
       names[i] = word;
       mat.row(i) = get_vector(word);
+      Rcpp::checkUserInterrupt();
     }
 
     rownames(mat) = names;
@@ -168,6 +170,7 @@ public:
     int32_t nlabels = privateMembers->dict_->nlabels();
     for (int32_t i = 0; i < nlabels; i++) {
       labels.push_back(getLabel(i));
+      Rcpp::checkUserInterrupt();
     }
     return labels;
   }
@@ -198,6 +201,7 @@ public:
     for(int i = 0; i < banned_words.size(); ++i) {
       std::string w(banned_words[i]);
       banSet.insert(w);
+      Rcpp::checkUserInterrupt();
     }
 
     return find_nn_vector(queryVec, banSet, k);
@@ -262,6 +266,7 @@ private:
       model->getVector(vec, word);
       real norm = vec.norm();
       wordVectors->addRow(vec, i, 1.0 / norm);
+      Rcpp::checkUserInterrupt();
     }
   }
 
@@ -283,6 +288,7 @@ private:
       std::string word = privateMembers->dict_->getWord(i);
       real dp = wordVectors->dotRow(queryVec, i);
       heap.push(std::make_pair(dp / queryNorm, word));
+      Rcpp::checkUserInterrupt();
     }
     NumericVector distances(k);
     CharacterVector word_string(k);
@@ -293,6 +299,7 @@ private:
         distances[i] = heap.top().first;
         word_string[i] = heap.top().second;
         i++;
+        Rcpp::checkUserInterrupt();
       }
       heap.pop();
     }
