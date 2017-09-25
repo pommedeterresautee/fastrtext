@@ -121,6 +121,11 @@ get_word_vectors <- function(model, words = get_dictionary(model)) {
 #' Execute command on fastText model (including training)
 #'
 #' Use the same commands than the one to use for the command line.
+#'
+#' WARNING: for process using multi-threading,
+#' displaying information should be disabled (`-verbose 0`).
+#' This is due to incompatibility between `Rcpp::Rcout` and `pthread`.
+#'
 #' @param commands [character] of commands
 #' @examples
 #' \dontrun{

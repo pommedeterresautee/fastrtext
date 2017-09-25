@@ -12,6 +12,11 @@ execute(commands)
 \description{
 Use the same commands than the one to use for the command line.
 }
+\details{
+WARNING: for process using multi-threading,
+displaying information should be disabled (\code{-verbose 0}).
+This is due to incompatibility between \code{Rcpp::Rcout} and \code{pthread}.
+}
 \examples{
 \dontrun{
 # Supervised learning example
