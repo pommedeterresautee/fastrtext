@@ -70,6 +70,7 @@ public:
   List predict(CharacterVector documents, int k = 1) {
     check_model_loaded();
     List list(documents.size());
+    int label_prefix_size = privateMembers->args_->label.size();
 
     for(int i = 0; i < documents.size(); ++i){
       std::string s(documents(i));
@@ -78,7 +79,9 @@ public:
       CharacterVector labels(predictions.size());
       for (int j = 0; j < predictions.size() ; ++j){
         logProbabilities[j] = predictions[j].first;
-        labels[j] = predictions[j].second;
+        // remove label prefix
+        std::string label_without_prefix = predictions[j].second.erase(0, label_prefix_size);
+        labels[j] = label_without_prefix;
       }
       NumericVector probabilities(exp(logProbabilities));
       probabilities.attr("names") = labels;
