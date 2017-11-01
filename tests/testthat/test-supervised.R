@@ -48,6 +48,14 @@ test_that("Training of a classification model", {
   expect_gt(mean(names(unlist(learned_model_predictions)) ==
                    names(unlist(embedded_model_predictions))), 0.75)
 
+  # check with simplify = TRUE
+  embedded_model_predictions_bis <- predict(embedded_model,
+                                        sentences = test_sentences_with_labels,
+                                        simplify = TRUE)
+  expect_true(is.numeric(embedded_model_predictions_bis))
+  expect_gt(mean(names(unlist(learned_model_predictions)) ==
+                   names(embedded_model_predictions_bis)), 0.75)
+
   # Compare with quantize model
   execute(commands = c("quantize",
                        "-output", tmp_file_model,

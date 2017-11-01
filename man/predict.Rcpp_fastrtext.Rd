@@ -4,7 +4,8 @@
 \alias{predict.Rcpp_fastrtext}
 \title{Get predictions (for supervised model)}
 \usage{
-\method{predict}{Rcpp_fastrtext}(object, sentences, k = 1, ...)
+\method{predict}{Rcpp_fastrtext}(object, sentences, k = 1, simplify = FALSE,
+  ...)
 }
 \arguments{
 \item{object}{trained fastText model}
@@ -12,6 +13,8 @@
 \item{sentences}{\link{character} containing the sentences}
 
 \item{k}{will return the \code{k} most probable labels (default = 1)}
+
+\item{simplify}{when \link{TRUE} and \code{k} = 1, function return a (flat) \link{numeric} instead of a \link{list}}
 
 \item{...}{not used}
 }

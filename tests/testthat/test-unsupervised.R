@@ -72,9 +72,4 @@ test_that("Test analogies", {
   expect_equal(names(analogies), "results")
 })
 
-test_that("Print help", {
-  # Check that printing help doesn't crash
-  print_help()
-})
-
 gc()

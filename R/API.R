@@ -80,6 +80,7 @@ get_labels <- function(model) {
 #' @param object trained fastText model
 #' @param sentences [character] containing the sentences
 #' @param k will return the `k` most probable labels (default = 1)
+#' @param simplify when [TRUE] and `k` = 1, function return a (flat) [numeric] instead of a [list]
 #' @param ... not used
 #' @return [list] containing for each sentence the probability to be associated with `k` labels.
 #' @examples
@@ -91,9 +92,18 @@ get_labels <- function(model) {
 #' sentence <- test_sentences[1, "text"]
 #' print(predict(model, sentence))
 #'
+#' @importFrom assertthat assert_that is.flag is.count
 #' @export
-predict.Rcpp_fastrtext <- function(object, sentences, k = 1, ...) {
-  object$predict(sentences, k)
+predict.Rcpp_fastrtext <- function(object, sentences, k = 1, simplify = FALSE, ...) {
+  assert_that(is.flag(simplify),
+              is.count(k))
+  if (simplify) assert_that(k == 1, msg = "simplify can only be used with k == 1")
+  predictions <- object$predict(sentences, k)
+  if (simplify) {
+    unlist(predictions)
+  } else {
+    predictions
+  }
 }
 
 #' Get word embeddings
