@@ -7,5 +7,11 @@ cache: packages
 r_github_packages:
   - jimhester/covr
 
+before_install:
+  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+  - sudo apt-get update -q
+  - sudo apt-get install g++-4.9 -y
+  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 100
+
 after_success:
   - Rscript -e 'covr::codecov(line_exclusions = list("src/fasttext/main.cc")'
