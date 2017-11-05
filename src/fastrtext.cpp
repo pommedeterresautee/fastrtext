@@ -65,6 +65,7 @@ public:
       delete[] cstrings[i];
     }
     delete[] cstrings;
+    std::Rcout << "" << std::endl;
   }
 
   List predict(CharacterVector documents, int k = 1) {

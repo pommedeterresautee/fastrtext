@@ -24,7 +24,8 @@ Imports: methods,
   assertthat
 Suggests: knitr,
   testthat
-LinkingTo: Rcpp
+LinkingTo: Rcpp,
+  RcppThread
 LazyData: true
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE, roclets = c("rd", "collate", "namespace_roclet"))

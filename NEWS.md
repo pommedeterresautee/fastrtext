@@ -4,6 +4,7 @@
   * add simplify option to predict (to get flat vector as a result)
   * remove prefix label in predict result
   * update fastText source code
+  * fix crash when learning and setting verbose to 2 (calling Rcout from multiple threads crash the application)
 
 # fastrtext 0.2.1 (18.09.17)
 
