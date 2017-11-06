@@ -137,7 +137,7 @@
 <span class='no'>sentences</span> <span class='kw'>&lt;-</span> <span class='no'>test_sentences</span>[, <span class='st'>"text"</span>]
 <span class='no'>test_labels</span> <span class='kw'>&lt;-</span> <span class='no'>test_sentences</span>[, <span class='st'>"class.text"</span>]
 <span class='no'>predictions</span> <span class='kw'>&lt;-</span> <span class='fu'>predict</span>(<span class='no'>model</span>, <span class='no'>sentences</span>)
-<span class='fu'>get_hamming_loss</span>(<span class='fu'>as.list</span>(<span class='no'>test_labels</span>), <span class='no'>predictions</span>)</div><div class='output co'>#&gt; [1] 0</div><div class='input'>
+<span class='fu'>get_hamming_loss</span>(<span class='fu'>as.list</span>(<span class='no'>test_labels</span>), <span class='no'>predictions</span>)</div><div class='output co'>#&gt; [1] 0.775</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
