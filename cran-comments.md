@@ -1,3 +1,6 @@
+## Version 0.2.2 - 06.10.17
+* add a dependency to fix some very specific crash due to Rcout called from different threads.
+
 ## Version 0.2.1 - 18.09.17
 * Fix compilation crash on Mac OS
 * remove notes on R devel
