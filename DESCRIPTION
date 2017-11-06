@@ -21,7 +21,6 @@ License: MIT + file LICENSE
 Depends: R (>= 3.1)
 Imports: methods, 
   Rcpp (>= 0.12.12),
-  RcppThread,
   assertthat
 Suggests: knitr,
   testthat
