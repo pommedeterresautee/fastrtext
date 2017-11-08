@@ -11,3 +11,7 @@ void exit_fasttext(int status_code) {
     Rcpp::stop("Failure in fastrtext. Exit code: " + std::to_string(status_code));
   }
 }
+
+namespace std {
+  RcppThread::RPrinter Rcout = RcppThread::RPrinter();
+}

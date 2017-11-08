@@ -1,5 +1,10 @@
+## Version 0.2.3 - 08.10.17
+* fix Cran notes
+* fix a bug introduced in the last update
+
 ## Version 0.2.2 - 06.10.17
 * add a dependency to fix some very specific crash due to Rcout called from different threads.
+* fix compilation on Mac OS with RcppThread
 
 ## Version 0.2.1 - 18.09.17
 * Fix compilation crash on Mac OS

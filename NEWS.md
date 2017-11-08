@@ -2,7 +2,8 @@
 
   * fix a cran note related to the DESCRIPTION file
   * remove documentation not anymore useful because of previous update
-  * add some asserts to avoid the case where some sentences have no prediction because all their words are unknown (not seen during training).
+  * add some asserts to avoid the case where some sentences have no prediction because all their words are unknown (not seen during training)
+  * fix compilation on Mac OS
 
 # 0.2.2 (07.11.17)
 
