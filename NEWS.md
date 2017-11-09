@@ -1,4 +1,4 @@
-# 0.2.3
+# 0.2.3 (9.11.17)
 
   * fix a cran note related to the DESCRIPTION file
   * remove documentation not anymore useful because of previous update

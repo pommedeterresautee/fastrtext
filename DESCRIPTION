@@ -2,7 +2,7 @@ Package: fastrtext
 Type: Package
 Title: 'fastText' Wrapper for Text Classification and Word Representation
 Version: 0.2.3
-Date: 2017-10-08
+Date: 2017-11-08
 Authors@R: c(person("Michaël", "Benesty", role = c("aut", "cre", "cph"), email = "michael@benesty.fr"),
   person("Facebook, Inc", role = c("cph"), email = "bojanowski@fb.com"))
 Maintainer: Michaël Benesty <michael@benesty.fr>

@@ -1,3 +1,12 @@
+## Version 0.2.3 - 08.10.17 - answer
+Cran:
+Thanks, we see that the Date field is over a month old.
+Is this the right version?
+
+Answer:
+This is the right version but I have made an error in the date.
+
+
 ## Version 0.2.3 - 08.10.17
 * fix Cran notes
 * fix a bug introduced in the last update
