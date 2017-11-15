@@ -18,7 +18,7 @@ Description: Learning text representations and text classifiers may rely
 URL: https://github.com/pommedeterresautee/fastrtext, https://pommedeterresautee.github.io/fastrtext/
 BugReports: https://github.com/pommedeterresautee/fastrtext/issues
 License: MIT + file LICENSE
-Depends: R (>= 3.1)
+Depends: R (>= 3.4)
 Imports: methods, 
   Rcpp (>= 0.12.12),
   assertthat
