@@ -325,4 +325,31 @@ get_analogies <- function(model, w1, w2, w3, k = 1) {
   model$get_nn_by_vector(vec, c(w1, w2, w3), k)
 }
 
+#' Add tags to the documents
+#'
+#' Add tags in the `fastText`` format.
+#' This format is require for the training step.
+#'
+#' @param documents texts to learn
+#' @param tags labels provided as a [list] or a [vector]. There can be 1 or more per document.
+#' @param prefix [character] to add in front of tag (`fastText` format)
+#' @return [character] ready to be written in a file
+#'
+#' @examples
+#' library(fastrtext)
+#' tags <- list(c(1, 5), 0)
+#' documents <- c("this is a text", "this is another document")
+#' add_tags(documents = documents, tags = tags)
+#'
+#' @importFrom assertthat assert_that is.string
+#' @export
+add_tags <- function(documents, tags, prefix = "__label__") {
+  assert_that(is.character(documents))
+  assert_that(is.string(prefix))
+  assert_that(length(documents) == length(tags))
+
+  tags_to_include <- sapply(tags, FUN = function(t) paste0(prefix, t, collapse = " "))
+  paste(tags_to_include, documents)
+}
+
 globalVariables(c("new"))

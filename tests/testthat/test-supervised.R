@@ -106,4 +106,16 @@ test_that("Test label extraction", {
   expect_length(labels_from_model, 15)
 })
 
+test_that("Test formating documents", {
+  tags <- list(c(1, 5), 0)
+  documents <- c("this is a text", "this is another document")
+  results <- add_tags(documents = documents, tags = tags)
+  expect_length(results, 2)
+  expect_equal(results[1], "__label__1 __label__5 this is a text")
+
+  results <- add_tags(documents = documents, tags = c(0, 1))
+  expect_length(results, 2)
+  expect_equal(results[1], "__label__0 this is a text")
+})
+
 gc()
