@@ -72,4 +72,14 @@ test_that("Test analogies", {
   expect_equal(names(analogies), "results")
 })
 
+test_that("Test sentence representation", {
+  model <- load_model(model_test_path)
+  m <- get_sentence_representation(model, "this is a test")
+  expect_length(m, 70)
+  expect_equal(nrow(m), 1)
+  m <- get_sentence_representation(model, c("this is a test", "and here is another"))
+  expect_equal(nrow(m), 2)
+  expect_false(any(is.na(m)))
+})
+
 gc()

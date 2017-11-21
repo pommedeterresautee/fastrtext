@@ -300,7 +300,7 @@ get_nn <- function(model, word, k) {
 #' Based on related move of a vector regarding a basis.
 #' King is to Quenn what a man is to ???
 #' w1 - w2 + w3
-#' @param model trained fastText model. Null if train a new model.
+#' @param model trained fastText model. [NULL] if train a new model.
 #' @param w1 1st word, basis
 #' @param w2 2nd word, move
 #' @param w3 3d word, new basis
@@ -325,7 +325,7 @@ get_analogies <- function(model, w1, w2, w3, k = 1) {
   model$get_nn_by_vector(vec, c(w1, w2, w3), k)
 }
 
-#' Add tags to the documents
+#' Add tags to documents
 #'
 #' Add tags in the `fastText`` format.
 #' This format is require for the training step.
@@ -350,6 +350,27 @@ add_tags <- function(documents, tags, prefix = "__label__") {
 
   tags_to_include <- sapply(tags, FUN = function(t) paste0(prefix, t, collapse = " "))
   paste(tags_to_include, documents)
+}
+
+#' Get sentence embedding
+#'
+#' Sentence is splitted in words (using space separation), and word embeddings are averaged.
+#'
+#' @param model  fastText model
+#' @param sentences [character] containing the sentences
+#' @examples
+#' library(fastrtext)
+#' model_test_path <- system.file("extdata", "model_unsupervised_test.bin", package = "fastrtext")
+#' model <- load_model(model_test_path)
+#' m <- get_sentence_representation(model, "this is a test")
+#' print(m)
+#' @importFrom assertthat assert_that
+#' @export
+get_sentence_representation <- function(model, sentences) {
+  assert_that(is.character(sentences))
+  words <- strsplit(x = sentences, split = "\\s+")
+  m <- sapply(X = words, FUN = function(t) colMeans(get_word_vectors(model, t)), USE.NAMES = FALSE)
+  t(m)
 }
 
 globalVariables(c("new"))

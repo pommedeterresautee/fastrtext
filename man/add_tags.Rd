@@ -2,7 +2,7 @@
 % Please edit documentation in R/API.R
 \name{add_tags}
 \alias{add_tags}
-\title{Add tags to the documents}
+\title{Add tags to documents}
 \usage{
 add_tags(documents, tags, prefix = "__label__")
 }
