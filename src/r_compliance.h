@@ -1,7 +1,6 @@
 // Content of this file is added to each source of fastText to change some behaviours
 
-#ifndef R_COMPLIANCE
-#define R_COMPLIANCE
+#pragma once
 
 #include <stdlib.h>
 #include <string.h>
@@ -24,5 +23,3 @@ namespace std {
   extern RcppThread::RPrinter Rcout;
   typedef  RcppThread::Thread Rthread;
 }
-
-#endif //R_COMPLIANCE

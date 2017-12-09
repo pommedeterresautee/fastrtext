@@ -1,5 +1,4 @@
-#ifndef FASTTEXT_MAIN_H
-#define FASTTEXT_MAIN_H
+#pragma once
 
 #include <iostream>
 
@@ -7,5 +6,3 @@
 #include "fasttext/args.h"
 
 int main(int argc, char** argv);
-
-#endif //FASTTEXT_MAIN_H

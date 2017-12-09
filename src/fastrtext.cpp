@@ -7,28 +7,18 @@
 #include "fasttext/fasttext.h"
 #include "fasttext/args.h"
 #include "main.h"
-#include "fasttext_wrapper.h"
 
 using namespace Rcpp;
 using namespace fasttext;
-using namespace FastTextWrapper;
 
 class fastrtext{
 public:
 
   fastrtext(): model_loaded(false){
     model =  std::unique_ptr<FastText>(new FastText());
-    // HACK: A trick to get access to FastText's private members.
-    // Reference: http://stackoverflow.com/a/8282638
-    privateMembers = (FastTextPrivateMembers*) model.get();
   }
 
   ~fastrtext(){
-    privateMembers->args_.reset();
-    privateMembers->dict_.reset();
-    privateMembers->input_.reset();
-    privateMembers->output_.reset();
-    privateMembers->model_.reset();
     model.reset();
   }
 
@@ -37,7 +27,7 @@ public:
       stop("Path doesn't point to a file: " + path);
     }
     model.reset(new FastText);
-    privateMembers = (FastTextPrivateMembers*) model.get();
+    //privateMembers = (FastTextPrivateMembers*) model.get();
     model->loadModel(path);
     model_loaded = true;
   }
@@ -71,7 +61,7 @@ public:
   List predict(CharacterVector documents, int k = 1) {
     check_model_loaded();
     List list(documents.size());
-    int label_prefix_size = privateMembers->args_->label.size();
+    int label_prefix_size = model->getArgs().label.size();
 
     for(int i = 0; i < documents.size(); ++i){
       std::string s(documents(i));
@@ -94,23 +84,23 @@ public:
 
   List get_parameters(){
     check_model_loaded();
-    double learning_rate(privateMembers->args_->lr);
-    int learning_rate_update(privateMembers->args_->lrUpdateRate);
-    int dim(privateMembers->args_->dim);
-    int context_window_size(privateMembers->args_->ws);
-    int epoch(privateMembers->args_->epoch);
-    int min_count(privateMembers->args_->minCount);
-    int min_count_label(privateMembers->args_->minCountLabel);
-    int n_sampled_negatives(privateMembers->args_->neg);
-    int word_ngram(privateMembers->args_->wordNgrams);
-    int bucket(privateMembers->args_->bucket);
-    int min_ngram(privateMembers->args_->minn);
-    int max_ngram(privateMembers->args_->maxn);
-    double sampling_threshold(privateMembers->args_->t);
-    std::string label_prefix(privateMembers->args_->label);
-    std::string pretrained_vectors_filename(privateMembers->args_->pretrainedVectors);
-    int32_t nlabels(privateMembers->dict_->nlabels());
-    int32_t n_words(privateMembers->dict_->nwords());
+    double learning_rate(model->getArgs().lr);
+    int learning_rate_update(model->getArgs().lrUpdateRate);
+    int dim(model->getArgs().dim);
+    int context_window_size(model->getArgs().ws);
+    int epoch(model->getArgs().epoch);
+    int min_count(model->getArgs().minCount);
+    int min_count_label(model->getArgs().minCountLabel);
+    int n_sampled_negatives(model->getArgs().neg);
+    int word_ngram(model->getArgs().wordNgrams);
+    int bucket(model->getArgs().bucket);
+    int min_ngram(model->getArgs().minn);
+    int max_ngram(model->getArgs().maxn);
+    double sampling_threshold(model->getArgs().t);
+    std::string label_prefix(model->getArgs().label);
+    std::string pretrained_vectors_filename(model->getArgs().pretrainedVectors);
+    int32_t nlabels(model->getDictionary()->nlabels());
+    int32_t n_words(model->getDictionary()->nwords());
 
 
     return Rcpp::List::create(Rcpp::Named("learning_rate") = wrap(learning_rate),
@@ -137,7 +127,7 @@ public:
   std::vector<std::string> get_dictionary() {
     check_model_loaded();
     std::vector<std::string> words;
-    int32_t nwords = privateMembers->dict_->nwords();
+    int32_t nwords = model->getDictionary()->nwords();
     for (int32_t i = 0; i < nwords; i++) {
       words.push_back(getWord(i));
     }
@@ -146,14 +136,14 @@ public:
 
   NumericVector get_vector(const std::string& word) {
     check_model_loaded();
-    fasttext::Vector vec(privateMembers->args_->dim);
-    model->getVector(vec, word);
+    fasttext::Vector vec(model->getArgs().dim);
+    model->getWordVector(vec, word);
     return wrap(std::vector<real>(vec.data_, vec.data_ + vec.m_));
   }
 
   NumericMatrix get_vectors(CharacterVector words){
     check_model_loaded();
-    int dim(privateMembers->args_->dim);
+    int dim(model->getArgs().dim);
     NumericMatrix mat(words.size(), dim);
     CharacterVector names(words.size());
 
@@ -171,7 +161,7 @@ public:
   std::vector<std::string> get_labels() {
     check_model_loaded();
     std::vector<std::string> labels;
-    int32_t nlabels = privateMembers->dict_->nlabels();
+    int32_t nlabels = model->getDictionary()->nlabels();
     for (int32_t i = 0; i < nlabels; i++) {
       labels.push_back(getLabel(i));
       Rcpp::checkUserInterrupt();
@@ -218,7 +208,6 @@ public:
 
 
 private:
-  FastTextPrivateMembers* privateMembers;
   std::unique_ptr<FastText> model;
   bool model_loaded;
 
@@ -229,15 +218,15 @@ private:
   }
 
   std::string getWord(int32_t i) {
-    return privateMembers->dict_->getWord(i);
+    return model->getDictionary()->getWord(i);
   }
 
   std::string getLabel(int32_t i) {
-    return privateMembers->dict_->getLabel(i);
+    return model->getDictionary()->getLabel(i);
   }
 
   std::string getLossName() {
-    loss_name lossName = privateMembers->args_->loss;
+    loss_name lossName = model->getArgs().loss;
     if (lossName == loss_name::ns) {
       return "ns";
     } else if (lossName == loss_name::hs) {
@@ -250,7 +239,7 @@ private:
   }
 
   std::string getModelName() {
-    model_name modelName = privateMembers->args_->model;
+    model_name modelName = model->getArgs().model;
     if (modelName == model_name::cbow) {
       return "cbow";
     } else if (modelName == model_name::sg) {
@@ -263,11 +252,11 @@ private:
   }
 
   void init_word_matrix(std::shared_ptr<fasttext::Matrix> wordVectors) {
-    fasttext::Vector vec(privateMembers->args_->dim);
+    fasttext::Vector vec(model->getArgs().dim);
     wordVectors->zero();
-    for (int32_t i = 0; i < privateMembers->dict_->nwords(); i++) {
-      std::string word = privateMembers->dict_->getWord(i);
-      model->getVector(vec, word);
+    for (int32_t i = 0; i < model->getDictionary()->nwords(); i++) {
+      std::string word = model->getDictionary()->getWord(i);
+      model->getWordVector(vec, word);
       real norm = vec.norm();
       wordVectors->addRow(vec, i, 1.0 / norm);
       Rcpp::checkUserInterrupt();
@@ -277,7 +266,7 @@ private:
   NumericVector find_nn_vector(const fasttext::Vector& queryVec, const std::set<std::string>& banSet, int32_t k) {
 
     if(wordVectors == nullptr){
-      wordVectors = std::make_shared<fasttext::Matrix>(fasttext::Matrix(privateMembers->dict_->nwords(), privateMembers->args_->dim));
+      wordVectors = std::make_shared<fasttext::Matrix>(fasttext::Matrix(model->getDictionary()->nwords(), model->getArgs().dim));
       init_word_matrix(wordVectors);
     }
 
@@ -287,9 +276,9 @@ private:
     }
 
     std::priority_queue<std::pair<real, std::string>> heap;
-    fasttext::Vector vec(privateMembers->args_->dim);
-    for (int32_t i = 0; i < privateMembers->dict_->nwords(); i++) {
-      std::string word = privateMembers->dict_->getWord(i);
+    fasttext::Vector vec(model->getArgs().dim);
+    for (int32_t i = 0; i < model->getDictionary()->nwords(); i++) {
+      std::string word = model->getDictionary()->getWord(i);
       real dp = wordVectors->dotRow(queryVec, i);
       heap.push(std::make_pair(dp / queryNorm, word));
       Rcpp::checkUserInterrupt();

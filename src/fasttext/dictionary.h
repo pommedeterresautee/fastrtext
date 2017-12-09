@@ -7,8 +7,7 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-#ifndef FASTTEXT_DICTIONARY_H
-#define FASTTEXT_DICTIONARY_H
+#pragma once
 
 #include <vector>
 #include <string>
@@ -34,7 +33,7 @@ struct entry {
 };
 
 class Dictionary {
-  private:
+  protected:
     static const int32_t MAX_VOCAB_SIZE = 30000000;
     static const int32_t MAX_LINE_SIZE = 1024;
 
@@ -108,5 +107,3 @@ class Dictionary {
 };
 
 }
-
-#endif

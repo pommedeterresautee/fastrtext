@@ -27,6 +27,7 @@ void printUsage() {
     << "  cbow                    train a cbow model\n"
     << "  print-word-vectors      print word vectors given a trained model\n"
     << "  print-sentence-vectors  print sentence vectors given a trained model\n"
+    << "  print-ngrams            print ngrams given a trained model and word\n"
     << "  nn                      query for nearest neighbors\n"
     << "  analogies               query for analogies\n"
     << std::endl;
@@ -87,7 +88,10 @@ void quantize(const std::vector<std::string>& args) {
   }
   a->parseArgs(args);
   FastText fasttext;
+  // parseArgs checks if a->output is given.
+  fasttext.loadModel(a->output + ".bin");
   fasttext.quantize(a);
+  fasttext.saveModel();
   exit(0);
 }
 
@@ -172,7 +176,12 @@ void printWordVectors(const std::vector<std::string> args) {
   }
   FastText fasttext;
   fasttext.loadModel(std::string(args[2]));
-  fasttext.printWordVectors();
+  std::string word;
+  Vector vec(fasttext.getDimension());
+  while (std::cin >> word) {
+    fasttext.getWordVector(vec, word);
+    std::cout << word << " " << vec << std::endl;
+  }
   exit(0);
 }
 
@@ -183,7 +192,12 @@ void printSentenceVectors(const std::vector<std::string> args) {
   }
   FastText fasttext;
   fasttext.loadModel(std::string(args[2]));
-  fasttext.printSentenceVectors();
+  Vector svec(fasttext.getDimension());
+  while (std::cin.peek() != EOF) {
+    fasttext.getSentenceVector(std::cin, svec);
+    // Don't print sentence
+    std::cout << svec << std::endl;
+  }
   exit(0);
 }
 
@@ -235,6 +249,11 @@ void train(const std::vector<std::string> args) {
   a->parseArgs(args);
   FastText fasttext;
   fasttext.train(a);
+  fasttext.saveModel();
+  fasttext.saveVectors();
+  if (a->saveOutput) {
+    fasttext.saveOutput();
+  }
 }
 
 int main(int argc, char** argv) {

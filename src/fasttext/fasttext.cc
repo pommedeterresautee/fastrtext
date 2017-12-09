@@ -19,38 +19,84 @@
 #include <vector>
 #include <queue>
 #include <algorithm>
+#include <stdexcept>
+#include <numeric>
 
 
 namespace fasttext {
 
+constexpr int32_t FASTTEXT_VERSION = 12; /* Version 1b */
+constexpr int32_t FASTTEXT_FILEFORMAT_MAGIC_INT32 = 793712314;
+
 FastText::FastText() : quant_(false) {}
 
-void FastText::getVector(Vector& vec, const std::string& word) const {
+void FastText::addInputVector(Vector& vec, int32_t ind) const {
+  if (quant_) {
+    vec.addRow(*qinput_, ind);
+  } else {
+    vec.addRow(*input_, ind);
+  }
+}
+
+std::shared_ptr<const Dictionary> FastText::getDictionary() const {
+  return dict_;
+}
+
+const Args FastText::getArgs() const {
+  return *args_.get();
+}
+
+std::shared_ptr<const Matrix> FastText::getInputMatrix() const {
+  return input_;
+}
+
+std::shared_ptr<const Matrix> FastText::getOutputMatrix() const {
+  return output_;
+}
+
+int32_t FastText::getWordId(const std::string& word) const {
+  return dict_->getId(word);
+}
+
+int32_t FastText::getSubwordId(const std::string& word) const {
+  int32_t h = dict_->hash(word) % args_->bucket;
+  return dict_->nwords() + h;
+}
+
+void FastText::getWordVector(Vector& vec, const std::string& word) const {
   const std::vector<int32_t>& ngrams = dict_->getSubwords(word);
   vec.zero();
-  for (auto it = ngrams.begin(); it != ngrams.end(); ++it) {
-    if (quant_) {
-      vec.addRow(*qinput_, *it);
-    } else {
-      vec.addRow(*input_, *it);
-    }
+  for (int i = 0; i < ngrams.size(); i ++) {
+    addInputVector(vec, ngrams[i]);
   }
   if (ngrams.size() > 0) {
     vec.mul(1.0 / ngrams.size());
   }
 }
 
+void FastText::getVector(Vector& vec, const std::string& word) const {
+  getWordVector(vec, word);
+}
+
+void FastText::getSubwordVector(Vector& vec, const std::string& subword)
+    const {
+  vec.zero();
+  int32_t h = dict_->hash(subword) % args_->bucket;
+  h = h + dict_->nwords();
+  addInputVector(vec, h);
+}
+
 void FastText::saveVectors() {
   std::ofstream ofs(args_->output + ".vec");
   if (!ofs.is_open()) {
-    std::cerr << "Error opening file for saving vectors." << std::endl;
-    exit(EXIT_FAILURE);
+    throw std::invalid_argument(
+        args_->output + ".vec" + " cannot be opened for saving vectors!");
   }
   ofs << dict_->nwords() << " " << args_->dim << std::endl;
   Vector vec(args_->dim);
   for (int32_t i = 0; i < dict_->nwords(); i++) {
     std::string word = dict_->getWord(i);
-    getVector(vec, word);
+    getWordVector(vec, word);
     ofs << word << " " << vec << std::endl;
   }
   ofs.close();
@@ -59,13 +105,12 @@ void FastText::saveVectors() {
 void FastText::saveOutput() {
   std::ofstream ofs(args_->output + ".output");
   if (!ofs.is_open()) {
-    std::cerr << "Error opening file for saving vectors." << std::endl;
-    exit(EXIT_FAILURE);
+    throw std::invalid_argument(
+        args_->output + ".output" + " cannot be opened for saving vectors!");
   }
   if (quant_) {
-    std::cerr << "Option -saveOutput is not supported for quantized models."
-              << std::endl;
-    return;
+    throw std::invalid_argument(
+        "Option -saveOutput is not supported for quantized models.");
   }
   int32_t n = (args_->model == model_name::sup) ? dict_->nlabels()
                                                 : dict_->nwords();
@@ -108,10 +153,13 @@ void FastText::saveModel() {
   } else {
     fn += ".bin";
   }
-  std::ofstream ofs(fn, std::ofstream::binary);
+  saveModel(fn);
+}
+
+void FastText::saveModel(const std::string path) {
+  std::ofstream ofs(path, std::ofstream::binary);
   if (!ofs.is_open()) {
-    std::cerr << "Model file cannot be opened for saving!" << std::endl;
-    exit(EXIT_FAILURE);
+    throw std::invalid_argument(path + " cannot be opened for saving!");
   }
   signModel(ofs);
   args_->save(ofs);
@@ -137,12 +185,10 @@ void FastText::saveModel() {
 void FastText::loadModel(const std::string& filename) {
   std::ifstream ifs(filename, std::ifstream::binary);
   if (!ifs.is_open()) {
-    std::cerr << "Model file cannot be opened for loading!" << std::endl;
-    exit(EXIT_FAILURE);
+    throw std::invalid_argument(filename + " cannot be opened for loading!");
   }
   if (!checkModel(ifs)) {
-    std::cerr << "Model file has wrong file format!" << std::endl;
-    exit(EXIT_FAILURE);
+    throw std::invalid_argument(filename + " has wrong file format!");
   }
   loadModel(ifs);
   ifs.close();
@@ -172,10 +218,10 @@ void FastText::loadModel(std::istream& in) {
   }
 
   if (!quant_input && dict_->isPruned()) {
-    std::cerr << "Invalid model file.\n"
-              << "Please download the updated model from www.fasttext.cc.\n"
-              << "See issue #332 on Github for more information.\n";
-    exit(1);
+    throw std::invalid_argument(
+        "Invalid model file.\n"
+        "Please download the updated model from www.fasttext.cc.\n"
+        "See issue #332 on Github for more information.\n");
   }
 
   in.read((char*) &args_->qout, sizeof(bool));
@@ -227,25 +273,22 @@ std::vector<int32_t> FastText::selectEmbeddings(int32_t cutoff) const {
 }
 
 void FastText::quantize(std::shared_ptr<Args> qargs) {
-  if (qargs->output.empty()) {
-    std::cerr<<"No model provided!"<<std::endl;
-    exit(1);
+  if (args_->model != model_name::sup) {
+    throw std::invalid_argument(
+        "For now we only support quantization of supervised models");
   }
-  loadModel(qargs->output + ".bin");
-
   args_->input = qargs->input;
   args_->qout = qargs->qout;
   args_->output = qargs->output;
-
 
   if (qargs->cutoff > 0 && qargs->cutoff < input_->m_) {
     auto idx = selectEmbeddings(qargs->cutoff);
     dict_->prune(idx);
     std::shared_ptr<Matrix> ninput =
-      std::make_shared<Matrix> (idx.size(), args_->dim);
+        std::make_shared<Matrix>(idx.size(), args_->dim);
     for (auto i = 0; i < idx.size(); i++) {
       for (auto j = 0; j < args_->dim; j++) {
-        ninput->at(i,j) = input_->at(idx[i], j);
+        ninput->at(i, j) = input_->at(idx[i], j);
       }
     }
     input_ = ninput;
@@ -254,16 +297,7 @@ void FastText::quantize(std::shared_ptr<Args> qargs) {
       args_->lr = qargs->lr;
       args_->thread = qargs->thread;
       args_->verbose = qargs->verbose;
-      start = clock();
-      tokenCount = 0;
-      start = clock();
-      std::vector<std::thread> threads;
-      for (int32_t i = 0; i < args_->thread; i++) {
-        threads.push_back(std::thread([=]() { trainThread(i); }));
-      }
-      for (auto it = threads.begin(); it != threads.end(); ++it) {
-        it->join();
-      }
+      startThreads();
     }
   }
 
@@ -274,12 +308,16 @@ void FastText::quantize(std::shared_ptr<Args> qargs) {
   }
 
   quant_ = true;
-  saveModel();
+  model_ = std::make_shared<Model>(input_, output_, args_, 0);
+  model_->quant_ = quant_;
+  model_->setQuantizePointer(qinput_, qoutput_, args_->qout);
 }
 
-void FastText::supervised(Model& model, real lr,
-                          const std::vector<int32_t>& line,
-                          const std::vector<int32_t>& labels) {
+void FastText::supervised(
+    Model& model,
+    real lr,
+    const std::vector<int32_t>& line,
+    const std::vector<int32_t>& labels) {
   if (labels.size() == 0 || line.size() == 0) return;
   std::uniform_int_distribution<> uniform(0, labels.size() - 1);
   int32_t i = uniform(model.rng);
@@ -374,33 +412,35 @@ void FastText::predict(std::istream& in, int32_t k, bool print_prob) {
       }
       std::cout << it->second;
       if (print_prob) {
-        std::cout << " " << exp(it->first);
+        std::cout << " " << std::exp(it->first);
       }
     }
     std::cout << std::endl;
   }
 }
 
-void FastText::wordVectors() {
-  std::string word;
-  Vector vec(args_->dim);
-  while (std::cin >> word) {
-    getVector(vec, word);
-    std::cout << word << " " << vec << std::endl;
-  }
-}
-
-void FastText::sentenceVectors() {
-  Vector vec(args_->dim);
-  std::string sentence;
-  Vector svec(args_->dim);
-  std::string word;
-  while (std::getline(std::cin, sentence)) {
+void FastText::getSentenceVector(
+    std::istream& in,
+    fasttext::Vector& svec) {
+  svec.zero();
+  if (args_->model == model_name::sup) {
+    std::vector<int32_t> line, labels;
+    dict_->getLine(in, line, labels, model_->rng);
+    for (int32_t i = 0; i < line.size(); i++) {
+      addInputVector(svec, line[i]);
+    }
+    if (!line.empty()) {
+      svec.mul(1.0 / line.size());
+    }
+  } else {
+    Vector vec(args_->dim);
+    std::string sentence;
+    std::getline(in, sentence);
     std::istringstream iss(sentence);
-    svec.zero();
+    std::string word;
     int32_t count = 0;
-    while(iss >> word) {
-      getVector(vec, word);
+    while (iss >> word) {
+      getWordVector(vec, word);
       real norm = vec.norm();
       if (norm > 0) {
         vec.mul(1.0 / norm);
@@ -411,12 +451,7 @@ void FastText::sentenceVectors() {
     if (count > 0) {
       svec.mul(1.0 / count);
     }
-    std::cout << sentence << " " << svec << std::endl;
   }
-}
-
-std::shared_ptr<const Dictionary> FastText::getDictionary() const {
-  return dict_;
 }
 
 void FastText::ngramVectors(std::string word) {
@@ -437,45 +472,13 @@ void FastText::ngramVectors(std::string word) {
   }
 }
 
-void FastText::textVectors() {
-  std::vector<int32_t> line, labels;
-  Vector vec(args_->dim);
-  while (std::cin.peek() != EOF) {
-    dict_->getLine(std::cin, line, labels, model_->rng);
-    vec.zero();
-    for (auto it = line.cbegin(); it != line.cend(); ++it) {
-      if (quant_) {
-        vec.addRow(*qinput_, *it);
-      } else {
-        vec.addRow(*input_, *it);
-      }
-    }
-    if (!line.empty()) {
-      vec.mul(1.0 / line.size());
-    }
-    std::cout << vec << std::endl;
-  }
-}
-
-void FastText::printWordVectors() {
-  wordVectors();
-}
-
-void FastText::printSentenceVectors() {
-  if (args_->model == model_name::sup) {
-    textVectors();
-  } else {
-    sentenceVectors();
-  }
-}
-
 void FastText::precomputeWordVectors(Matrix& wordVectors) {
   Vector vec(args_->dim);
   wordVectors.zero();
   std::cerr << "Pre-computing word vectors...";
   for (int32_t i = 0; i < dict_->nwords(); i++) {
     std::string word = dict_->getWord(i);
-    getVector(vec, word);
+    getWordVector(vec, word);
     real norm = vec.norm();
     if (norm > 0) {
       wordVectors.addRow(vec, i, 1.0 / norm);
@@ -518,7 +521,7 @@ void FastText::nn(int32_t k) {
   while (std::cin >> queryWord) {
     banSet.clear();
     banSet.insert(queryWord);
-    getVector(queryVec, queryWord);
+    getWordVector(queryVec, queryWord);
     findNN(wordVectors, queryVec, k, banSet);
     std::cout << "Query word? ";
   }
@@ -536,15 +539,15 @@ void FastText::analogies(int32_t k) {
     query.zero();
     std::cin >> word;
     banSet.insert(word);
-    getVector(buffer, word);
+    getWordVector(buffer, word);
     query.addVector(buffer, 1.0);
     std::cin >> word;
     banSet.insert(word);
-    getVector(buffer, word);
+    getWordVector(buffer, word);
     query.addVector(buffer, -1.0);
     std::cin >> word;
     banSet.insert(word);
-    getVector(buffer, word);
+    getWordVector(buffer, word);
     query.addVector(buffer, 1.0);
 
     findNN(wordVectors, query, k, banSet);
@@ -600,14 +603,13 @@ void FastText::loadVectors(std::string filename) {
   std::shared_ptr<Matrix> mat; // temp. matrix for pretrained vectors
   int64_t n, dim;
   if (!in.is_open()) {
-    std::cerr << "Pretrained vectors file cannot be opened!" << std::endl;
-    exit(EXIT_FAILURE);
+    throw std::invalid_argument(filename + " cannot be opened for loading!");
   }
   in >> n >> dim;
   if (dim != args_->dim) {
-    std::cerr << "Dimension of pretrained vectors does not match -dim option"
-              << std::endl;
-    exit(EXIT_FAILURE);
+    throw std::invalid_argument(
+        "Dimension of pretrained vectors (" + std::to_string(dim) +
+        ") does not match dimension (" + std::to_string(args_->dim) + ")!");
   }
   mat = std::make_shared<Matrix>(n, dim);
   for (size_t i = 0; i < n; i++) {
@@ -639,13 +641,12 @@ void FastText::train(std::shared_ptr<Args> args) {
   dict_ = std::make_shared<Dictionary>(args_);
   if (args_->input == "-") {
     // manage expectations
-    std::cerr << "Cannot use stdin for training!" << std::endl;
-    exit(EXIT_FAILURE);
+    throw std::invalid_argument("Cannot use stdin for training!");
   }
   std::ifstream ifs(args_->input);
   if (!ifs.is_open()) {
-    std::cerr << "Input file cannot be opened!" << std::endl;
-    exit(EXIT_FAILURE);
+    throw std::invalid_argument(
+        args_->input + " cannot be opened for training!");
   }
   dict_->readFromFile(ifs);
   ifs.close();
@@ -663,7 +664,16 @@ void FastText::train(std::shared_ptr<Args> args) {
     output_ = std::make_shared<Matrix>(dict_->nwords(), args_->dim);
   }
   output_->zero();
+  startThreads();
+  model_ = std::make_shared<Model>(input_, output_, args_, 0);
+  if (args_->model == model_name::sup) {
+    model_->setTargetCounts(dict_->getCounts(entry_type::label));
+  } else {
+    model_->setTargetCounts(dict_->getCounts(entry_type::word));
+  }
+}
 
+void FastText::startThreads() {
   start = clock();
   tokenCount = 0;
   if (args_->thread > 1) {
@@ -677,17 +687,14 @@ void FastText::train(std::shared_ptr<Args> args) {
   } else {
     trainThread(0);
   }
-  model_ = std::make_shared<Model>(input_, output_, args_, 0);
-
-  saveModel();
-  saveVectors();
-  if (args_->saveOutput > 0) {
-    saveOutput();
-  }
 }
 
 int FastText::getDimension() const {
     return args_->dim;
+}
+
+bool FastText::isQuant() const {
+  return quant_;
 }
 
 }

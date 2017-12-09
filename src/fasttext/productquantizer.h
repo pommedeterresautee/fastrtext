@@ -7,8 +7,7 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-#ifndef FASTTEXT_PRODUCT_QUANTIZER_H
-#define FASTTEXT_PRODUCT_QUANTIZER_H
+#pragma once
 
 #include <cstring>
 #include <istream>
@@ -22,7 +21,7 @@
 namespace fasttext {
 
 class ProductQuantizer {
-  private:
+  protected:
     const int32_t nbits_ = 8;
     const int32_t ksub_ = 1 << nbits_;
     const int32_t max_points_per_cluster_ = 256;
@@ -63,5 +62,3 @@ class ProductQuantizer {
 };
 
 }
-
-#endif

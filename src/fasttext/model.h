@@ -7,8 +7,7 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-#ifndef FASTTEXT_MODEL_H
-#define FASTTEXT_MODEL_H
+#pragma once
 
 #include <vector>
 #include <random>
@@ -21,10 +20,6 @@
 #include "qmatrix.h"
 #include "real.h"
 
-#define SIGMOID_TABLE_SIZE 512
-#define MAX_SIGMOID 8
-#define LOG_TABLE_SIZE 512
-
 namespace fasttext {
 
 struct Node {
@@ -36,7 +31,7 @@ struct Node {
 };
 
 class Model {
-  private:
+  protected:
     std::shared_ptr<Matrix> wi_;
     std::shared_ptr<Matrix> wo_;
     std::shared_ptr<QMatrix> qwi_;
@@ -49,10 +44,10 @@ class Model {
     int32_t osz_;
     real loss_;
     int64_t nexamples_;
-    real* t_sigmoid;
-    real* t_log;
+    std::vector<real> t_sigmoid_;
+    std::vector<real> t_log_;
     // used for negative sampling:
-    std::vector<int32_t> negatives;
+    std::vector<int32_t> negatives_;
     size_t negpos;
     // used for hierarchical softmax:
     std::vector< std::vector<int32_t> > paths;
@@ -71,7 +66,6 @@ class Model {
   public:
     Model(std::shared_ptr<Matrix>, std::shared_ptr<Matrix>,
           std::shared_ptr<Args>, int32_t);
-    ~Model();
 
     real binaryLogistic(int32_t, bool, real);
     real negativeSampling(int32_t, real);
@@ -99,6 +93,7 @@ class Model {
     real getLoss() const;
     real sigmoid(real) const;
     real log(real) const;
+    real std_log(real) const;
 
     std::minstd_rand rng;
     bool quant_;
@@ -106,5 +101,3 @@ class Model {
 };
 
 }
-
-#endif
