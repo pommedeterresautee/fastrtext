@@ -27,7 +27,6 @@ public:
       stop("Path doesn't point to a file: " + path);
     }
     model.reset(new FastText);
-    //privateMembers = (FastTextPrivateMembers*) model.get();
     model->loadModel(path);
     model_loaded = true;
   }
@@ -45,8 +44,9 @@ public:
     }
 
     char** cstrings = new char*[commands.size()];
+    std::string command;
     for(size_t i = 0; i < commands.size(); ++i) {
-      std::string command(commands[i]);
+      command = commands[i];
       cstrings[i] = new char[command.size() + 1];
       std::strcpy(cstrings[i], command.c_str());
     }
@@ -62,9 +62,9 @@ public:
     check_model_loaded();
     List list(documents.size());
     int label_prefix_size = model->getArgs().label.size();
-
+    std::string s;
     for(int i = 0; i < documents.size(); ++i){
-      std::string s(documents(i));
+      s = documents[i];
       std::vector<std::pair<real, std::string> > predictions = predict_proba(s, k);
       NumericVector logProbabilities(predictions.size());
       CharacterVector labels(predictions.size());
@@ -158,6 +158,17 @@ public:
     return mat;
   }
 
+  NumericVector get_word_ids(CharacterVector words) {
+    check_model_loaded();
+    NumericVector ids(words.size());
+    std::string s;
+    for (int i = 0 ; i < words.size(); ++i) {
+      s = words[i];
+      ids[i] = model->getWordId(s) + 1;
+    }
+    return ids;
+  }
+
   std::vector<std::string> get_labels() {
     check_model_loaded();
     std::vector<std::string> labels;
@@ -191,10 +202,10 @@ public:
     std::copy(vector.begin(), vector.end(), queryVec.data_);
     std::set<std::string> banSet;
     banSet.clear();
-
+    std::string s;
     for(int i = 0; i < banned_words.size(); ++i) {
-      std::string w(banned_words[i]);
-      banSet.insert(w);
+      s = banned_words[i];
+      banSet.insert(s);
       Rcpp::checkUserInterrupt();
     }
 
@@ -254,9 +265,10 @@ private:
   void init_word_matrix(std::shared_ptr<fasttext::Matrix> wordVectors) {
     fasttext::Vector vec(model->getArgs().dim);
     wordVectors->zero();
+    std::string s;
     for (int32_t i = 0; i < model->getDictionary()->nwords(); i++) {
-      std::string word = model->getDictionary()->getWord(i);
-      model->getWordVector(vec, word);
+      s = model->getDictionary()->getWord(i);
+      model->getWordVector(vec, s);
       real norm = vec.norm();
       wordVectors->addRow(vec, i, 1.0 / norm);
       Rcpp::checkUserInterrupt();
@@ -277,10 +289,11 @@ private:
 
     std::priority_queue<std::pair<real, std::string>> heap;
     fasttext::Vector vec(model->getArgs().dim);
+    std::string s;
     for (int32_t i = 0; i < model->getDictionary()->nwords(); i++) {
-      std::string word = model->getDictionary()->getWord(i);
+      s = model->getDictionary()->getWord(i);
       real dp = wordVectors->dotRow(queryVec, i);
-      heap.push(std::make_pair(dp / queryNorm, word));
+      heap.push(std::make_pair(dp / queryNorm, s));
       Rcpp::checkUserInterrupt();
     }
     NumericVector distances(k);
@@ -310,8 +323,9 @@ RCPP_MODULE(FASTRTEXT_MODULE) {
   .method("load", &fastrtext::load, "Load a model")
   .method("predict", &fastrtext::predict, "Make a prediction")
   .method("execute", &fastrtext::execute, "Execute commands")
-  .method("get_vectors", &fastrtext::get_vectors, "Get vectors related to provided words")
+  .method("get_word_ids", &fastrtext::get_word_ids, "Get ID of of provided words")
   .method("get_vector", &fastrtext::get_vector, "Get vector related to the provided word")
+  .method("get_vectors", &fastrtext::get_vectors, "Get vectors related to provided words")
   .method("get_parameters", &fastrtext::get_parameters, "Get parameters used to train the model")
   .method("get_dictionary", &fastrtext::get_dictionary, "List all words learned")
   .method("get_labels", &fastrtext::get_labels, "List all labels")

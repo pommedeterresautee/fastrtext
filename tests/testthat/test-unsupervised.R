@@ -36,7 +36,7 @@ test_that("Test parameter extraction", {
   expect_equal(parameters$model_name, "sg")
 })
 
-test_that("Test word extraction", {
+test_that("Test word extraction and word IDs", {
   model <- load_model(model_test_path)
   dict <- get_dictionary(model)
   expect_length(dict, 2061)
@@ -44,6 +44,10 @@ test_that("Test word extraction", {
   expect_true("timing" %in% dict)
   expect_true("experience" %in% dict)
   expect_true("section" %in% dict)
+
+  sentence_to_test <- c("this", "is", "a", "test")
+  ids <- get_word_ids(model, sentence_to_test)
+  expect_equal(get_dictionary(model)[ids], sentence_to_test)
 })
 
 test_that("Test word embeddings", {
