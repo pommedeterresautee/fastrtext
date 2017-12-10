@@ -1,9 +1,15 @@
+# 0.2.5
+
+  * add get word id function
+
 # 0.2.4
 
   * major refactoring
-  * use last version of fastText sourcecode
+  * update to last version of fastText sourcecode
   * sentence representation function
   * add tags function
+  * fix compilation on Windows R Dev
+  * better Makevars (related to strippedLib task)
 
 # 0.2.3 (9.11.17)
 

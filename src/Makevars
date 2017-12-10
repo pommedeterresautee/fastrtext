@@ -14,6 +14,6 @@ OBJECTS = r_compliance.o $(PKGROOT)/args.o $(PKGROOT)/dictionary.o $(PKGROOT)/pr
 # Need to check if we are on Linux and if strip is installed
 # http://dirk.eddelbuettel.com/blog/2017/08/14/#009_compact_shared_libraries
 strippedLib: $(SHLIB)
-		if test -e "/usr/bin/strip" & test -e "/bin/uname" & [[ `uname` == "Linux" ]] ; then /usr/bin/strip --strip-debug $(SHLIB); fi
+		if test -e "/usr/bin/strip" && test -e "/bin/uname" && [[ `uname` == "Linux" ]] ; then /usr/bin/strip --strip-debug $(SHLIB); fi
 
 .phony: strippedLib
