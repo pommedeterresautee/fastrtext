@@ -111,7 +111,7 @@ Average word embeddings and search most similar <code>label</code> vector.</p>
 
     <pre class="usage"><span class='co'># S3 method for Rcpp_fastrtext</span>
 <span class='fu'>predict</span>(<span class='no'>object</span>, <span class='no'>sentences</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>)</pre>
+  <span class='kw'>unlock_empty_predictions</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -133,6 +133,10 @@ Average word embeddings and search most similar <code>label</code> vector.</p>
       <td><p>when TRUE and <code>k</code> = 1, function return a (flat) numeric instead of a list</p></td>
     </tr>
     <tr>
+      <th>unlock_empty_predictions</th>
+      <td><p>logical to avoid crash when some predictions are not provided for some sentences because all their words have not been seen during training. This parameter should only be set to TRUE to debug.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>not used</p></td>
     </tr>
@@ -152,7 +156,7 @@ Average word embeddings and search most similar <code>label</code> vector.</p>
 <span class='no'>sentence</span> <span class='kw'>&lt;-</span> <span class='no'>test_sentences</span>[<span class='fl'>1</span>, <span class='st'>"text"</span>]
 <span class='fu'>print</span>(<span class='fu'>predict</span>(<span class='no'>model</span>, <span class='no'>sentence</span>))</div><div class='output co'>#&gt; [[1]]
 #&gt;      OWNX 
-#&gt; 0.9980469 
+#&gt; 0.9999757 
 #&gt; </div><div class='input'>
 </div></pre>
   </div>

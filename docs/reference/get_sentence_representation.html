@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get analogy — get_analogies • fastrtext</title>
+<title>Get sentence embedding — get_sentence_representation • fastrtext</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -101,64 +101,62 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get analogy</h1>
+    <h1>Get sentence embedding</h1>
     </div>
 
     
-    <p>From Mikolov paper
-Based on related move of a vector regarding a basis.
-King is to Quenn what a man is to ???
-w1 - w2 + w3</p>
+    <p>Sentence is splitted in words (using space separation), and word embeddings are averaged.</p>
     
 
-    <pre class="usage"><span class='fu'>get_analogies</span>(<span class='no'>model</span>, <span class='no'>w1</span>, <span class='no'>w2</span>, <span class='no'>w3</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
+    <pre class="usage"><span class='fu'>get_sentence_representation</span>(<span class='no'>model</span>, <span class='no'>sentences</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>trained fastText model. NULL if train a new model.</p></td>
+      <td><p>fastText model</p></td>
     </tr>
     <tr>
-      <th>w1</th>
-      <td><p>1st word, basis</p></td>
-    </tr>
-    <tr>
-      <th>w2</th>
-      <td><p>2nd word, move</p></td>
-    </tr>
-    <tr>
-      <th>w3</th>
-      <td><p>3d word, new basis</p></td>
-    </tr>
-    <tr>
-      <th>k</th>
-      <td><p>number of words to return</p></td>
+      <th>sentences</th>
+      <td><p>character containing the sentences</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>a numeric with distances and names are words</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'>library</span>(<span class='no'>fastrtext</span>)
+    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>fastrtext</span>)
 <span class='no'>model_test_path</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata"</span>, <span class='st'>"model_unsupervised_test.bin"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"fastrtext"</span>)
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='load_model.html'>load_model</a></span>(<span class='no'>model_test_path</span>)
-<span class='fu'>get_analogies</span>(<span class='no'>model</span>, <span class='st'>"experience"</span>, <span class='st'>"experiences"</span>, <span class='st'>"result"</span>)</div><div class='output co'>#&gt;  results 
-#&gt; 0.726607 </div><div class='input'>
-</div></pre>
+<span class='no'>m</span> <span class='kw'>&lt;-</span> <span class='fu'>get_sentence_representation</span>(<span class='no'>model</span>, <span class='st'>"this is a test"</span>)
+<span class='fu'>print</span>(<span class='no'>m</span>)</div><div class='output co'>#&gt;           [,1]      [,2]       [,3]        [,4]       [,5]       [,6]
+#&gt; [1,] 0.1576931 0.2008249 -0.2050847 -0.04660767 -0.5180495 -0.1808014
+#&gt;            [,7]        [,8]       [,9]       [,10]     [,11]     [,12]
+#&gt; [1,] -0.2479727 -0.03177965 -0.1433763 -0.01613702 0.6144519 0.4550506
+#&gt;           [,13]      [,14]      [,15]     [,16]       [,17]      [,18]
+#&gt; [1,] 0.09386166 -0.6361028 -0.5042628 0.4243065 -0.01694174 -0.2755483
+#&gt;           [,19]      [,20]    [,21]      [,22]     [,23]      [,24]     [,25]
+#&gt; [1,] -0.2917216 -0.2528136 0.081584 0.05648831 0.2505453 0.02228048 0.3583241
+#&gt;            [,26]      [,27]      [,28]      [,29]      [,30]      [,31]
+#&gt; [1,] 0.001738533 -0.1557985 0.03750987 -0.2898299 -0.1257013 -0.1819133
+#&gt;           [,32]       [,33]      [,34]      [,35]     [,36]     [,37]     [,38]
+#&gt; [1,] -0.4899969 -0.02403732 0.08073278 -0.3244026 0.4454996 0.2763731 0.1978127
+#&gt;           [,39]     [,40]      [,41]       [,42]     [,43]     [,44]      [,45]
+#&gt; [1,] -0.4174323 0.1883659 0.02403229 -0.04723767 0.5109857 0.2901209 -0.2130205
+#&gt;           [,46]      [,47]      [,48]     [,49]       [,50]      [,51]
+#&gt; [1,] -0.1790145 -0.1893126 -0.9344752 0.3790369 -0.07308846 -0.1442713
+#&gt;            [,52]      [,53]      [,54]       [,55]    [,56]     [,57]     [,58]
+#&gt; [1,] -0.05873244 -0.1189125 -0.3196966 -0.05877495 0.182499 -0.217757 0.2692343
+#&gt;           [,59]      [,60]      [,61]      [,62]     [,63]      [,64]
+#&gt; [1,] -0.2185429 -0.4984279 -0.2140467 -0.4530488 0.4845145 -0.1788791
+#&gt;           [,65]     [,66]     [,67]     [,68]     [,69]     [,70]
+#&gt; [1,] -0.1679414 0.3900617 0.1082274 0.2482284 0.2261221 0.3238334</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-      
+            
       <li><a href="#examples">Examples</a></li>
     </ul>
 

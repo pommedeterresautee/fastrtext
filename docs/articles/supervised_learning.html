@@ -81,7 +81,7 @@
       <h1>Supervised learning</h1>
                         <h4 class="author">M. Benesty</h4>
             
-            <h4 class="date">2017-11-06</h4>
+            <h4 class="date">2017-12-11</h4>
           </div>
 
     
@@ -113,7 +113,7 @@ Read 0M words
 ## Number of words:  5060
 ## Number of labels: 15
 ## 
-Progress: 100.0%  words/sec/thread: 2526082  lr: 0.000000  loss: 0.311629  eta: 0h0m</code></pre>
+Progress: 100.0%  words/sec/thread: 2344500  lr: 0.000000  loss: 0.316295  eta: 0h0m</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load model</span>
 model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/load_model.html">load_model</a></span>(tmp_file_model)</code></pre></div>
 <pre><code>## add .bin extension to the path</code></pre>
@@ -122,63 +122,63 @@ predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(model,
 <span class="kw">print</span>(<span class="kw">head</span>(predictions, <span class="dv">5</span>))</code></pre></div>
 <pre><code>## [[1]]
 ##      OWNX 
-## 0.9980469 
+## 0.9998726 
 ## 
 ## [[2]]
 ##      MISC 
-## 0.9882813 
+## 0.9863796 
 ## 
 ## [[3]]
 ##      MISC 
-## 0.9902344 
+## 0.9927305 
 ## 
 ## [[4]]
-##      OWNX 
-## 0.9296875 
+##     OWNX 
+## 0.919471 
 ## 
 ## [[5]]
 ##      AIMX 
-## 0.9863281</code></pre>
+## 0.9867272</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Compute accuracy</span>
 <span class="kw">mean</span>(<span class="kw">names</span>(<span class="kw">unlist</span>(predictions)) <span class="op">==</span><span class="st"> </span>test_labels_without_prefix)</code></pre></div>
-<pre><code>## [1] 0.8316667</code></pre>
+<pre><code>## [1] 0.83</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># because there is only one category by observation, hamming loss will be the same</span>
 <span class="kw"><a href="../reference/get_hamming_loss.html">get_hamming_loss</a></span>(<span class="kw">as.list</span>(test_labels_without_prefix), predictions)</code></pre></div>
-<pre><code>## [1] 0.8316667</code></pre>
+<pre><code>## [1] 0.83</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># test predictions</span>
 predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(model, <span class="dt">sentences =</span> test_to_write)
 <span class="kw">print</span>(<span class="kw">head</span>(predictions, <span class="dv">5</span>))</code></pre></div>
 <pre><code>## [[1]]
 ##      OWNX 
-## 0.9980469 
+## 0.9998726 
 ## 
 ## [[2]]
 ##      MISC 
-## 0.9882813 
+## 0.9863796 
 ## 
 ## [[3]]
 ##      MISC 
-## 0.9902344 
+## 0.9927305 
 ## 
 ## [[4]]
-##      OWNX 
-## 0.9296875 
+##     OWNX 
+## 0.919471 
 ## 
 ## [[5]]
 ##      AIMX 
-## 0.9863281</code></pre>
+## 0.9867272</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># you can get flat list of results when you are retrieving only one label per observation</span>
 <span class="kw">print</span>(<span class="kw">head</span>(<span class="kw">predict</span>(model, <span class="dt">sentences =</span> test_to_write, <span class="dt">simplify =</span> <span class="ot">TRUE</span>)))</code></pre></div>
-<pre><code>##      OWNX      MISC      MISC      OWNX      AIMX      MISC 
-## 0.9980469 0.9882813 0.9902344 0.9296875 0.9863281 0.2636719</code></pre>
+<pre><code>##      OWNX      MISC      MISC      OWNX      AIMX      CONT 
+## 0.9998726 0.9863796 0.9927305 0.9194710 0.9867272 0.4257370</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># free memory</span>
 <span class="kw">unlink</span>(train_tmp_file_txt)
 <span class="kw">unlink</span>(tmp_file_model)
 <span class="kw">rm</span>(model)
 <span class="kw">gc</span>()</code></pre></div>
 <pre><code>##           used (Mb) gc trigger (Mb) max used (Mb)
-## Ncells  528267 28.3     940480 50.3   750400 40.1
-## Vcells 1079620  8.3    2060183 15.8  1499558 11.5</code></pre>
+## Ncells  529488 28.3     940480 50.3   750400 40.1
+## Vcells 1082184  8.3    2060183 15.8  1474823 11.3</code></pre>
 </div>
   </div>
 
