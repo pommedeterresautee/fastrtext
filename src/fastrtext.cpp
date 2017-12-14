@@ -218,6 +218,7 @@ public:
   }
 
   CharacterVector tokenize(const std::string text){
+    check_model_loaded();
     std::vector<std::string> text_split;
     std::shared_ptr<const fasttext::Dictionary> d = model->getDictionary();
     std::stringstream ioss;
@@ -231,6 +232,14 @@ public:
     return wrap(text_split);
   }
 
+  NumericVector get_sentence_vector(const std::string sentence) {
+    check_model_loaded();
+    fasttext::Vector v(model->getArgs().dim);
+    std::stringstream ioss;
+    copy(sentence.begin(), sentence.end(), std::ostream_iterator<char>(ioss));
+    model->getSentenceVector(ioss, v);
+    return wrap(std::vector<real>(v.data_, v.data_ + v.m_));
+  }
 
 private:
   std::unique_ptr<FastText> model;
@@ -345,5 +354,6 @@ RCPP_MODULE(FASTRTEXT_MODULE) {
   .method("get_labels", &fastrtext::get_labels, "List all labels")
   .method("get_nn_by_vector", &fastrtext::get_nn_by_vector, "Get nearest neighbour words, providing a vector")
   .method("tokenize", &fastrtext::tokenize, "Tokenize a text in words")
+  .method("get_sentence_vector", &fastrtext::get_sentence_vector, "Get the dense representation of a sentence")
   .method("print_help", &fastrtext::print_help, "Print command helps");
 }

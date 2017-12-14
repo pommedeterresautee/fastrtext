@@ -2,6 +2,7 @@
 
   * add get word id function
   * add tokenizer function
+  * change the way sentence vector are computed (use fastText internal code to improve speed)
 
 # 0.2.4
 

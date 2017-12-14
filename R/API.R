@@ -354,7 +354,7 @@ add_tags <- function(documents, tags, prefix = "__label__") {
 
 #' Get sentence embedding
 #'
-#' Sentence is splitted in words (using space separation), and word embeddings are averaged.
+#' Sentence is splitted in words (using space characters), and word embeddings are averaged.
 #'
 #' @param model `fastText` model
 #' @param sentences [character] containing the sentences
@@ -368,8 +368,7 @@ add_tags <- function(documents, tags, prefix = "__label__") {
 #' @export
 get_sentence_representation <- function(model, sentences) {
   assert_that(is.character(sentences))
-  words <- get_tokenized_text(model = model, texts = sentences)
-  m <- sapply(X = words, FUN = function(t) colMeans(get_word_vectors(model, t)), USE.NAMES = FALSE)
+  m <- sapply(X = sentences, FUN = function(sentence) model$get_sentence_vector(sentence), USE.NAMES = FALSE)
   t(m)
 }
 
