@@ -7,7 +7,7 @@
 get_word_ids(model, words)
 }
 \arguments{
-\item{model}{fastText model}
+\item{model}{\code{fastText} model}
 
 \item{words}{\link{character} containing words to retrieve IDs}
 }

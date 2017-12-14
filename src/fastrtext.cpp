@@ -217,6 +217,20 @@ public:
     a->printHelp();
   }
 
+  CharacterVector tokenize(const std::string text){
+    std::vector<std::string> text_split;
+    std::shared_ptr<const fasttext::Dictionary> d = model->getDictionary();
+    std::stringstream ioss;
+    copy(text.begin(), text.end(), std::ostream_iterator<char>(ioss));
+    std::string token;
+    while (!ioss.eof()) {
+      while (d->readWord(ioss, token)) {
+        text_split.push_back(token);
+      }
+    }
+    return wrap(text_split);
+  }
+
 
 private:
   std::unique_ptr<FastText> model;
@@ -330,5 +344,6 @@ RCPP_MODULE(FASTRTEXT_MODULE) {
   .method("get_dictionary", &fastrtext::get_dictionary, "List all words learned")
   .method("get_labels", &fastrtext::get_labels, "List all labels")
   .method("get_nn_by_vector", &fastrtext::get_nn_by_vector, "Get nearest neighbour words, providing a vector")
+  .method("tokenize", &fastrtext::tokenize, "Tokenize a text in words")
   .method("print_help", &fastrtext::print_help, "Print command helps");
 }

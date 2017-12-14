@@ -1,6 +1,7 @@
 # 0.2.5
 
   * add get word id function
+  * add tokenizer function
 
 # 0.2.4
 

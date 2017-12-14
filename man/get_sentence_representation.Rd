@@ -7,7 +7,7 @@
 get_sentence_representation(model, sentences)
 }
 \arguments{
-\item{model}{fastText model}
+\item{model}{\code{fastText} model}
 
 \item{sentences}{\link{character} containing the sentences}
 }

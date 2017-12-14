@@ -21,7 +21,7 @@ load_model <- function(path) {
 #' Export hyper parameters
 #'
 #' Retrieve hyper parameters used to train the model
-#' @param model trained fastText model
+#' @param model trained `fastText` model
 #' @return [list] containing each parameter
 #' @examples
 #'
@@ -38,7 +38,7 @@ get_parameters <- function(model) {
 #' Get list of known words
 #'
 #' Get a [character] containing each word seen during training.
-#' @param model trained fastText model
+#' @param model trained `fastText` model
 #' @return [character] containing each word
 #' @examples
 #'
@@ -55,7 +55,7 @@ get_dictionary <- function(model) {
 #' Get list of labels (supervised model)
 #'
 #' Get a [character] containing each label seen during training.
-#' @param model trained fastText model
+#' @param model trained `fastText` model
 #' @return [character] containing each label
 #' @importFrom assertthat assert_that
 #' @examples
@@ -77,7 +77,7 @@ get_labels <- function(model) {
 #'
 #' Apply the trained  model to new sentences.
 #' Average word embeddings and search most similar `label` vector.
-#' @param object trained fastText model
+#' @param object trained `fastText` model
 #' @param sentences [character] containing the sentences
 #' @param k will return the `k` most probable labels (default = 1)
 #' @param simplify when [TRUE] and `k` = 1, function return a (flat) [numeric] instead of a [list]
@@ -127,7 +127,7 @@ predict.Rcpp_fastrtext <- function(object, sentences, k = 1, simplify = FALSE, u
 #' model <- load_model(model_test_path)
 #' get_word_vectors(model, c("introduction", "we"))
 #'
-#' @param model trained fastText model
+#' @param model trained `fastText` model
 #' @param words [character] of words. Default: return every word from the dictionary.
 #' @return [matrix] containing each word embedding as a row and `rownames` are populated with word strings.
 #' @importFrom assertthat assert_that
@@ -137,7 +137,7 @@ get_word_vectors <- function(model, words = get_dictionary(model)) {
   model$get_vectors(words)
 }
 
-#' Execute command on fastText model (including training)
+#' Execute command on `fastText` model (including training)
 #'
 #' Use the same commands than the one to use for the command line.
 #'
@@ -195,7 +195,7 @@ execute <- function(commands) {
 #' Distance between two words
 #'
 #' Distance is equal to `1 - cosine`
-#' @param model trained fastText model. Null if train a new model.
+#' @param model trained `fastText` model. Null if train a new model.
 #' @param w1 first word to compare
 #' @param w2 second word to compare
 #' @return a `scalar` with the distance
@@ -273,7 +273,7 @@ print_help <- function() {
 #' First execution can be slow because of precomputation.
 #' Search is done linearly, if your model is big you may want to use an approximate neighbour algorithm from other R packages (like RcppAnnoy).
 #'
-#' @param model trained fastText model. Null if train a new model.
+#' @param model trained `fastText` model. Null if train a new model.
 #' @param word reference word
 #' @param k [integer] defining the number of results to return
 #' @return [numeric] with distances with [names] as words
@@ -300,7 +300,7 @@ get_nn <- function(model, word, k) {
 #' Based on related move of a vector regarding a basis.
 #' King is to Quenn what a man is to ???
 #' w1 - w2 + w3
-#' @param model trained fastText model. [NULL] if train a new model.
+#' @param model trained `fastText` model. [NULL] if train a new model.
 #' @param w1 1st word, basis
 #' @param w2 2nd word, move
 #' @param w3 3d word, new basis
@@ -356,7 +356,7 @@ add_tags <- function(documents, tags, prefix = "__label__") {
 #'
 #' Sentence is splitted in words (using space separation), and word embeddings are averaged.
 #'
-#' @param model fastText model
+#' @param model `fastText` model
 #' @param sentences [character] containing the sentences
 #' @examples
 #' library(fastrtext)
@@ -368,7 +368,7 @@ add_tags <- function(documents, tags, prefix = "__label__") {
 #' @export
 get_sentence_representation <- function(model, sentences) {
   assert_that(is.character(sentences))
-  words <- strsplit(x = sentences, split = "\\s+")
+  words <- get_tokenized_text(model = model, texts = sentences)
   m <- sapply(X = words, FUN = function(t) colMeans(get_word_vectors(model, t)), USE.NAMES = FALSE)
   t(m)
 }
@@ -376,7 +376,7 @@ get_sentence_representation <- function(model, sentences) {
 #' Retrieve word IDs
 #'
 #' Get ID of words in the dictionary
-#' @param model fastText model
+#' @param model `fastText` model
 #' @param words [character] containing words to retrieve IDs
 #' @return [numeric] of ids
 #' @examples
@@ -394,6 +394,27 @@ get_sentence_representation <- function(model, sentences) {
 get_word_ids <- function(model, words) {
   assert_that(is.character(words))
   model$get_word_ids(words)
+}
+
+#' Tokenize text
+#'
+#' Separate words in a text using space characters
+#' @param model `fastText` model
+#' @param texts a [character] containing the documents
+#' @return a [list] of [character] containing words
+#' @examples
+#' library(fastrtext)
+#' model_test_path <- system.file("extdata", "model_unsupervised_test.bin", package = "fastrtext")
+#' model <- load_model(model_test_path)
+#' tokens <- get_tokenized_text(model, "this is a test")
+#' print(tokens)
+#' tokens <- get_tokenized_text(model, c("this is a test 1", "this is a second test!"))
+#' print(tokens)
+#' @importFrom assertthat assert_that is.string
+#' @export
+get_tokenized_text <- function(model, texts){
+  assert_that(is.character(texts))
+  lapply(texts, FUN = function(text) model$tokenize(text))
 }
 
 globalVariables(c("new"))

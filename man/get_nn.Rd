@@ -7,7 +7,7 @@
 get_nn(model, word, k)
 }
 \arguments{
-\item{model}{trained fastText model. Null if train a new model.}
+\item{model}{trained \code{fastText} model. Null if train a new model.}
 
 \item{word}{reference word}
 

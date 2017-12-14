@@ -7,7 +7,7 @@
 get_parameters(model)
 }
 \arguments{
-\item{model}{trained fastText model}
+\item{model}{trained \code{fastText} model}
 }
 \value{
 \link{list} containing each parameter

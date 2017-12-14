@@ -8,7 +8,7 @@
   unlock_empty_predictions = FALSE, ...)
 }
 \arguments{
-\item{object}{trained fastText model}
+\item{object}{trained \code{fastText} model}
 
 \item{sentences}{\link{character} containing the sentences}
 

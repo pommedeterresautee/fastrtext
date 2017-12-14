@@ -7,7 +7,7 @@
 get_word_vectors(model, words = get_dictionary(model))
 }
 \arguments{
-\item{model}{trained fastText model}
+\item{model}{trained \code{fastText} model}
 
 \item{words}{\link{character} of words. Default: return every word from the dictionary.}
 }

@@ -50,6 +50,12 @@ test_that("Test word extraction and word IDs", {
   expect_equal(get_dictionary(model)[ids], sentence_to_test)
 })
 
+test_that("Tokenization separate words in a text document", {
+  model <- load_model(model_test_path)
+  tokens <- get_tokenized_text(model, "this is a test")
+  expect_equal(tokens, list(c("this", "is", "a", "test")))
+})
+
 test_that("Test word embeddings", {
   model <- load_model(model_test_path)
 
