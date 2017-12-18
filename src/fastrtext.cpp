@@ -86,7 +86,7 @@ public:
     check_model_loaded();
     double learning_rate(model->getArgs().lr);
     int learning_rate_update(model->getArgs().lrUpdateRate);
-    int dim(model->getArgs().dim);
+    int dim(model->getDimension());
     int context_window_size(model->getArgs().ws);
     int epoch(model->getArgs().epoch);
     int min_count(model->getArgs().minCount);
@@ -136,14 +136,14 @@ public:
 
   NumericVector get_vector(const std::string& word) {
     check_model_loaded();
-    fasttext::Vector vec(model->getArgs().dim);
+    fasttext::Vector vec(model->getDimension());
     model->getWordVector(vec, word);
     return wrap(std::vector<real>(vec.data_, vec.data_ + vec.m_));
   }
 
   NumericMatrix get_vectors(CharacterVector words){
     check_model_loaded();
-    int dim(model->getArgs().dim);
+    int dim(model->getDimension());
     NumericMatrix mat(words.size(), dim);
     CharacterVector names(words.size());
 
@@ -234,7 +234,7 @@ public:
 
   NumericVector get_sentence_vector(const std::string sentence) {
     check_model_loaded();
-    fasttext::Vector v(model->getArgs().dim);
+    fasttext::Vector v(model->getDimension());
     std::stringstream ioss;
     copy(sentence.begin(), sentence.end(), std::ostream_iterator<char>(ioss));
     model->getSentenceVector(ioss, v);
@@ -286,7 +286,7 @@ private:
   }
 
   void init_word_matrix(std::shared_ptr<fasttext::Matrix> wordVectors) {
-    fasttext::Vector vec(model->getArgs().dim);
+    fasttext::Vector vec(model->getDimension());
     wordVectors->zero();
     std::string s;
     for (int32_t i = 0; i < model->getDictionary()->nwords(); i++) {
@@ -301,7 +301,7 @@ private:
   NumericVector find_nn_vector(const fasttext::Vector& queryVec, const std::set<std::string>& banSet, int32_t k) {
 
     if(wordVectors == nullptr){
-      wordVectors = std::make_shared<fasttext::Matrix>(fasttext::Matrix(model->getDictionary()->nwords(), model->getArgs().dim));
+      wordVectors = std::make_shared<fasttext::Matrix>(fasttext::Matrix(model->getDictionary()->nwords(), model->getDimension()));
       init_word_matrix(wordVectors);
     }
 
@@ -311,7 +311,7 @@ private:
     }
 
     std::priority_queue<std::pair<real, std::string>> heap;
-    fasttext::Vector vec(model->getArgs().dim);
+    fasttext::Vector vec(model->getDimension());
     std::string s;
     for (int32_t i = 0; i < model->getDictionary()->nwords(); i++) {
       s = model->getDictionary()->getWord(i);

@@ -18,6 +18,7 @@ test_that("Training", {
                        "-thread", 1,
                        "-dim", 50,
                        "-bucket", 1e3,
+                       "-loss", "ns",
                        "-epoch", 20))
 
   # Check learned file exists
@@ -27,6 +28,27 @@ test_that("Training", {
   model <- load_model(tmp_file_model)
   parameters <- get_parameters(model)
   expect_equal(parameters$model_name, "sg")
+
+  execute(commands = c("skipgram",
+                       "-input", tmp_file_txt,
+                       "-output", tmp_file_model,
+                       "-verbose", 0,
+                       "-thread", 1,
+                       "-dim", 50,
+                       "-bucket", 1e3,
+                       "-loss", "softmax",
+                       "-epoch", 3))
+
+  execute(commands = c("cbow",
+                       "-input", tmp_file_txt,
+                       "-output", tmp_file_model,
+                       "-verbose", 0,
+                       "-thread", 1,
+                       "-dim", 50,
+                       "-bucket", 1e3,
+                       "-loss", "hs",
+                       "-epoch", 3))
+
 })
 
 test_that("Test parameter extraction", {
