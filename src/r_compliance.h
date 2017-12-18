@@ -11,6 +11,8 @@
 #define exit(status_code) exit_fasttext(status_code)
 #define cerr Rcout // with cerr, no line refresh possible on R (it is an issue for learning with verbose set to 2, progress line is updated)
 #define cout Rcout
+#define printInfo(progress, loss, log_stream) printInfo(progress, loss)
+#define log_stream std::Rcout
 #define thread Rthread // reroute call to thread to RcppThread to get an update of Rcout from time to time even when Rcout is never called from main thread
 #define main main_fastrtext // no direct call to main(), otherwise Cran complains + strange errors
 

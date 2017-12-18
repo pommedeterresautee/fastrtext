@@ -9,8 +9,6 @@
 
 #include "fasttext.h"
 
-#include <math.h>
-
 #include <iostream>
 #include <sstream>
 #include <iomanip>
@@ -242,20 +240,28 @@ void FastText::loadModel(std::istream& in) {
   }
 }
 
-void FastText::printInfo(real progress, real loss) {
-  real t = real(clock() - start) / CLOCKS_PER_SEC;
-  real wst = real(tokenCount) / t;
-  real lr = args_->lr * (1.0 - progress);
-  int eta = int(t / progress * (1 - progress) / args_->thread);
-  int etah = eta / 3600;
-  int etam = (eta - etah * 3600) / 60;
-  std::cerr << std::fixed;
-  std::cerr << "\rProgress: " << std::setprecision(1) << 100 * progress << "%";
-  std::cerr << "  words/sec/thread: " << std::setprecision(0) << wst;
-  std::cerr << "  lr: " << std::setprecision(6) << lr;
-  std::cerr << "  loss: " << std::setprecision(6) << loss;
-  std::cerr << "  eta: " << etah << "h" << etam << "m ";
-  std::cerr << std::flush;
+void FastText::printInfo(real progress, real loss, std::ostream& log_stream) {
+  // clock_t might also only be 32bits wide on some systems
+  double t = double(clock() - start_) / double(CLOCKS_PER_SEC);
+  double lr = args_->lr * (1.0 - progress);
+  double wst = 0;
+  int64_t eta = 720 * 3600; // Default to one month
+  if (progress > 0 && t >= 0) {
+    eta = int(t / progress * (1 - progress) / args_->thread);
+    wst = double(tokenCount_) / t;
+  }
+  int64_t etam = (eta % 3600) / 60;
+  int64_t etah = etam / 60;
+  progress = progress * 100;
+  log_stream << std::fixed;
+  log_stream << "Progress: ";
+  log_stream << std::setprecision(1) << std::setw(5) << progress << "%";
+  log_stream << " words/sec/thread: " << std::setw(7) << int64_t(wst);
+  log_stream << " lr: " << std::setw(9) << std::setprecision(6) << lr;
+  log_stream << " loss: " << std::setw(9) << std::setprecision(6) << loss;
+  log_stream << " ETA: " << std::setw(3) << etah;
+  log_stream << "h" << std::setw(2) << etam << "m";
+  log_stream << std::flush;
 }
 
 std::vector<int32_t> FastText::selectEmbeddings(int32_t cutoff) const {
@@ -272,17 +278,17 @@ std::vector<int32_t> FastText::selectEmbeddings(int32_t cutoff) const {
   return idx;
 }
 
-void FastText::quantize(std::shared_ptr<Args> qargs) {
+void FastText::quantize(const Args qargs) {
   if (args_->model != model_name::sup) {
     throw std::invalid_argument(
         "For now we only support quantization of supervised models");
   }
-  args_->input = qargs->input;
-  args_->qout = qargs->qout;
-  args_->output = qargs->output;
+  args_->input = qargs.input;
+  args_->qout = qargs.qout;
+  args_->output = qargs.output;
 
-  if (qargs->cutoff > 0 && qargs->cutoff < input_->m_) {
-    auto idx = selectEmbeddings(qargs->cutoff);
+  if (qargs.cutoff > 0 && qargs.cutoff < input_->m_) {
+    auto idx = selectEmbeddings(qargs.cutoff);
     dict_->prune(idx);
     std::shared_ptr<Matrix> ninput =
         std::make_shared<Matrix>(idx.size(), args_->dim);
@@ -292,19 +298,19 @@ void FastText::quantize(std::shared_ptr<Args> qargs) {
       }
     }
     input_ = ninput;
-    if (qargs->retrain) {
-      args_->epoch = qargs->epoch;
-      args_->lr = qargs->lr;
-      args_->thread = qargs->thread;
-      args_->verbose = qargs->verbose;
+    if (qargs.retrain) {
+      args_->epoch = qargs.epoch;
+      args_->lr = qargs.lr;
+      args_->thread = qargs.thread;
+      args_->verbose = qargs.verbose;
       startThreads();
     }
   }
 
-  qinput_ = std::make_shared<QMatrix>(*input_, qargs->dsub, qargs->qnorm);
+  qinput_ = std::make_shared<QMatrix>(*input_, qargs.dsub, qargs.qnorm);
 
   if (args_->qout) {
-    qoutput_ = std::make_shared<QMatrix>(*output_, 2, qargs->qnorm);
+    qoutput_ = std::make_shared<QMatrix>(*output_, 2, qargs.qnorm);
   }
 
   quant_ = true;
@@ -569,8 +575,8 @@ void FastText::trainThread(int32_t threadId) {
   const int64_t ntokens = dict_->ntokens();
   int64_t localTokenCount = 0;
   std::vector<int32_t> line, labels;
-  while (tokenCount < args_->epoch * ntokens) {
-    real progress = real(tokenCount) / (args_->epoch * ntokens);
+  while (tokenCount_ < args_->epoch * ntokens) {
+    real progress = real(tokenCount_) / (args_->epoch * ntokens);
     real lr = args_->lr * (1.0 - progress);
     if (args_->model == model_name::sup) {
       localTokenCount += dict_->getLine(ifs, line, labels, model.rng);
@@ -583,16 +589,10 @@ void FastText::trainThread(int32_t threadId) {
       skipgram(model, lr, line);
     }
     if (localTokenCount > args_->lrUpdateRate) {
-      tokenCount += localTokenCount;
+      tokenCount_ += localTokenCount;
       localTokenCount = 0;
-      if (threadId == 0 && args_->verbose > 1) {
-        printInfo(progress, model.getLoss());
-      }
+      if (threadId == 0) loss_ = model.getLoss();
     }
-  }
-  if (threadId == 0 && args_->verbose > 0) {
-    printInfo(1.0, model.getLoss());
-    std::cerr << std::endl;
   }
   ifs.close();
 }
@@ -636,8 +636,8 @@ void FastText::loadVectors(std::string filename) {
   }
 }
 
-void FastText::train(std::shared_ptr<Args> args) {
-  args_ = args;
+void FastText::train(const Args args) {
+  args_ = std::make_shared<Args>(args);
   dict_ = std::make_shared<Dictionary>(args_);
   if (args_->input == "-") {
     // manage expectations
@@ -674,18 +674,30 @@ void FastText::train(std::shared_ptr<Args> args) {
 }
 
 void FastText::startThreads() {
-  start = clock();
-  tokenCount = 0;
-  if (args_->thread > 1) {
-    std::vector<std::thread> threads;
-    for (int32_t i = 0; i < args_->thread; i++) {
-      threads.push_back(std::thread([=]() { trainThread(i); }));
+  start_ = clock();
+  tokenCount_ = 0;
+  loss_ = -1;
+  std::vector<std::thread> threads;
+  for (int32_t i = 0; i < args_->thread; i++) {
+    threads.push_back(std::thread([=]() { trainThread(i); }));
+  }
+  const int64_t ntokens = dict_->ntokens();
+  // Same condition as trainThread
+  while (tokenCount_ < args_->epoch * ntokens) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    if (loss_ >= 0 && args_->verbose > 1) {
+      real progress = real(tokenCount_) / (args_->epoch * ntokens);
+      std::cerr << "\r";
+      printInfo(progress, loss_, std::cerr);
     }
-    for (auto it = threads.begin(); it != threads.end(); ++it) {
-      it->join();
-    }
-  } else {
-    trainThread(0);
+  }
+  for (int32_t i = 0; i < args_->thread; i++) {
+    threads[i].join();
+  }
+  if (args_->verbose > 0) {
+      std::cerr << "\r";
+      printInfo(1.0, loss_, std::cerr);
+      std::cerr << std::endl;
   }
 }
 
