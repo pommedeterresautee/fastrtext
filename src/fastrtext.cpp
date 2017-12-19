@@ -138,7 +138,7 @@ public:
     check_model_loaded();
     fasttext::Vector vec(model->getDimension());
     model->getWordVector(vec, word);
-    return wrap(std::vector<real>(vec.data_, vec.data_ + vec.m_));
+    return wrap(std::vector<real>(vec.data(), vec.data() + vec.size()));
   }
 
   NumericMatrix get_vectors(CharacterVector words){
@@ -199,7 +199,7 @@ public:
   NumericVector get_nn_by_vector(const NumericVector& r_vector, const CharacterVector& banned_words, int32_t k) {
     std::vector<real> vector = Rcpp::as<std::vector<real> >(r_vector);
     fasttext::Vector queryVec(vector.size());
-    std::copy(vector.begin(), vector.end(), queryVec.data_);
+    std::copy(vector.begin(), vector.end(), queryVec.data());
     std::set<std::string> banSet;
     banSet.clear();
     std::string s;
@@ -238,7 +238,7 @@ public:
     std::stringstream ioss;
     copy(sentence.begin(), sentence.end(), std::ostream_iterator<char>(ioss));
     model->getSentenceVector(ioss, v);
-    return wrap(std::vector<real>(v.data_, v.data_ + v.m_));
+    return wrap(std::vector<real>(v.data(), v.data() + v.size()));
   }
 
 private:

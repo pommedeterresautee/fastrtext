@@ -4,7 +4,6 @@
 #include <string.h>
 #include <Rcpp.h>
 #include <ostream>
-#include <RcppThread.h>
 
 void exit_fasttext(int status_code) {
   if (status_code != EXIT_SUCCESS) {
@@ -13,5 +12,5 @@ void exit_fasttext(int status_code) {
 }
 
 namespace std {
-  RcppThread::RPrinter Rcout = RcppThread::RPrinter();
+  std::ostream Rcout(Rcpp::Rcout.rdbuf());
 }
