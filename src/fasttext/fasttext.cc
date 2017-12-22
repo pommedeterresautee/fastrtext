@@ -194,7 +194,6 @@ void FastText::loadModel(const std::string& filename) {
 
 void FastText::loadModel(std::istream& in) {
   args_ = std::make_shared<Args>();
-  dict_ = std::make_shared<Dictionary>(args_);
   input_ = std::make_shared<Matrix>();
   output_ = std::make_shared<Matrix>();
   qinput_ = std::make_shared<QMatrix>();
@@ -204,7 +203,7 @@ void FastText::loadModel(std::istream& in) {
     // backward compatibility: old supervised models do not use char ngrams.
     args_->maxn = 0;
   }
-  dict_->load(in);
+  dict_ = std::make_shared<Dictionary>(args_, in);
 
   bool quant_input;
   in.read((char*) &quant_input, sizeof(bool));
@@ -367,7 +366,7 @@ void FastText::test(std::istream& in, int32_t k) {
   std::vector<int32_t> line, labels;
 
   while (in.peek() != EOF) {
-    dict_->getLine(in, line, labels, model_->rng);
+    dict_->getLine(in, line, labels);
     if (labels.size() > 0 && line.size() > 0) {
       std::vector<std::pair<real, int32_t>> modelPredictions;
       model_->predict(line, k, modelPredictions);
@@ -391,7 +390,7 @@ void FastText::predict(std::istream& in, int32_t k,
                        std::vector<std::pair<real,std::string>>& predictions) const {
   std::vector<int32_t> words, labels;
   predictions.clear();
-  dict_->getLine(in, words, labels, model_->rng);
+  dict_->getLine(in, words, labels);
   predictions.clear();
   if (words.empty()) return;
   Vector hidden(args_->dim);
@@ -431,7 +430,7 @@ void FastText::getSentenceVector(
   svec.zero();
   if (args_->model == model_name::sup) {
     std::vector<int32_t> line, labels;
-    dict_->getLine(in, line, labels, model_->rng);
+    dict_->getLine(in, line, labels);
     for (int32_t i = 0; i < line.size(); i++) {
       addInputVector(svec, line[i]);
     }
@@ -579,7 +578,7 @@ void FastText::trainThread(int32_t threadId) {
     real progress = real(tokenCount_) / (args_->epoch * ntokens);
     real lr = args_->lr * (1.0 - progress);
     if (args_->model == model_name::sup) {
-      localTokenCount += dict_->getLine(ifs, line, labels, model.rng);
+      localTokenCount += dict_->getLine(ifs, line, labels);
       supervised(model, lr, line, labels);
     } else if (args_->model == model_name::cbow) {
       localTokenCount += dict_->getLine(ifs, line, model.rng);
@@ -710,6 +709,30 @@ int FastText::getDimension() const {
 
 bool FastText::isQuant() const {
   return quant_;
+}
+
+void FastText::dumpArgs() const {
+  args_->dump(std::cout);
+}
+
+void FastText::dumpDict() const {
+  dict_->dump(std::cout);
+}
+
+void FastText::dumpInput() const {
+  if (quant_) {
+    std::cerr << "Not supported for quantized models." << std::endl;
+  } else {
+    input_->dump(std::cout);
+  }
+}
+
+void FastText::dumpOutput() const {
+  if (quant_) {
+    std::cerr << "Not supported for quantized models." << std::endl;
+  } else {
+    output_->dump(std::cout);
+  }
 }
 
 }

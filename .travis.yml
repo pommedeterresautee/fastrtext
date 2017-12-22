@@ -14,4 +14,4 @@ before_install:
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 100
 
 after_success:
-  - travis_wait 50 Rscript -e 'covr::codecov()'
+  - travis_wait 60 Rscript -e 'covr::codecov()'

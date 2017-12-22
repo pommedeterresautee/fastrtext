@@ -69,6 +69,7 @@ class Dictionary {
     static const std::string EOW;
 
     explicit Dictionary(std::shared_ptr<Args>);
+    explicit Dictionary(std::shared_ptr<Args>, std::istream&);
     int32_t nwords() const;
     int32_t nlabels() const;
     int64_t ntokens() const;
@@ -97,13 +98,14 @@ class Dictionary {
     void save(std::ostream&) const;
     void load(std::istream&);
     std::vector<int64_t> getCounts(entry_type) const;
-    int32_t getLine(std::istream&, std::vector<int32_t>&,
-                    std::vector<int32_t>&, std::minstd_rand&) const;
+    int32_t getLine(std::istream&, std::vector<int32_t>&, std::vector<int32_t>&)
+        const;
     int32_t getLine(std::istream&, std::vector<int32_t>&,
                     std::minstd_rand&) const;
     void threshold(int64_t, int64_t);
     void prune(std::vector<int32_t>&);
     bool isPruned() { return pruneidx_size_ >= 0; }
+    void dump(std::ostream&) const;
 };
 
 }
