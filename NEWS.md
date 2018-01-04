@@ -3,7 +3,7 @@
   * add get word id function
   * add tokenizer function
   * change the way sentence vector are computed (use fastText internal code to improve speed)
-  * remove RcppThread due to change in FB source code (no more print from any threadr)
+  * remove RcppThread due to change in FB source code (no more print from multiple at the same time thread)
   * add possibility to interrupte learning
 
 # 0.2.4
