@@ -1,4 +1,4 @@
-# 0.2.5
+# 0.2.5 (4.1.18)
 
   * add get word id function
   * add tokenizer function
@@ -6,7 +6,7 @@
   * remove RcppThread due to change in FB source code (no more print from multiple at the same time thread)
   * add possibility to interrupte learning
 
-# 0.2.4
+# 0.2.4 (9.12.17)
 
   * major refactoring
   * update to last version of fastText sourcecode
