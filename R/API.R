@@ -368,8 +368,7 @@ add_tags <- function(documents, tags, prefix = "__label__") {
 #' @export
 get_sentence_representation <- function(model, sentences) {
   assert_that(is.character(sentences))
-  m <- sapply(X = sentences, FUN = function(sentence) model$get_sentence_vector(sentence), USE.NAMES = FALSE)
-  t(m)
+  model$get_sentence_embeddings(sentences)
 }
 
 #' Retrieve word IDs
