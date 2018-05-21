@@ -4,7 +4,7 @@
 \alias{add_tags}
 \title{Add tags to documents}
 \usage{
-add_tags(documents, tags, prefix = "__label__")
+add_tags(documents, tags, prefix = "__label__", new_lines = " ")
 }
 \arguments{
 \item{documents}{texts to learn}
@@ -18,7 +18,9 @@ add_tags(documents, tags, prefix = "__label__")
 }
 \description{
 Add tags in the `fastText`` format.
-This format is require for the training step.
+This format is require for the training step. As fastText doesn't support newlines inside documents
+(as newlines are delimiting documents) this function also ensures that there are absolutely no
+new lines. By default new lines are replaced by a single space.
 }
 \examples{
 library(fastrtext)

@@ -328,7 +328,9 @@ get_analogies <- function(model, w1, w2, w3, k = 1) {
 #' Add tags to documents
 #'
 #' Add tags in the `fastText`` format.
-#' This format is require for the training step.
+#' This format is require for the training step. As fastText doesn't support newlines inside documents
+#' (as newlines are delimiting documents) this function also ensures that there are absolutely no
+#' new lines. By default new lines are replaced by a single space.
 #'
 #' @param documents texts to learn
 #' @param tags labels provided as a [list] or a [vector]. There can be 1 or more per document.
