@@ -2,6 +2,7 @@
 
 S3method(predict,Rcpp_fastrtext)
 export(add_tags)
+export(build_vectors)
 export(execute)
 export(get_analogies)
 export(get_dictionary)

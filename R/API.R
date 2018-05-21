@@ -416,3 +416,93 @@ get_tokenized_text <- function(model, texts){
 }
 
 globalVariables(c("new"))
+
+
+#' Build fasttext vectors
+#' 
+#' Trains a fasttext vector/unsupervised model following method described in 
+#' \href{https://arxiv.org/abs/1607.04606}{Enriching Word Vectors with Subword Information}
+#' using the \href{https://fasttext.cc/}{fasttext} implementation.
+#' 
+#' See \href{https://fasttext.cc/docs/en/unsupervised-tutorial.html} for more information on 
+#' training unsupervised models using fasttext
+#'
+#' @param documents character vector of documents used for training
+#' @param model_path Name of output file *without* file extension.
+#' @param bucket number of buckets 
+#' @param wordNgrams max length of word ngram 
+#' @param minCount minimal number of word occurences 
+#' @param maxn max length of char ngram 
+#' @param minn min length of char ngram 
+#' @param t sampling threshold 
+#' @param lr learning rate 
+#' @param lrUpdateRate change the rate of updates for the learning rate 
+#' @param dim size of word vectors 
+#' @param ws size of the context window 
+#' @param epoch number of epochs 
+#' @param neg number of negatives sampled 
+#' @param loss loss function {ns, hs, softmax} 
+#' @param thread number of threads 
+#'
+#' @return path to model file, as character
+#' @export
+#'
+#' @examples
+#'\dontrun{
+#' library(fastrtext)
+#' text <- train_sentences
+#' model_file <- build_vectors(text[['text]], 'my_model')
+#' model <- load_model(model_file)
+#' }
+build_vectors <- function(documents, model_path,
+                          modeltype = c('skipgram', 'cbow'),
+                          lr = 0.05,
+                          dim = 100,
+                          ws = 5,
+                          epoch = 5,
+                          minCount = 5,
+                          neg = 5,
+                          wordNgrams = 1,
+                          loss = c('ns', 'hs', 'softmax'),
+                          bucket = 2000000,
+                          minn = 3,
+                          maxn = 6,
+                          thread = 12,
+                          lrUpdateRate = 100,
+                          t = 1e-4,
+                          label = "__label__",
+                          verbose = 2
+) {
+  
+  # ensure modeltype only takes valid values as defined in function definition. https://stackoverflow.com/a/4684604
+  modeltype <- match.arg(modeltype)
+  loss <- match.arg(loss)
+  args <- as.list(environment())
+  
+  tmp_file_txt <- tempfile()
+  
+  message("writing tempfile at ... ", tmp_file_txt)
+  writeLines(text = documents, con = tmp_file_txt)
+  
+  #Build character vector containing all fasttext arguments
+  c_args <- args[-1:-3] #First 3 args are not named arguments for our fasttext command
+  commands <- c(modeltype,
+                "-input", tmp_file_txt,
+                "-output", model_path,
+                # build name/value pairs for each named argument
+                rbind(
+                  paste0('-', names(c_args)),
+                  format(c_args, scientific = FALSE)
+                )
+  )
+  
+  message("Starting training vectors with following commands: \n$ ", paste(commands), "\n\n")
+  fastrtext::execute(commands = commands)
+  
+  unlink(tmp_file_txt)
+  return(paste0(model_path, '.bin'))
+}
+  
+  unlink(tmp_file_txt)
+  return(paste0(model_path, '.bin'))
+}
