@@ -343,13 +343,12 @@ get_analogies <- function(model, w1, w2, w3, k = 1) {
 #'
 #' @importFrom assertthat assert_that is.string
 #' @export
-add_tags <- function(documents, tags, prefix = "__label__") {
+add_tags <- function(documents, tags, prefix = "__label__", new_lines = ' ') {
   assert_that(is.character(documents))
   assert_that(is.string(prefix))
   assert_that(length(documents) == length(tags))
 
-  tags_to_include <- sapply(tags, FUN = function(t) paste0(prefix, t, collapse = " "))
-  paste(tags_to_include, documents)
+  paste0(prefix, tags, ' ', gsub(x = documents, pattern = '[\\n\\r]', replacement = new_lines))
 }
 
 #' Get sentence embedding
@@ -502,6 +501,103 @@ build_vectors <- function(documents, model_path,
   unlink(tmp_file_txt)
   return(paste0(model_path, '.bin'))
 }
+
+
+#' Build a supervised fasttext model
+#'
+#' Trains a supervised model, following the method layed out in 
+#' \href{https://arxiv.org/abs/1607.01759}{Bag of Tricks for Efficient Text Classification} 
+#' using the \href{https://fasttext.cc/}{fasttext} implementation
+#' 
+#' See \href{https://fasttext.cc/docs/en/supervised-tutorial.html} for more information on 
+#' training supervised models using fasttext
+#'
+#' @param documents character vector of documents used for training
+#' @param targets vector of targets/catagory of each document. Must have same length as `documents` and be coercable to character
+#' @param model_path Name of output file *without* file extension.
+#' @param bucket number of buckets 
+#' @param wordNgrams max length of word ngram 
+#' @param minCount minimal number of word occurences 
+#' @param minCountLabel minimal number of label occurences 
+#' @param maxn max length of char ngram 
+#' @param minn min length of char ngram 
+#' @param t sampling threshold 
+#' @param lr learning rate 
+#' @param lrUpdateRate change the rate of updates for the learning rate 
+#' @param dim size of word vectors 
+#' @param ws size of the context window 
+#' @param epoch number of epochs 
+#' @param neg number of negatives sampled 
+#' @param loss = c('softmax', 'ns', 'hs'), loss function {ns, hs, softmax} 
+#' @param thread number of threads 
+#' @param pretrainedVectors = path to pretrained word vectors for supervised learning 
+#'
+#' @return path to new model file as a `character`
+#' @export
+#'
+#' @examples
+#'\dontrun{
+#' library(fastrtext)
+#' text <- train_sentences
+#' model_file <- build_supervised(text[["text"]], text[["class.text"]], 'my_model', dim = 20, lr = 1, epoch = 20, wordNgrams = 2)
+#' model <- load_model(model_file)
+#' 
+#' predictions <- predict(model, test_sentences[["text"]])
+#' mean(sapply(predictions, names) == test_sentences[["class.text"]])
+#' # ~0.8
+#' }
+build_supervised <- function(documents, targets, model_path,
+                             # default arguments for fasttext, as seen by running `fasttext supervised` in bash
+                             lr = 0.05,
+                             dim = 100,
+                             ws = 5,
+                             epoch = 5,
+                             minCount = 5,
+                             minCountLabel = 0,
+                             neg = 5,
+                             wordNgrams = 1,
+                             loss = c('ns', 'hs', 'softmax'),
+                             bucket = 2000000,
+                             minn = 3,
+                             maxn = 6,
+                             thread = 12,
+                             lrUpdateRate = 100,
+                             t = 1e-4,
+                             label = "__label__",
+                             verbose = 2,
+                             pretrainedVectors = NULL
+) {
+  
+  #Check that all arguments are correct and load them all into a list
+  modeltype = "supervised"
+  loss <- match.arg(loss)
+  if (!is.character(pretrainedVectors)) rm(pretrainedVectors)
+  args <- as.list(environment())
+  
+  # get input / output file paths
+  tmp_file_txt <- tempfile()
+  
+  
+  message("Prepare and write tempfile at ... ", tmp_file_txt)
+  # We need 1 document per line and to prepend each line with '__label__' + label name
+  prepared_docs <- add_tags(documents, tags = targets, prefix = label)
+  writeLines(text = prepared_docs, 
+             con = tmp_file_txt)
+  
+  #Build character vector containing all fasttext arguments
+  c_args <- args[-1:-4] #First 4 args values are not to be used as named function arguments (modeltype, documents ...)
+  commands <- c(modeltype,
+                "-input", tmp_file_txt,
+                "-output", model_path,
+                # build name/value pairs for each named argument
+                rbind(
+                  paste0('-', names(c_args)),
+                  format(c_args, scientific = FALSE)
+                )
+  )  
+  
+  message("Starting supervised training with following commands: \n$ ", paste(commands), "\n\n")
+  fastrtext::execute(commands = commands)
   
   unlink(tmp_file_txt)
   return(paste0(model_path, '.bin'))
