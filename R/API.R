@@ -532,7 +532,7 @@ build_vectors <- function(documents, model_path,
 #' @param neg number of negatives sampled 
 #' @param loss = c('softmax', 'ns', 'hs'), loss function {ns, hs, softmax} 
 #' @param thread number of threads 
-#' @param pretrainedVectors = path to pretrained word vectors for supervised learning 
+#' @param pretrainedVectors path to pretrained word vectors for supervised learning. Leave empty for no pretrained vectors.
 #'
 #' @return path to new model file as a `character`
 #' @export
