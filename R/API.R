@@ -430,49 +430,51 @@ globalVariables(c("new"))
 #'
 #' @param documents character vector of documents used for training
 #' @param model_path Name of output file *without* file extension.
+#' @param modeltype Should training be done using skipgram or cbow? Defaults to skipgram.
 #' @param bucket number of buckets 
-#' @param wordNgrams max length of word ngram 
-#' @param minCount minimal number of word occurences 
-#' @param maxn max length of char ngram 
-#' @param minn min length of char ngram 
-#' @param t sampling threshold 
+#' @param dim size of word vectors 
+#' @param epoch number of epochs 
+#' @param label text string, labels prefix. Default is "__label__"
+#' @param loss loss function {ns, hs, softmax} 
 #' @param lr learning rate 
 #' @param lrUpdateRate change the rate of updates for the learning rate 
-#' @param dim size of word vectors 
-#' @param ws size of the context window 
-#' @param epoch number of epochs 
+#' @param maxn max length of char ngram 
+#' @param minCount minimal number of word occurences 
+#' @param minn min length of char ngram 
 #' @param neg number of negatives sampled 
-#' @param loss loss function {ns, hs, softmax} 
+#' @param t sampling threshold 
 #' @param thread number of threads 
+#' @param verbose verbosity level
+#' @param wordNgrams max length of word ngram 
+#' @param ws size of the context window 
 #'
 #' @return path to model file, as character
 #' @export
 #'
 #' @examples
-#'\dontrun{
 #' library(fastrtext)
 #' text <- train_sentences
-#' model_file <- build_vectors(text[['text]], 'my_model')
+#' model_file <- build_vectors(text[['text']], 'my_model')
 #' model <- load_model(model_file)
-#' }
+
 build_vectors <- function(documents, model_path,
-                          modeltype = c('skipgram', 'cbow'),
-                          lr = 0.05,
-                          dim = 100,
-                          ws = 5,
-                          epoch = 5,
-                          minCount = 5,
-                          neg = 5,
-                          wordNgrams = 1,
-                          loss = c('ns', 'hs', 'softmax'),
+                          modeltype = c('skipgram', 'cbow'),                          
                           bucket = 2000000,
-                          minn = 3,
-                          maxn = 6,
-                          thread = 12,
-                          lrUpdateRate = 100,
-                          t = 1e-4,
+                          dim = 100,
+                          epoch = 5,
                           label = "__label__",
-                          verbose = 2
+                          loss = c('ns', 'hs', 'softmax'),
+                          lr = 0.05,
+                          lrUpdateRate = 100,
+                          maxn = 6,
+                          minCount = 5,
+                          minn = 3,
+                          neg = 5,
+                          t = 1e-4,
+                          thread = 12,
+                          verbose = 2,
+                          wordNgrams = 1,
+                          ws = 5
 ) {
   
   # ensure modeltype only takes valid values as defined in function definition. https://stackoverflow.com/a/4684604
