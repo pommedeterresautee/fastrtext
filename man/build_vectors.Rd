@@ -4,45 +4,50 @@
 \alias{build_vectors}
 \title{Build fasttext vectors}
 \usage{
-build_vectors(documents, description, model_path, modeltype = c("skipgram",
-  "cbow"), lr = 0.05, dim = 100, ws = 5, epoch = 5, minCount = 5,
-  minCountLabel = 0, neg = 5, wordNgrams = 1, loss = c("ns", "hs",
-  "softmax"), bucket = 2e+06, minn = 3, maxn = 6, thread = 12,
-  lrUpdateRate = 100, t = 1e-04, label = "__label__", verbose = 2,
-  pretrainedVectors = NULL)
+build_vectors(documents, model_path, modeltype = c("skipgram", "cbow"),
+  bucket = 2e+06, dim = 100, epoch = 5, label = "__label__",
+  loss = c("ns", "hs", "softmax"), lr = 0.05, lrUpdateRate = 100,
+  maxn = 6, minCount = 5, minn = 3, neg = 5, t = 1e-04, thread = 12,
+  verbose = 2, wordNgrams = 1, ws = 5)
 }
 \arguments{
 \item{documents}{character vector of documents used for training}
 
-\item{lr}{learning rate}
+\item{model_path}{Name of output file \emph{without} file extension.}
 
-\item{dim}{size of word vectors}
-
-\item{ws}{size of the context window}
-
-\item{epoch}{number of epochs}
-
-\item{minCount}{minimal number of word occurences}
-
-\item{neg}{number of negatives sampled}
-
-\item{wordNgrams}{max length of word ngram}
-
-\item{loss}{loss function {ns, hs, softmax}}
+\item{modeltype}{Should training be done using skipgram or cbow? Defaults to skipgram.}
 
 \item{bucket}{number of buckets}
 
-\item{minn}{min length of char ngram}
+\item{dim}{size of word vectors}
 
-\item{maxn}{max length of char ngram}
+\item{epoch}{number of epochs}
 
-\item{thread}{number of threads}
+\item{label}{text string, labels prefix. Default is "\strong{label}"}
+
+\item{loss}{loss function {ns, hs, softmax}}
+
+\item{lr}{learning rate}
 
 \item{lrUpdateRate}{change the rate of updates for the learning rate}
 
+\item{maxn}{max length of char ngram}
+
+\item{minCount}{minimal number of word occurences}
+
+\item{minn}{min length of char ngram}
+
+\item{neg}{number of negatives sampled}
+
 \item{t}{sampling threshold}
 
-\item{targets}{vector of targets/catagory of each document. Must have same length as \code{documents} and be coercable to character#' @param modeltype character of either 'skipgram' or 'cbow'}
+\item{thread}{number of threads}
+
+\item{verbose}{verbosity level}
+
+\item{wordNgrams}{max length of word ngram}
+
+\item{ws}{size of the context window}
 }
 \value{
 path to model file, as character
@@ -55,4 +60,10 @@ using the \href{https://fasttext.cc/}{fasttext} implementation.
 \details{
 See \href{https://fasttext.cc/docs/en/unsupervised-tutorial.html} for more information on
 training unsupervised models using fasttext
+}
+\examples{
+library(fastrtext)
+text <- train_sentences
+model_file <- build_vectors(text[['text']], 'my_model')
+model <- load_model(model_file)
 }

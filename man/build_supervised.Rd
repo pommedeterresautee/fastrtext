@@ -15,6 +15,8 @@ build_supervised(documents, targets, model_path, lr = 0.05, dim = 100,
 
 \item{targets}{vector of targets/catagory of each document. Must have same length as \code{documents} and be coercable to character}
 
+\item{model_path}{Name of output file \emph{without} file extension.}
+
 \item{lr}{learning rate}
 
 \item{dim}{size of word vectors}
@@ -45,9 +47,11 @@ build_supervised(documents, targets, model_path, lr = 0.05, dim = 100,
 
 \item{t}{sampling threshold}
 
-\item{pretrainedVectors}{= path to pretrained word vectors for supervised learning}
+\item{label}{text string, labels prefix. Default is "\strong{label}"}
 
-\item{description}{text describing what data the model is being trained on. This will be saved along with the parameters in a description file}
+\item{verbose}{verbosity level}
+
+\item{pretrainedVectors}{path to pretrained word vectors for supervised learning. Leave empty for no pretrained vectors.}
 }
 \value{
 path to new model file as a \code{character}
@@ -60,4 +64,16 @@ using the \href{https://fasttext.cc/}{fasttext} implementation
 \details{
 See \href{https://fasttext.cc/docs/en/supervised-tutorial.html} for more information on
 training supervised models using fasttext
+}
+\examples{
+\dontrun{
+library(fastrtext)
+text <- train_sentences
+model_file <- build_supervised(text[["text"]], text[["class.text"]], 'my_model', dim = 20, lr = 1, epoch = 20, wordNgrams = 2)
+model <- load_model(model_file)
+
+predictions <- predict(model, test_sentences[["text"]])
+mean(sapply(predictions, names) == test_sentences[["class.text"]])
+# ~0.8
+}
 }
