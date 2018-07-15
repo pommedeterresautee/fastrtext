@@ -350,7 +350,7 @@ add_tags <- function(documents, tags, prefix = "__label__", new_lines = ' ') {
   assert_that(is.string(prefix))
   assert_that(length(documents) == length(tags))
 
-  paste0(prefix, tags, ' ', gsub(x = documents, pattern = '[\\n\\r]', replacement = new_lines))
+  paste0(prefix, tags, ' ', gsub(x = documents, pattern = '[\\n\\r]+', replacement = new_lines, perl = TRUE))
 }
 
 #' Get sentence embedding
