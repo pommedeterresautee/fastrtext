@@ -350,7 +350,9 @@ add_tags <- function(documents, tags, prefix = "__label__", new_lines = ' ') {
   assert_that(is.string(prefix))
   assert_that(length(documents) == length(tags))
 
-  paste0(prefix, tags, ' ', gsub(x = documents, pattern = '[\\n\\r]+', replacement = new_lines, perl = TRUE))
+  tags_to_include <- sapply(tags, FUN = function(t) paste0(prefix, t, collapse = " "))
+  single_lined_documents <- gsub(x = documents, pattern = '[\\n\\r]+', replacement = new_lines, perl = TRUE)
+  paste(tags_to_include, documents)
 }
 
 #' Get sentence embedding
