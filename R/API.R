@@ -499,7 +499,7 @@ build_vectors <- function(documents, model_path,
                 )
   )
   
-  message("Starting training vectors with following commands: \n$ ", paste(commands), "\n\n")
+  message("Starting training vectors with following commands: \n$ ", paste(commands, collapse=" "), "\n\n")
   fastrtext::execute(commands = commands)
   
   unlink(tmp_file_txt)
@@ -600,7 +600,7 @@ build_supervised <- function(documents, targets, model_path,
                 )
   )  
   
-  message("Starting supervised training with following commands: \n$ ", paste(commands), "\n\n")
+  message("Starting supervised training with following commands: \n$ ", paste(commands, collapse = " "), "\n\n")
   fastrtext::execute(commands = commands)
   
   unlink(tmp_file_txt)
