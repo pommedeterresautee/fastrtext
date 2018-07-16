@@ -457,10 +457,12 @@ globalVariables(c("new"))
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(fastrtext)
 #' text <- train_sentences
 #' model_file <- build_vectors(text[['text']], 'my_model')
 #' model <- load_model(model_file)
+#' }
 
 build_vectors <- function(documents, model_path,
                           modeltype = c('skipgram', 'cbow'),                          

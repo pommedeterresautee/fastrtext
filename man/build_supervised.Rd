@@ -59,11 +59,10 @@ path to new model file as a \code{character}
 \description{
 Trains a supervised model, following the method layed out in
 \href{https://arxiv.org/abs/1607.01759}{Bag of Tricks for Efficient Text Classification}
-using the \href{https://fasttext.cc/}{fasttext} implementation
-}
-\details{
+using the \href{https://fasttext.cc/}{fasttext} implementation.
+
 See \href{https://fasttext.cc/docs/en/supervised-tutorial.html}{FastText text classification tutorial} for more information on
-training supervised models using fasttext
+training supervised models using fasttext.
 }
 \examples{
 \dontrun{

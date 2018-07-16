@@ -58,11 +58,13 @@ Trains a fasttext vector/unsupervised model following method described in
 using the \href{https://fasttext.cc/}{fasttext} implementation.
 
 See \href{https://fasttext.cc/docs/en/unsupervised-tutorial.html}{FastText word representation tutorial} for more information on
-training unsupervised models using fasttext
+training unsupervised models using fasttext.
 }
 \examples{
+\dontrun{
 library(fastrtext)
 text <- train_sentences
 model_file <- build_vectors(text[['text']], 'my_model')
 model <- load_model(model_file)
+}
 }
