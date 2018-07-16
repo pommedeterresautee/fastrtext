@@ -12,6 +12,8 @@ add_tags(documents, tags, prefix = "__label__", new_lines = " ")
 \item{tags}{labels provided as a \link{list} or a \link{vector}. There can be 1 or more per document.}
 
 \item{prefix}{\link{character} to add in front of tag (\code{fastText} format)}
+
+\item{new_lines}{Character that replaces new lines (\code{\\r\\n}), default is space.}
 }
 \value{
 \link{character} ready to be written in a file

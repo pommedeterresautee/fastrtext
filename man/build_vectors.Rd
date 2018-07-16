@@ -56,9 +56,8 @@ path to model file, as character
 Trains a fasttext vector/unsupervised model following method described in
 \href{https://arxiv.org/abs/1607.04606}{Enriching Word Vectors with Subword Information}
 using the \href{https://fasttext.cc/}{fasttext} implementation.
-}
-\details{
-See \href{https://fasttext.cc/docs/en/unsupervised-tutorial.html} for more information on
+
+See \href{https://fasttext.cc/docs/en/unsupervised-tutorial.html}{FastText word representation tutorial} for more information on
 training unsupervised models using fasttext
 }
 \examples{

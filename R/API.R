@@ -334,7 +334,9 @@ get_analogies <- function(model, w1, w2, w3, k = 1) {
 #'
 #' @param documents texts to learn
 #' @param tags labels provided as a [list] or a [vector]. There can be 1 or more per document.
+#' @param new_lines Character that replaces new lines (`\\r\\n`), default is space.
 #' @param prefix [character] to add in front of tag (`fastText` format)
+#'
 #' @return [character] ready to be written in a file
 #'
 #' @examples
@@ -423,12 +425,13 @@ globalVariables(c("new"))
 
 #' Build fasttext vectors
 #' 
+#' @description 
 #' Trains a fasttext vector/unsupervised model following method described in 
 #' \href{https://arxiv.org/abs/1607.04606}{Enriching Word Vectors with Subword Information}
 #' using the \href{https://fasttext.cc/}{fasttext} implementation.
 #' 
-#' See \href{https://fasttext.cc/docs/en/unsupervised-tutorial.html} for more information on 
-#' training unsupervised models using fasttext
+#' See \href{https://fasttext.cc/docs/en/unsupervised-tutorial.html}{FastText word representation tutorial} for more information on 
+#' training unsupervised models using fasttext.
 #'
 #' @param documents character vector of documents used for training
 #' @param model_path Name of output file *without* file extension.
@@ -510,13 +513,14 @@ build_vectors <- function(documents, model_path,
 
 
 #' Build a supervised fasttext model
-#'
+#' 
+#' @description 
 #' Trains a supervised model, following the method layed out in 
 #' \href{https://arxiv.org/abs/1607.01759}{Bag of Tricks for Efficient Text Classification} 
-#' using the \href{https://fasttext.cc/}{fasttext} implementation
+#' using the \href{https://fasttext.cc/}{fasttext} implementation.
 #' 
-#' See \href{https://fasttext.cc/docs/en/supervised-tutorial.html} for more information on 
-#' training supervised models using fasttext
+#' See \href{https://fasttext.cc/docs/en/supervised-tutorial.html}{FastText text classification tutorial} for more information on 
+#' training supervised models using fasttext.
 #'
 #' @param documents character vector of documents used for training
 #' @param targets vector of targets/catagory of each document. Must have same length as `documents` and be coercable to character
@@ -546,8 +550,11 @@ build_vectors <- function(documents, model_path,
 #' @examples
 #'\dontrun{
 #' library(fastrtext)
-#' text <- train_sentences
-#' model_file <- build_supervised(text[["text"]], text[["class.text"]], 'my_model', dim = 20, lr = 1, epoch = 20, wordNgrams = 2)
+#' model_file <- build_supervised(documents = train_sentences[["text"]], 
+#'                                targets =train_sentences[["class.text"]], 
+#'                                model_path = 'my_model', 
+#'                                dim = 20, lr = 1, epoch = 20, wordNgrams = 2)
+#'                                
 #' model <- load_model(model_file)
 #' 
 #' predictions <- predict(model, test_sentences[["text"]])

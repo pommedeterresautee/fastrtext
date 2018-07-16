@@ -62,14 +62,17 @@ Trains a supervised model, following the method layed out in
 using the \href{https://fasttext.cc/}{fasttext} implementation
 }
 \details{
-See \href{https://fasttext.cc/docs/en/supervised-tutorial.html} for more information on
+See \href{https://fasttext.cc/docs/en/supervised-tutorial.html}{FastText text classification tutorial} for more information on
 training supervised models using fasttext
 }
 \examples{
 \dontrun{
 library(fastrtext)
-text <- train_sentences
-model_file <- build_supervised(text[["text"]], text[["class.text"]], 'my_model', dim = 20, lr = 1, epoch = 20, wordNgrams = 2)
+model_file <- build_supervised(documents = train_sentences[["text"]], 
+                               targets =train_sentences[["class.text"]], 
+                               model_path = 'my_model', 
+                               dim = 20, lr = 1, epoch = 20, wordNgrams = 2)
+                               
 model <- load_model(model_file)
 
 predictions <- predict(model, test_sentences[["text"]])
