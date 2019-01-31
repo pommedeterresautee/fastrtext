@@ -4,18 +4,17 @@
 \name{fastrtext}
 \alias{fastrtext}
 \alias{fastrtext-package}
-\alias{fastrtext-package}
 \title{fastrtext: 'fastText' Wrapper for Text Classification and Word Representation}
 \description{
 Learning text representations and text classifiers may rely
-on the same simple and efficient approach. 'fastText' is an open-source, free,
-lightweight library that allows users to perform both tasks.
-It transforms text into continuous vectors that can later
-be used on many language related task.
-It works on standard, generic hardware (no 'GPU' required).
-It also includes model size reduction feature.
-'fastText' original source code is available
-at <https://github.com/facebookresearch/fastText>.
+  on the same simple and efficient approach. 'fastText' is an open-source, free, 
+  lightweight library that allows users to perform both tasks.
+  It transforms text into continuous vectors that can later
+  be used on many language related task.
+  It works on standard, generic hardware (no 'GPU' required).
+  It also includes model size reduction feature.
+  'fastText' original source code is available 
+  at <https://github.com/facebookresearch/fastText>.
 }
 \seealso{
 Useful links:

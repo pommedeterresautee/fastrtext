@@ -1,3 +1,7 @@
+# 0.2.6 (31.1.19)
+
+  * use -pthread flag for better Cran compliancy
+
 # 0.2.5 (4.1.18)
 
   * add get word id function

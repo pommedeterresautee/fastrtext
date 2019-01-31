@@ -1,3 +1,6 @@
+## Version 0.2.6
+* use -pthread flag for better Cran compliancy
+
 ## Version 0.2.3 - 08.10.17 - answer
 Cran:
 Thanks, we see that the Date field is over a month old.

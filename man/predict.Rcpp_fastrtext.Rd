@@ -4,8 +4,8 @@
 \alias{predict.Rcpp_fastrtext}
 \title{Get predictions (for supervised model)}
 \usage{
-\method{predict}{Rcpp_fastrtext}(object, sentences, k = 1, simplify = FALSE,
-  unlock_empty_predictions = FALSE, ...)
+\method{predict}{Rcpp_fastrtext}(object, sentences, k = 1,
+  simplify = FALSE, unlock_empty_predictions = FALSE, ...)
 }
 \arguments{
 \item{object}{trained \code{fastText} model}

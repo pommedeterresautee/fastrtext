@@ -1,8 +1,8 @@
 Package: fastrtext
 Type: Package
 Title: 'fastText' Wrapper for Text Classification and Word Representation
-Version: 0.2.5
-Date: 2018-01-04
+Version: 0.2.6
+Date: 2019-01-31
 Authors@R: c(person("Michaël", "Benesty", role = c("aut", "cre", "cph"), email = "michael@benesty.fr"),
   person("Facebook, Inc", role = c("cph"), email = "bojanowski@fb.com"))
 Maintainer: Michaël Benesty <michael@benesty.fr>
@@ -28,6 +28,6 @@ LinkingTo: Rcpp
 LazyData: true
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE, roclets = c("rd", "collate", "namespace_roclet"))
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Encoding: UTF-8
 NeedsCompilation: yes

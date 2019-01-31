@@ -63,12 +63,12 @@ public:
     List list(documents.size());
     int label_prefix_size = model->getArgs().label.size();
     std::string s;
-    for(int i = 0; i < documents.size(); ++i){
+    for (int i = 0; i < documents.size(); ++i){
       s = documents[i];
-      std::vector<std::pair<real, std::string> > predictions = predict_proba(s, k);
+      auto predictions = predict_proba(s, k);
       NumericVector logProbabilities(predictions.size());
       CharacterVector labels(predictions.size());
-      for (int j = 0; j < predictions.size() ; ++j){
+      for (size_t j = 0; j < predictions.size() ; ++j){
         logProbabilities[j] = predictions[j].first;
         // remove label prefix
         std::string label_without_prefix = predictions[j].second.erase(0, label_prefix_size);
@@ -77,7 +77,7 @@ public:
       NumericVector probabilities(exp(logProbabilities));
       probabilities.attr("names") = labels;
       list[i] = probabilities;
-      Rcpp::checkUserInterrupt();
+      if (i % 5 == 0) Rcpp::checkUserInterrupt();
     }
     return list;
   }
@@ -236,7 +236,7 @@ public:
     check_model_loaded();
     int dimensions = model->getDimension();
     NumericMatrix sentence_embeddings(sentences.size(), dimensions);
-    
+
     fasttext::Vector v(dimensions);
     NumericVector vector_r;
     std::string sentence;
@@ -248,7 +248,7 @@ public:
       vector_r = wrap(std::vector<real>(v.data(), v.data() + v.size()));
       sentence_embeddings(i, _) = vector_r;
     }
-    
+
     return sentence_embeddings;
   }
 
