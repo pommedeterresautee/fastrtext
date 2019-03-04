@@ -105,7 +105,7 @@ predict.Rcpp_fastrtext <- function(object, sentences, k = 1, simplify = FALSE, u
   # check empty predictions
   if (!unlock_empty_predictions) {
     assert_that(sum(lengths(predictions) == 0) == 0,
-                msg = "Some sentences have no predictions. It may be caused by the fact that all their words are have not been seen during the training.")
+                msg = "Some sentences have no predictions. It may be caused by the fact that all their words are have not been seen during the training. You may want to use options -minn and -maxn to be sure to have a prediction in any case.")
   }
 
   if (simplify) {
