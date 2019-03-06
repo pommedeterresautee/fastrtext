@@ -98,12 +98,6 @@ test_that("Nearest neighbours", {
   expect_true("times" %in% names(nn))
 })
 
-test_that("Test analogies", {
-  model <- load_model(model_test_path)
-  analogies <- get_analogies(model, "experience", "experiences", "result")
-  expect_equal(names(analogies), "results")
-})
-
 test_that("Test sentence representation", {
   model <- load_model(model_test_path)
   m <- get_sentence_representation(model, "this is a test")

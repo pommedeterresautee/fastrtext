@@ -1,0 +1,8 @@
+pandoc: 2.3.1
+pkgdown: 1.3.0
+pkgdown_sha: ~
+articles:
+  list_commands: list_commands.html
+  supervised_learning: supervised_learning.html
+  unsupervised_learning: unsupervised_learning.html
+

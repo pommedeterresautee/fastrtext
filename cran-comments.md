@@ -1,3 +1,6 @@
+## Version 0.3.0
+* big C++ code update
+
 ## Version 0.2.6
 * use -pthread flag for better Cran compliancy
 

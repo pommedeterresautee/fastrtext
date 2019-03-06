@@ -20,7 +20,6 @@ reference:
       - get_word_vectors
       - get_word_distance
       - get_nn
-      - get_analogies
       - get_dictionary
   - title: data
     desc: "Data embedded in the package for help and tests."

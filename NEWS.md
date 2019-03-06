@@ -1,3 +1,8 @@
+# 0.3.0 (07.03.19)
+
+  * update the C++ source code to the current fassttext version
+  * remove analogies function
+
 # 0.2.6 (31.1.19)
 
   * use -pthread flag for better Cran compliancy

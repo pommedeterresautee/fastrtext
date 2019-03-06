@@ -290,39 +290,7 @@ print_help <- function() {
 get_nn <- function(model, word, k) {
   assert_that(is.string(word))
   assert_that(is.number(k))
-  vec <- model$get_vector(word)
-  model$get_nn_by_vector(vec, word, k)
-}
-
-#' Get analogy
-#'
-#' From Mikolov paper
-#' Based on related move of a vector regarding a basis.
-#' King is to Quenn what a man is to ???
-#' w1 - w2 + w3
-#' @param model trained `fastText` model. [NULL] if train a new model.
-#' @param w1 1st word, basis
-#' @param w2 2nd word, move
-#' @param w3 3d word, new basis
-#' @param k number of words to return
-#' @return a [numeric] with distances and [names] are words
-#' @examples
-#'
-#' library(fastrtext)
-#' model_test_path <- system.file("extdata", "model_unsupervised_test.bin", package = "fastrtext")
-#' model <- load_model(model_test_path)
-#' get_analogies(model, "experience", "experiences", "result")
-#'
-#' @importFrom assertthat assert_that is.string is.number
-#' @export
-get_analogies <- function(model, w1, w2, w3, k = 1) {
-  assert_that(is.string(w1))
-  assert_that(is.string(w2))
-  assert_that(is.string(w3))
-  assert_that(is.number(k))
-
-  vec <- model$get_vector(w1) - model$get_vector(w2) + model$get_vector(w3)
-  model$get_nn_by_vector(vec, c(w1, w2, w3), k)
+  model$get_nn_by_word(word, k)
 }
 
 #' Add tags to documents

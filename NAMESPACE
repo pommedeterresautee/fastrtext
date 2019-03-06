@@ -3,7 +3,6 @@
 S3method(predict,Rcpp_fastrtext)
 export(add_tags)
 export(execute)
-export(get_analogies)
 export(get_dictionary)
 export(get_hamming_loss)
 export(get_labels)
