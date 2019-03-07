@@ -8,7 +8,7 @@ PKG_CPPFLAGS = -pthread -include r_compliance.h -I$(PKGROOT)
 # pthread is used for multithreading by fastText
 PKG_LIBS = -pthread
 
-OBJECTS = r_compliance.o $(PKGROOT)/args.o $(PKGROOT)/matrix.o $(PKGROOT)/dictionary.o $(PKGROOT)/loss.o $(PKGROOT)/productquantizer.o $(PKGROOT)/densematrix.o $(PKGROOT)/quantmatrix.o $(PKGROOT)/vector.o $(PKGROOT)/model.o $(PKGROOT)/utils.o $(PKGROOT)/meter.o $(PKGROOT)/fasttext.o $(PKGROOT)/main.o fastrtext.o RcppExports.o
+OBJECTS = add_prefix.o r_compliance.o $(PKGROOT)/args.o $(PKGROOT)/matrix.o $(PKGROOT)/dictionary.o $(PKGROOT)/loss.o $(PKGROOT)/productquantizer.o $(PKGROOT)/densematrix.o $(PKGROOT)/quantmatrix.o $(PKGROOT)/vector.o $(PKGROOT)/model.o $(PKGROOT)/utils.o $(PKGROOT)/meter.o $(PKGROOT)/fasttext.o $(PKGROOT)/main.o fastrtext.o RcppExports.o
 
 # Reduce the size of the compiled library by removing unneeded debug information
 # Need to check if we are on Linux and if strip is installed
