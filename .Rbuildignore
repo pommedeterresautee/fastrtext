@@ -10,3 +10,4 @@
 ^.*.\.o$
 ^_pkgdown\.yml$
 ^data-raw$
+index.md

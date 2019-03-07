@@ -1,4 +1,4 @@
-# 0.3.0 (07.03.19)
+# 0.3.1 (07.03.19)
 
   * update the C++ source code to the current fassttext version
   * remove analogies function

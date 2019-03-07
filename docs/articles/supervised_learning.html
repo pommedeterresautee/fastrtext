@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fastrtext</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -124,7 +124,7 @@ Read 0M words
 ## Number of words:  5060
 ## Number of labels: 15
 ## 
-Progress: 100.0% words/sec/thread: 1108876 lr:  0.000000 loss:  0.318785 ETA:   0h 0m</code></pre>
+Progress: 100.0% words/sec/thread: 1108251 lr:  0.000000 loss:  0.306367 ETA:   0h 0m</code></pre>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># load model</span></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/load_model.html">load_model</a></span>(tmp_file_model)</a></code></pre></div>
 <pre><code>## add .bin extension to the path</code></pre>
@@ -132,64 +132,64 @@ Progress: 100.0% words/sec/thread: 1108876 lr:  0.000000 loss:  0.318785 ETA:   
 <a class="sourceLine" id="cb5-2" data-line-number="2">predictions &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(model, <span class="dt">sentences =</span> test_to_write)</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(predictions, <span class="dv">5</span>))</a></code></pre></div>
 <pre><code>## [[1]]
-##     OWNX 
-## 2.717113 
+##      OWNX 
+## 0.9996475 
 ## 
 ## [[2]]
-##    MISC 
-## 2.67652 
+##      MISC 
+## 0.9847125 
 ## 
 ## [[3]]
-##     MISC 
-## 2.687149 
+##      MISC 
+## 0.9911765 
 ## 
 ## [[4]]
-##     OWNX 
-## 2.477868 
+##      OWNX 
+## 0.9216562 
 ## 
 ## [[5]]
-##    AIMX 
-## 2.68473</code></pre>
+##      AIMX 
+## 0.9848558</code></pre>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Compute accuracy</span></a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unlist">unlist</a></span>(predictions)) <span class="op">==</span><span class="st"> </span>test_labels_without_prefix)</a></code></pre></div>
-<pre><code>## [1] 0.8283333</code></pre>
+<pre><code>## [1] 0.8316667</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># because there is only one category by observation, hamming loss will be the same</span></a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw"><a href="../reference/get_hamming_loss.html">get_hamming_loss</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">as.list</a></span>(test_labels_without_prefix), predictions)</a></code></pre></div>
-<pre><code>## [1] 0.8283333</code></pre>
+<pre><code>## [1] 0.8316667</code></pre>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># test predictions</span></a>
 <a class="sourceLine" id="cb11-2" data-line-number="2">predictions &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(model, <span class="dt">sentences =</span> test_to_write)</a>
 <a class="sourceLine" id="cb11-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(predictions, <span class="dv">5</span>))</a></code></pre></div>
 <pre><code>## [[1]]
-##     OWNX 
-## 2.717113 
+##      OWNX 
+## 0.9996475 
 ## 
 ## [[2]]
-##    MISC 
-## 2.67652 
+##      MISC 
+## 0.9847125 
 ## 
 ## [[3]]
-##     MISC 
-## 2.687149 
+##      MISC 
+## 0.9911765 
 ## 
 ## [[4]]
-##     OWNX 
-## 2.477868 
+##      OWNX 
+## 0.9216562 
 ## 
 ## [[5]]
-##    AIMX 
-## 2.68473</code></pre>
+##      AIMX 
+## 0.9848558</code></pre>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># you can get flat list of results when you are retrieving only one label per observation</span></a>
 <a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(model, <span class="dt">sentences =</span> test_to_write, <span class="dt">simplify =</span> <span class="ot">TRUE</span>)))</a></code></pre></div>
-<pre><code>##     OWNX     MISC     MISC     OWNX     AIMX     CONT 
-## 2.717113 2.676520 2.687149 2.477868 2.684730 1.420061</code></pre>
+<pre><code>##      OWNX      MISC      MISC      OWNX      AIMX      CONT 
+## 0.9996475 0.9847125 0.9911765 0.9216562 0.9848558 0.4192168</code></pre>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co"># free memory</span></a>
 <a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unlink">unlink</a></span>(train_tmp_file_txt)</a>
 <a class="sourceLine" id="cb15-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unlink">unlink</a></span>(tmp_file_model)</a>
 <a class="sourceLine" id="cb15-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(model)</a>
 <a class="sourceLine" id="cb15-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/gc">gc</a></span>()</a></code></pre></div>
 <pre><code>##           used (Mb) gc trigger (Mb) max used (Mb)
-## Ncells  641300 34.3    1210065 64.7  1210065 64.7
-## Vcells 1310826 10.1    8388608 64.0  2057470 15.7</code></pre>
+## Ncells  641703 34.3    1212111 64.8  1212111 64.8
+## Vcells 1311645 10.1    8388608 64.0  2061190 15.8</code></pre>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
