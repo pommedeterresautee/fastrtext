@@ -66,15 +66,15 @@ public:
     for (int i = 0; i < documents.size(); ++i){
       s = documents[i];
       auto predictions = predict_proba(s, k, threshold);
-      NumericVector logProbabilities(predictions.size());
+      NumericVector probabilitiesFasttext(predictions.size());
       CharacterVector labels(predictions.size());
       for (size_t j = 0; j < predictions.size() ; ++j){
-        logProbabilities[j] = predictions[j].first;
+        probabilitiesFasttext[j] = predictions[j].first;
         // remove label prefix
         std::string label_without_prefix = predictions[j].second.erase(0, label_prefix_size);
         labels[j] = label_without_prefix;
       }
-      NumericVector probabilities(exp(logProbabilities));
+      NumericVector probabilities(probabilitiesFasttext);
       probabilities.attr("names") = labels;
       list[i] = probabilities;
       if (i % 5 == 0) Rcpp::checkUserInterrupt();

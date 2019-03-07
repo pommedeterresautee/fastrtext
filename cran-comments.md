@@ -2,6 +2,9 @@
 * big C++ code update
 * fix littl bug in catching C++ exception as reported by Cran server
 
+I had to re-upload the package as bug in a corner case appeared.
+I am sorry for that.
+
 ## Version 0.2.6
 * use -pthread flag for better Cran compliancy
 
