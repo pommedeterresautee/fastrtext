@@ -1,5 +1,6 @@
 ## Version 0.3.0
 * big C++ code update
+* fix littl bug in catching C++ exception as reported by Cran server
 
 ## Version 0.2.6
 * use -pthread flag for better Cran compliancy

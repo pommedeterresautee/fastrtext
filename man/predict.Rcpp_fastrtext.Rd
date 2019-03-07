@@ -5,7 +5,8 @@
 \title{Get predictions (for supervised model)}
 \usage{
 \method{predict}{Rcpp_fastrtext}(object, sentences, k = 1,
-  simplify = FALSE, unlock_empty_predictions = FALSE, ...)
+  simplify = FALSE, unlock_empty_predictions = FALSE, threshold = 0,
+  ...)
 }
 \arguments{
 \item{object}{trained \code{fastText} model}
@@ -17,6 +18,8 @@
 \item{simplify}{when \link{TRUE} and \code{k} = 1, function return a (flat) \link{numeric} instead of a \link{list}}
 
 \item{unlock_empty_predictions}{\link{logical} to avoid crash when some predictions are not provided for some sentences because all their words have not been seen during training. This parameter should only be set to \link{TRUE} to debug.}
+
+\item{threshold}{used to limit number of words used. (optional; 0.0 by default)}
 
 \item{...}{not used}
 }

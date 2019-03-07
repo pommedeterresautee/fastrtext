@@ -82,6 +82,7 @@ get_labels <- function(model) {
 #' @param k will return the `k` most probable labels (default = 1)
 #' @param simplify when [TRUE] and `k` = 1, function return a (flat) [numeric] instead of a [list]
 #' @param unlock_empty_predictions [logical] to avoid crash when some predictions are not provided for some sentences because all their words have not been seen during training. This parameter should only be set to [TRUE] to debug.
+#' @param threshold used to limit number of words used. (optional; 0.0 by default)
 #' @param ... not used
 #' @return [list] containing for each sentence the probability to be associated with `k` labels.
 #' @examples
@@ -95,17 +96,17 @@ get_labels <- function(model) {
 #'
 #' @importFrom assertthat assert_that is.flag is.count
 #' @export
-predict.Rcpp_fastrtext <- function(object, sentences, k = 1, simplify = FALSE, unlock_empty_predictions = FALSE, ...) {
+predict.Rcpp_fastrtext <- function(object, sentences, k = 1, simplify = FALSE, unlock_empty_predictions = FALSE, threshold = 0.0, ...) {
   assert_that(is.flag(simplify),
               is.count(k))
   if (simplify) assert_that(k == 1, msg = "simplify can only be used with k == 1")
 
-  predictions <- object$predict(sentences, k)
+  predictions <- object$predict(sentences, k, threshold)
 
   # check empty predictions
   if (!unlock_empty_predictions) {
     assert_that(sum(lengths(predictions) == 0) == 0,
-                msg = "Some sentences have no predictions. It may be caused by the fact that all their words are have not been seen during the training. You may want to use options -minn and -maxn to be sure to have a prediction in any case.")
+                msg = "Some sentences have no predictions. It may be caused by the fact that all their words are have not been seen during the training. You may want to use -minn and -maxn hyperparameters related to subwords to increase your chances to have a prediction for each case.")
   }
 
   if (simplify) {

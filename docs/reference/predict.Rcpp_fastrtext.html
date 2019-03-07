@@ -135,7 +135,8 @@ Average word embeddings and search most similar <code>label</code> vector.</p>
 
     <pre class="usage"><span class='co'># S3 method for Rcpp_fastrtext</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>object</span>, <span class='no'>sentences</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>unlock_empty_predictions</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>unlock_empty_predictions</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -159,6 +160,10 @@ Average word embeddings and search most similar <code>label</code> vector.</p>
     <tr>
       <th>unlock_empty_predictions</th>
       <td><p><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical</a> to avoid crash when some predictions are not provided for some sentences because all their words have not been seen during training. This parameter should only be set to <a href='https://www.rdocumentation.org/packages/base/topics/logical'>TRUE</a> to debug.</p></td>
+    </tr>
+    <tr>
+      <th>threshold</th>
+      <td><p>used to limit number of words used. (optional; 0.0 by default)</p></td>
     </tr>
     <tr>
       <th>...</th>

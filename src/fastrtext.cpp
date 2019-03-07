@@ -58,14 +58,14 @@ public:
     std::Rcout << "" << std::endl;
   }
 
-  List predict(CharacterVector documents, int k = 1) {
+  List predict(CharacterVector documents, int k = 1, real threshold = 0) {
     check_model_loaded();
     List list(documents.size());
     int label_prefix_size = model->getArgs().label.size();
     std::string s;
     for (int i = 0; i < documents.size(); ++i){
       s = documents[i];
-      auto predictions = predict_proba(s, k);
+      auto predictions = predict_proba(s, k, threshold);
       NumericVector logProbabilities(predictions.size());
       CharacterVector labels(predictions.size());
       for (size_t j = 0; j < predictions.size() ; ++j){
@@ -188,11 +188,10 @@ public:
     model->test(ifs, k);
   }
 
-  std::vector<std::pair<real,std::string> > predict_proba(
-      const std::string& text, int32_t k) {
+  std::vector<std::pair<real,std::string> > predict_proba(const std::string& text, int32_t k, real threshold) {
     std::vector<std::pair<real,std::string> > predictions;
     std::istringstream in(text);
-    model->predictLine(in, predictions, k, 0.0); // replace 0.0 by threshold arg
+    model->predictLine(in, predictions, k, threshold);
     return predictions;
   }
 

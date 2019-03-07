@@ -175,7 +175,7 @@ void Args::parseArgs(const std::vector<std::string>& args) {
         printHelp();
         exit(EXIT_FAILURE);
       }
-    } catch (std::out_of_range) {
+    } catch (std::out_of_range&) {
       std::cerr << args[ai] << " is missing an argument" << std::endl;
       printHelp();
       exit(EXIT_FAILURE);
