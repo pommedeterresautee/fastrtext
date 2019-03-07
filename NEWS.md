@@ -1,11 +1,9 @@
-# 0.3.1
-  * add function to add prefix to words (to create different spaces in the same dataset, useful for classification in particular)
-
 # 0.3.0 (07.03.19)
 
   * update the C++ source code to the current fassttext version
   * remove analogies function
   * update error message
+  * add function to add prefix to words (to create different spaces in the same dataset, useful for classification in particular)
 
 # 0.2.6 (31.1.19)
 
