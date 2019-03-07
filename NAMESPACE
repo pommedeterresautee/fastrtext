@@ -3,6 +3,8 @@
 S3method(predict,Rcpp_fastrtext)
 export(add_prefix)
 export(add_tags)
+export(build_supervised)
+export(build_vectors)
 export(execute)
 export(get_dictionary)
 export(get_hamming_loss)
