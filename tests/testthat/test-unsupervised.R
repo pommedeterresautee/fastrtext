@@ -49,6 +49,16 @@ test_that("Training", {
                        "-loss", "hs",
                        "-epoch", 3))
 
+  build_vectors(documents = texts,
+                model_path = tmp_file_model,
+                modeltype = "skipgram",
+                bucket = 1e3,
+                dim = 20,
+                epoch = 3,
+                loss = "softmax",
+                thread = 1,
+                verbose = 0)
+
 })
 
 test_that("Test parameter extraction", {
