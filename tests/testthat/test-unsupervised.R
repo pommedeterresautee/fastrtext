@@ -15,11 +15,10 @@ test_that("Training", {
                        "-input", tmp_file_txt,
                        "-output", tmp_file_model,
                        "-verbose", 0,
-                       "-thread", 1,
-                       "-dim", 50,
+                       "-dim", 10,
                        "-bucket", 1e3,
                        "-loss", "ns",
-                       "-epoch", 20))
+                       "-epoch", 3))
 
   # Check learned file exists
   expect_true(file.exists(paste0(tmp_file_model, ".bin")))
@@ -29,34 +28,13 @@ test_that("Training", {
   parameters <- get_parameters(model)
   expect_equal(parameters$model_name, "sg")
 
-  execute(commands = c("skipgram",
-                       "-input", tmp_file_txt,
-                       "-output", tmp_file_model,
-                       "-verbose", 0,
-                       "-thread", 1,
-                       "-dim", 50,
-                       "-bucket", 1e3,
-                       "-loss", "softmax",
-                       "-epoch", 3))
-
-  execute(commands = c("cbow",
-                       "-input", tmp_file_txt,
-                       "-output", tmp_file_model,
-                       "-verbose", 0,
-                       "-thread", 1,
-                       "-dim", 50,
-                       "-bucket", 1e3,
-                       "-loss", "hs",
-                       "-epoch", 3))
-
   build_vectors(documents = texts,
                 model_path = tmp_file_model,
                 modeltype = "skipgram",
                 bucket = 1e3,
-                dim = 20,
+                dim = 10,
                 epoch = 3,
                 loss = "softmax",
-                thread = 1,
                 verbose = 0)
 
 })

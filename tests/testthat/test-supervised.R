@@ -28,9 +28,9 @@ test_that("Training of a classification model", {
             c("supervised",
               "-input", train_tmp_file_txt,
               "-output", tmp_file_model,
-              "-dim", 20,
+              "-dim", 10,
               "-lr", 1,
-              "-epoch", 20,
+              "-epoch", 5,
               "-bucket", 1e4,
               "-verbose", 0,
               "-thread", 1))
@@ -54,8 +54,8 @@ test_that("Training of a classification model", {
                    targets  = train_sentences[, "class.text"],
                    model_path = tmp_file_model,
                    lr = 1,
-                   dim = 20,
-                   epoch = 20,
+                   dim = 10,
+                   epoch = 5,
                    bucket = 1e4,
                    thread = 1,
                    verbose = 0)
