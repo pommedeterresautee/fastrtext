@@ -10,7 +10,7 @@
 \item{class.text}{the category of the sentence}
 }}
 \source{
-\url{https://archive.ics.uci.edu/ml/datasets.html?format=&task=&att=&area=&numAtt=&numIns=&type=text&sort=nameUp&view=table}
+\url{https://archive.ics.uci.edu/ml/index.php}
 }
 \usage{
 test_sentences
