@@ -30,10 +30,9 @@ test_that("Training of a classification model", {
               "-output", tmp_file_model,
               "-dim", 10,
               "-lr", 1,
-              "-epoch", 5,
+              "-epoch", 10,
               "-bucket", 1e4,
-              "-verbose", 0,
-              "-thread", 1))
+              "-verbose", 0))
 
   # Check learned file exists
   expect_true(file.exists(paste0(tmp_file_model, ".bin")))
@@ -49,15 +48,13 @@ test_that("Training of a classification model", {
   expect_gt(mean(names(unlist(learned_model_predictions)) ==
                    names(unlist(embedded_model_predictions))), 0.75)
 
-
   build_supervised(documents = train_texts,
                    targets  = train_sentences[, "class.text"],
                    model_path = tmp_file_model,
-                   lr = 1,
                    dim = 10,
-                   epoch = 5,
+                   lr = 1,
+                   epoch = 10,
                    bucket = 1e4,
-                   thread = 1,
                    verbose = 0)
 
   expect_true(file.exists(paste0(tmp_file_model, ".bin")))
@@ -78,20 +75,20 @@ test_that("Training of a classification model", {
                    names(embedded_model_predictions_bis)), 0.75)
 
   # Compare with quantize model
-  execute(commands = c("quantize",
-                       "-output", tmp_file_model,
-                       "-input", train_tmp_file_txt,
-                       "-qnorm",
-                       "-retrain",
-                       "-epoch", "1",
-                       "-cutoff", "100000"))
-
-  expect_true(file.exists(paste0(tmp_file_model, ".ftz")))
-  quantized_model <- load_model(paste0(tmp_file_model, ".ftz"))
-  quantized_model_predictions <- predict(quantized_model,
-                                         sentences = test_sentences_with_labels)
-  expect_gt(mean(names(unlist(learned_model_predictions)) ==
-                   names(unlist(quantized_model_predictions))), 0.75)
+  # execute(commands = c("quantize",
+  #                      "-output", tmp_file_model,
+  #                      "-input", train_tmp_file_txt,
+  #                      "-qnorm",
+  #                      "-retrain",
+  #                      "-epoch", 10,
+  #                      "-cutoff", 100000))
+  #
+  # expect_true(file.exists(paste0(tmp_file_model, ".ftz")))
+  # quantized_model <- load_model(paste0(tmp_file_model, ".ftz"))
+  # quantized_model_predictions <- predict(quantized_model,
+  #                                        sentences = test_sentences_with_labels)
+  # expect_gt(mean(names(unlist(embedded_model_predictions_bis)) ==
+  #                  names(unlist(quantized_model_predictions))), 0.75)
 })
 
 test_that("Test predictions", {
@@ -102,7 +99,7 @@ test_that("Test predictions", {
   expect_equal(get_hamming_loss(as.list(test_labels_without_prefix), predictions),
                mean(sapply(predictions, names) == test_labels_without_prefix))
 
-  expect_gt(get_hamming_loss(as.list(test_labels_without_prefix), predictions), 0.5)
+  expect_gt(get_hamming_loss(as.list(test_labels_without_prefix), predictions), 0.75)
 
   predictions <- predict(model, sentences = test_sentences_with_labels)
   expect_length(predictions, 600)
@@ -110,8 +107,8 @@ test_that("Test predictions", {
   expect_equal(unique(lengths(predict(model,
                                       sentences = test_sentences_with_labels,
                                       k = 2))), 2)
-  expect_equal(object = mean(sapply(predictions, names) == test_labels_without_prefix),
-               expected = 0.8, tolerance = 0.1)
+  expect_gt(object = mean(sapply(predictions, names) == test_labels_without_prefix),
+            expected = 0.75)
 })
 
 test_that("Test parameter extraction", {

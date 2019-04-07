@@ -1,3 +1,6 @@
+## Version 0.3.1
+Following cran response, tests have been shortened by using multithreading during model training (before use only 1 thread)
+
 ## Version 0.3.0
 * big C++ code update
 * fix littl bug in catching C++ exception as reported by Cran server

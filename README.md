@@ -4,6 +4,7 @@
 [![Travis-CI Build Status](https://travis-ci.org/pommedeterresautee/fastrtext.svg?branch=master)](https://travis-ci.org/pommedeterresautee/fastrtext)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/pommedeterresautee/fastrtext?branch=master&svg=true)](https://ci.appveyor.com/project/pommedeterresautee/fastrtext)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/fastrtext)](https://cran.r-project.org/package=fastrtext)
+[![CRAN_time_from_release](https://www.r-pkg.org/badges/ago/fastrtext)](https://cran.r-project.org/package=fastrtext)
 [![CRAN_Download](http://cranlogs.r-pkg.org/badges/fastrtext)](http://cran.rstudio.com/web/packages/fastrtext/index.html) 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![codecov](https://codecov.io/gh/pommedeterresautee/fastrtext/branch/master/graph/badge.svg)](https://codecov.io/gh/pommedeterresautee/fastrtext)

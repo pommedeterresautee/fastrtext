@@ -4,6 +4,7 @@
   * remove analogies function
   * update error message
   * add function to add prefix to words (to create different spaces in the same dataset, useful for classification in particular)
+  * simplify tests
 
 # 0.2.6 (31.1.19)
 
