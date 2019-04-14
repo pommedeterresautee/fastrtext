@@ -1,3 +1,8 @@
+# 0.3.2 (10.04.19)
+
+  * following Cran email, remove debug symbols stripping
+  * make unit tests stronger
+
 # 0.3.1 (07.03.19)
 
   * update the C++ source code to the current fassttext version

@@ -1,3 +1,12 @@
+## Version 0.3.2
+Following Cran e-mail (from Prof Brian Ripley), remove strip-debug in Makevars file.
+Now the size of the package is > 10Mb and it generates a Warning regarding its size.
+
+```
+Please remove unconditional stripping ASAP and before Apr 24 to safely
+retain the package on CRAN.
+```
+
 ## Version 0.3.1
 Following cran response, tests have been shortened by using multithreading during model training (before use only 1 thread)
 
