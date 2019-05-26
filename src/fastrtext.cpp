@@ -273,13 +273,16 @@ private:
 
   std::string getLossName() {
     loss_name lossName = model->getArgs().loss;
-    if (lossName == loss_name::ns) {
-      return "ns";
-    } else if (lossName == loss_name::hs) {
+    switch (lossName) {
+    case loss_name::hs:
       return "hs";
-    } else if (lossName == loss_name::softmax) {
+    case loss_name::ns:
+      return "ns";
+    case loss_name::softmax:
       return "softmax";
-    } else {
+    case loss_name::ova:
+      return "one-vs-all";
+    default:
       stop("Unrecognized loss (ns / hs / softmax) name!");
     }
   }
