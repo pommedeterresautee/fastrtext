@@ -6,9 +6,10 @@
 \usage{
 build_supervised(documents, targets, model_path, lr = 0.05, dim = 100,
   ws = 5, epoch = 5, minCount = 5, minCountLabel = 0, neg = 5,
-  wordNgrams = 1, loss = c("ns", "hs", "softmax"), bucket = 2e+06,
-  minn = 3, maxn = 6, thread = 12, lrUpdateRate = 100, t = 1e-04,
-  label = "__label__", verbose = 2, pretrainedVectors = NULL)
+  wordNgrams = 1, loss = c("ns", "hs", "softmax", "ova", "one-vs-all"),
+  bucket = 2e+06, minn = 3, maxn = 6, thread = 12,
+  lrUpdateRate = 100, t = 1e-04, label = "__label__", verbose = 2,
+  pretrainedVectors = NULL)
 }
 \arguments{
 \item{documents}{character vector of documents used for training}
@@ -33,7 +34,7 @@ build_supervised(documents, targets, model_path, lr = 0.05, dim = 100,
 
 \item{wordNgrams}{max length of word ngram}
 
-\item{loss}{= c('softmax', 'ns', 'hs'), loss function {ns, hs, softmax}}
+\item{loss}{= c('softmax', 'ns', 'hs', 'ova'), loss function {ns, hs, softmax, one Vs all}. one Vs all loss is usefull for multi class when you need to apply a threshold for each class score.}
 
 \item{bucket}{number of buckets}
 

@@ -1,3 +1,7 @@
+# 0.3.3 ()
+
+  * support one vs all loss
+
 # 0.3.2 (10.04.19)
 
   * following Cran email, remove debug symbols stripping

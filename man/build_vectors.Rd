@@ -6,9 +6,9 @@
 \usage{
 build_vectors(documents, model_path, modeltype = c("skipgram", "cbow"),
   bucket = 2e+06, dim = 100, epoch = 5, label = "__label__",
-  loss = c("ns", "hs", "softmax"), lr = 0.05, lrUpdateRate = 100,
-  maxn = 6, minCount = 5, minn = 3, neg = 5, t = 1e-04,
-  thread = 12, verbose = 2, wordNgrams = 1, ws = 5)
+  loss = c("ns", "hs", "softmax", "ova", "one-vs-all"), lr = 0.05,
+  lrUpdateRate = 100, maxn = 6, minCount = 5, minn = 3, neg = 5,
+  t = 1e-04, thread = 12, verbose = 2, wordNgrams = 1, ws = 5)
 }
 \arguments{
 \item{documents}{character vector of documents used for training}

@@ -435,7 +435,7 @@ build_vectors <- function(documents, model_path,
                           dim = 100,
                           epoch = 5,
                           label = "__label__",
-                          loss = c('ns', 'hs', 'softmax'),
+                          loss = c('ns', 'hs', 'softmax', 'ova', 'one-vs-all'),
                           lr = 0.05,
                           lrUpdateRate = 100,
                           maxn = 6,
@@ -504,7 +504,7 @@ build_vectors <- function(documents, model_path,
 #' @param ws size of the context window
 #' @param epoch number of epochs
 #' @param neg number of negatives sampled
-#' @param loss = c('softmax', 'ns', 'hs'), loss function {ns, hs, softmax}
+#' @param loss = c('softmax', 'ns', 'hs', 'ova'), loss function {ns, hs, softmax, one Vs all}. one Vs all loss is usefull for multi class when you need to apply a threshold for each class score.
 #' @param thread number of threads
 #' @param pretrainedVectors path to pretrained word vectors for supervised learning. Leave empty for no pretrained vectors.
 #' @param label text string, labels prefix. Default is "__label__"
@@ -537,7 +537,7 @@ build_supervised <- function(documents, targets, model_path,
                              minCountLabel = 0,
                              neg = 5,
                              wordNgrams = 1,
-                             loss = c('ns', 'hs', 'softmax'),
+                             loss = c('ns', 'hs', 'softmax', 'ova', 'one-vs-all'),
                              bucket = 2000000,
                              minn = 3,
                              maxn = 6,
