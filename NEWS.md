@@ -1,6 +1,9 @@
-# 0.3.3 ()
-
+# 0.3.3 (10/27/19)
+  
+  * remove deprecated code to fix Cran warnings
+  * update to last FastText version
   * support one vs all loss
+  * less macro (remove possibility to stop learning with CTRL+C)
 
 # 0.3.2 (10.04.19)
 

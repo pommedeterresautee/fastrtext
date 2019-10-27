@@ -283,7 +283,7 @@ private:
     case loss_name::ova:
       return "one-vs-all";
     default:
-      stop("Unrecognized loss (ns / hs / softmax) name!");
+      stop("Unrecognized loss (ns / hs / softmax / ova / one-vs-all) name!");
     }
   }
 

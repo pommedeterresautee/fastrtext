@@ -1,3 +1,10 @@
+## Version 0.3.4
+
+fix deprecated error messages.
+
+## Version 0.3.3
+small update
+
 ## Version 0.3.2
 Following Cran e-mail (from Prof Brian Ripley), remove strip-debug in Makevars file.
 Now the size of the package is > 10Mb and it generates a Warning regarding its size.

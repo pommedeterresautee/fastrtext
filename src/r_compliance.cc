@@ -12,13 +12,10 @@ void exit_fasttext(int status_code) {
 }
 
 // catch interrupt from the user
-void interrupt_or_print(fasttext::real progress, fasttext::real loss, std::ostream& log_stream) {
-  int i = (int) progress * 100;
-  if (i % 2 == 0) {
-    Rcpp::checkUserInterrupt();
-  }
-  printInfo(progress, loss, log_stream);
-}
+// void interrupt_or_print(double maxDuration) {
+//   Rcpp::checkUserInterrupt();
+//   printInfo(maxDuration);
+// }
 
 namespace std {
   std::ostream Rcout(Rcpp::Rcout.rdbuf());
