@@ -1,4 +1,4 @@
-# 0.3.3 (10/27/19)
+# 0.3.4 (10/27/19)
   
   * remove deprecated code to fix Cran warnings
   * update to last FastText version
